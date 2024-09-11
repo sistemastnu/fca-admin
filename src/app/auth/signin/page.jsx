@@ -32,6 +32,8 @@ export default function SignIn() {
       setError("Error en la solicitud");
     }
   };
+  //TODO:Eliminar la page que esta aqui.
+  //TODO:Agregar manejo de errores.
 
   return (
     <>
