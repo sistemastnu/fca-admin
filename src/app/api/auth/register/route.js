@@ -47,7 +47,6 @@ export async function POST(request) {
     const { password: _, ...user } = newUser;
     return NextResponse.json(user);
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       {
         message: error.message,

@@ -1,4 +1,5 @@
 import User from "@/models/User";
+import bcrypt from "bcrypt";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -15,8 +16,9 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        console.log(credentials);
         const user = await User.findOne({
-          where: { email: credentials.email },
+          where: { username: credentials.username },
         });
 
         if (user) {
@@ -36,12 +38,6 @@ export const authOptions = {
       },
     }),
   ],
-  callbacks: {
-    async redirect({ url, baseUrl }) {
-      if (url.startsWith(baseUrl)) return url;
-      return baseUrl;
-    },
-  },
 };
 
 const handler = NextAuth(authOptions);

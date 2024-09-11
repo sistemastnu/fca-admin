@@ -1,5 +1,6 @@
 "use client";
 
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -13,32 +14,18 @@ export default function SignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const username = "admin";
-    const password = "admin12345";
-    const email = "admin@admin.com";
-    const rol = "admin";
 
     try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          password,
-          email,
-          rol,
-        }),
+      const res = await signIn("credentials", {
+        username: username,
+        password: password,
+        redirect: false,
       });
-      if (response.ok) {
-        const result = await response.json();
-        setSuccess("Usuario creado exitosamente!");
-        setName("");
-        setEmail("");
+      if (res.error) {
+        setError(res.error);
       } else {
-        const errorData = await response.json();
-        setError(errorData.error || "Error desconocido");
+        router.push("/");
+        router.refresh();
       }
     } catch (err) {
       console.error("Error en la solicitud:", err);
@@ -49,7 +36,7 @@ export default function SignIn() {
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <div className="flex flex-wrap items-center">
+        <div className="flex flex-wrap items-center justify-center">
           <div className="hidden w-full xl:block xl:w-1/2">
             <div className="px-26 py-17.5 text-center">
               <Link href={"/"}>
