@@ -7,10 +7,8 @@ import SidebarItem from "./SideBarItem";
 import { menuGroups } from "./menuData";
 
 const SidebarProps = {
-  sidebarOpen: false, // Esto es solo un ejemplo, depende de cómo se inicialice.
-  setSidebarOpen: function (arg) {
-    // Lógica para establecer el valor de sidebarOpen
-  },
+  sidebarOpen: false,
+  setSidebarOpen: function (arg) {},
 };
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
@@ -21,7 +19,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
         <Link href="/">
           <Image width={120} height={32} src={logo} alt="Logo" priority />

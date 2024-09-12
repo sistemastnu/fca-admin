@@ -1,3 +1,4 @@
+import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -5,8 +6,14 @@ import ClickOutside from "../ClickOutside";
 
 const DropDownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState();
+  const handleLogOut = () => {
+    signOut({
+      callbackUrl: "/", // Redirige a la página principal u otra URL después del logout
+    });
+  };
+
   return (
-    <ClickOutside>
+    <ClickOutside onClick={() => setDropdownOpen(false)}>
       <Link
         onClick={() => setDropdownOpen(!dropdownOpen)}
         className="flex items-center gap-4"
@@ -124,7 +131,10 @@ const DropDownUser = () => {
               </Link>
             </li>
           </ul>
-          <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+          <button
+            className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+            onClick={handleLogOut}
+          >
             <svg
               className="fill-current"
               width="22"

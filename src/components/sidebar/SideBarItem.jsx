@@ -21,7 +21,7 @@ const SideBarItem = ({ item, pageName, setPageName }) => {
     <>
       <li>
         <Link
-          href={""}
+          href={item.route}
           onClick={handleClick}
           className={`${
             isItemActive ? "bg-graydark dark:bg-meta-4" : ""
