@@ -14,8 +14,7 @@ import iconPlus from "../../../public/icons/plus.svg";
 import ButtonWithIcon from "../ui/Button";
 
 export default async function Opinions() {
-  const post = await getOpinions();
-  console.log(post);
+  const data = await getOpinions();
   return (
     <DefaultLayout>
       <Breadcrumb pageName={"Opinions"} />
@@ -23,10 +22,11 @@ export default async function Opinions() {
         <ButtonWithIcon
           tittle={"Add a Opinion"}
           icon={<Image src={iconPlus} width={20} height={20} alt="icon" />}
+          refa="opinions/add"
         />
       </div>
       <div className="overflow-hidden mt-10 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <TableThree />
+        <TableThree data={data} />
       </div>
     </DefaultLayout>
   );
