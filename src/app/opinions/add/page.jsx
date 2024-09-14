@@ -17,6 +17,13 @@ export default function Add() {
       }
     }
   };
+
+  const removeFromTags = (e) => {
+    const value = e.target.dataset.valor;
+    const newArray = tags.filter((item) => item !== value);
+    setTags(newArray);
+  };
+
   return (
     <DefaultLayout>
       <Breadcrumb pageName={"Post"} a={"Posts /"} />
@@ -90,6 +97,7 @@ export default function Add() {
                     <input
                       className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                       type="text"
+                      value={inputTag}
                       onChange={(e) => setInputTag(e.target.value)}
                       onKeyDown={handleEnterTags}
                     />
@@ -98,11 +106,16 @@ export default function Add() {
 
                 <div className="my-4">
                   {tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
+                    <div
+                      onClick={(e) => removeFromTags(e)}
+                      className="flex flex-wrap gap-2 py-2"
+                    >
                       {tags.map((tag, index) => (
                         <span
+                          id="tag"
                           key={index}
                           className="rounded-full bg-primary px-4 py-2 text-white"
+                          data-valor={tag}
                         >
                           {tag}
                         </span>

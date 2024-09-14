@@ -28,7 +28,7 @@ const SelectPhoto = ({
                 <span className="flex gap-2.5">
                   <button
                     className="text-sm hover:text-primary"
-                    onclick={onClickDelete}
+                    onClick={onClickDelete}
                   >
                     Delete
                   </button>
