@@ -5,7 +5,7 @@ import { NextResponse } from "next/response";
 export async function GET(request) {
   await sequelize.sync();
   try {
-    const posts = Posts.findAll();
+    const posts = await Posts.findAll();
     return NextResponse.json(posts);
   } catch (e) {
     return NextResponse.json(

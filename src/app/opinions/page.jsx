@@ -2,7 +2,6 @@ async function getOpinions() {
   const response = await fetch("http:localhost:3000/api/opinions/", {
     method: "GET",
   });
-  //console.log(response);
   return response.json();
 }
 

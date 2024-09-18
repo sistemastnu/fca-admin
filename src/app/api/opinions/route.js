@@ -5,8 +5,8 @@ import { NextResponse } from "next/server";
 export async function GET() {
   await sequelize.sync();
   try {
-    const users = await Opinions.findAll();
-    return NextResponse.json(users);
+    const opinions = await Opinions.findAll();
+    return NextResponse.json(opinions);
   } catch (e) {
     return NextResponse.json(
       {
