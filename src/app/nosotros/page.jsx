@@ -2,7 +2,8 @@
 import Breadcrumb from "@/components/Breadcrumps/Breadcrumb";
 import SelectPhoto from "@/components/FormUI/SelectPhoto";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
-import TableNosotros from "@/components/Tables/TableNosotros";
+import TableNosotros from "@/components/Nosotros/TableNosotros";
+import TableSponsors from "@/components/Nosotros/TableSponsors";
 
 const Nosotros = () => {
   return (
@@ -99,6 +100,12 @@ const Nosotros = () => {
         <div className="col-span-5 xl:col-span-3">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <TableNosotros />
+          </div>
+        </div>
+
+        <div className="col-span-5 xl:col-span-2">
+          <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+            <TableSponsors />
           </div>
         </div>
       </div>

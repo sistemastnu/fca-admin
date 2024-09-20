@@ -1,5 +1,5 @@
 async function getOpinions() {
-  const response = await fetch("http:localhost:3000/api/opinions/", {
+  const response = await fetch(`${process.env.NEXT_URL}/api/opinions/`, {
     method: "GET",
   });
   return response.json();
@@ -16,7 +16,7 @@ export default async function Opinions() {
   const data = await getOpinions();
   return (
     <DefaultLayout>
-      <Breadcrumb pageName={"Opinions"} />
+      <Breadcrumb pageName={"Posts"} />
       <div className="flex flex-row items-end justify-end gap-4">
         <ButtonWithIcon
           tittle={"Add a Opinion"}
