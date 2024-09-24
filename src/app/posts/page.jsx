@@ -21,7 +21,7 @@ export default async function Opinions() {
         <ButtonWithIcon
           tittle={"Add a Opinion"}
           icon={<Image src={iconPlus} width={20} height={20} alt="icon" />}
-          refa="opinions/add"
+          refa="posts/add"
         />
       </div>
       <div className="overflow-hidden mt-10 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">

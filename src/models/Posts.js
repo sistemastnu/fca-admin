@@ -10,20 +10,12 @@ const Posts = sequelize.define("Posts", {
     type: DataTypes.TEXT,
     allowNull: true,
   },
-  author_id: {
-    type: DataTypes.INT,
-    allowNull: false,
-  },
   publish_at: {
     type: DataTypes.DATE,
     allowNull: false,
   },
   status: {
-    type: DataTypes.ENUM,
-    allowNull: false,
-  },
-  slug: {
-    type: DataTypes.TEXT,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   image: {

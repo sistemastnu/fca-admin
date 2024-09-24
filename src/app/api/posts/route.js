@@ -1,6 +1,9 @@
 import sequelize from "@/lib/sequelize";
 import Posts from "@/models/Posts";
-import { NextResponse } from "next/response";
+import Tags from "@/models/Tags";
+import { writeFile } from "fs/promises";
+import { NextResponse } from "next/server";
+import path from "path";
 
 export async function GET(request) {
   await sequelize.sync();
@@ -22,25 +25,42 @@ export async function GET(request) {
 export async function POST(request) {
   await sequelize.sync();
   try {
-    const data = await request.json();
-    Posts.create({
-      tittle: data.tittle,
-      content: data.content,
-      author_id: data.author_id,
-      publish_at: data.publish_at,
-      slug: data.slug,
-      image: data.image,
+    const data = await request.formData();
+    const directory = "public/assets/";
+    const file = data.get("file");
+    const tags = data.getAll("tags");
+    const now = new Date().toISOString().slice(0, 19).replace("T", " ");
+    if (!file) {
+      return NextResponse.json(
+        { message: "Not File Received" },
+        { status: 500 }
+      );
+    }
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const filename = file.name.replaceAll(" ", "_");
+    const filePath = path.join(process.cwd(), directory + filename);
+    await writeFile(filePath, buffer);
+
+    const userCreated = await Posts.create({
+      tittle: data.get("tittle"),
+      content: data.get("content"),
+      publish_at: now,
+      image: directory + filename,
+      status: "active",
     });
-    return NextResponse.json(
-      {
-        message: "Sucess",
-      },
-      {
-        status: 200,
-      }
+
+    await Promise.all(
+      tags.map(async (element) => {
+        return Tags.create({
+          tag: element,
+          idPost: userCreated.id,
+        });
+      })
     );
+
+    return NextResponse.json({ Message: "Success", status: 201 });
   } catch (e) {
-    NextResponse.json(
+    return NextResponse.json(
       {
         message: e.message,
       },

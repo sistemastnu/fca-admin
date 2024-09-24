@@ -1,12 +1,18 @@
 "use client";
 
 import Breadcrumb from "@/components/Breadcrumps/Breadcrumb";
-import SelectPhoto from "@/components/FormUI/SelectPhoto";
+import SelectFile from "@/components/common/SelectFile";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
 import { useState } from "react";
 export default function Add() {
   const [tags, setTags] = useState([]);
   const [inputTag, setInputTag] = useState("");
+  const [file, setFile] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [formData, setFormData] = useState({
+    title: "",
+    content: "",
+  });
 
   const handleEnterTags = (e) => {
     if (e.key === "Enter") {
@@ -24,10 +30,49 @@ export default function Add() {
     setTags(newArray);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newErrors = {};
+    if (!formData.content) newErrors.content = "Agrega contenido";
+    if (!formData.title) newErrors.title = "Agrega un titulo";
+    if (tags.length == 0) newErrors.tags = "Agrega por lo menos 1 tag";
+    if (file == null) newErrors.file = "Seleciona una imagen para el post";
+    console.log(tags.length);
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      console.log(errors);
+    } else {
+      setErrors({});
+
+      const formDataSend = new FormData();
+
+      formDataSend.append("tittle", formData.title);
+      formDataSend.append("content", formData.content);
+      formDataSend.append("file", file);
+      //formDataSend.append("tags[]", tags);
+
+      tags.forEach((tag) => formDataSend.append("tags", tag));
+
+      const response = await fetch("/api/posts/", {
+        method: "POST",
+        body: formDataSend,
+      });
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   return (
     <DefaultLayout>
       <Breadcrumb pageName={"Post"} a={"Posts /"} />
-      <div className="grid grid-cols-5 gap-8">
+      <div className="grid grid-cols-3 gap-8">
         <div className="col-span-5 xl:col-span-3">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke px-7 py-4 dark:border-strokedark">
@@ -38,6 +83,7 @@ export default function Add() {
             <div className="p-7">
               <form
                 action="#"
+                onSubmit={handleSubmit}
                 onKeyDown={(e) => {
                   if (e.key == "Enter") {
                     e.preventDefault();
@@ -81,9 +127,16 @@ export default function Add() {
                       <input
                         className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                         type="text"
-                        name="fullName"
-                        id="fullName"
+                        name="title"
+                        id="title"
+                        value={formData.title}
+                        onChange={handleChange}
                       />
+                      {errors.title && (
+                        <p className="text-red font-bold text-sm italic">
+                          {errors.title}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -101,6 +154,11 @@ export default function Add() {
                       onChange={(e) => setInputTag(e.target.value)}
                       onKeyDown={handleEnterTags}
                     />
+                    {errors.tags && (
+                      <p className="text-red font-bold text-sm italic">
+                        {errors.tags}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -110,15 +168,16 @@ export default function Add() {
                       onClick={(e) => removeFromTags(e)}
                       className="flex flex-wrap gap-2 py-2"
                     >
+                      Tags:
                       {tags.map((tag, index) => (
-                        <span
-                          id="tag"
-                          key={index}
-                          className="rounded-full bg-primary px-4 py-2 text-white"
-                          data-valor={tag}
-                        >
-                          {tag}
-                        </span>
+                        <div id="tag" key={index}>
+                          <span
+                            className="rounded-full bg-primary px-4 py-2 text-white"
+                            data-valor={tag}
+                          >
+                            #{tag}
+                          </span>
+                        </div>
                       ))}
                     </div>
                   )}
@@ -165,13 +224,34 @@ export default function Add() {
 
                     <textarea
                       className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                      name="bio"
-                      id="bio"
+                      name="content"
+                      id="content"
                       rows={6}
                       placeholder="Write your bio here"
+                      value={formData.content}
+                      onChange={handleChange}
                     ></textarea>
+                    {errors.content && (
+                      <p className="text-red font-bold text-sm italic">
+                        {errors.content}
+                      </p>
+                    )}
                   </div>
                 </div>
+
+                {file && (
+                  <div className="mt-2 mb-2 text-sm text-gray-600 dark:text-gray-400">
+                    Selected file: {file.name}
+                  </div>
+                )}
+
+                <SelectFile onFileSelect={setFile} selectedFile={file} />
+
+                {errors.file && (
+                  <p className="text-red font-bold text-sm italic">
+                    {errors.file}
+                  </p>
+                )}
 
                 <div className="flex justify-end gap-4.5">
                   <button
@@ -191,8 +271,6 @@ export default function Add() {
             </div>
           </div>
         </div>
-
-        <SelectPhoto tittleSect={"Select Photo"} />
       </div>
     </DefaultLayout>
   );

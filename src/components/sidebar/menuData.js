@@ -66,7 +66,7 @@ export const menuGroups = [
           </svg>
         ),
         label: "Posts",
-        route: "/opinions",
+        route: "/posts",
       },
       {
         icon: (

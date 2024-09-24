@@ -82,5 +82,48 @@ async function fetchPaths() {
 }
 
 async function fetchContries() {
-  const body = {};
+  const body = {
+    query: {
+      kind: "HogQLQuery",
+      query:
+        "SELECT properties.$initial_geoip_country_name as Pais, count() as Times FROM persons GROUP BY Pais",
+    },
+  };
+
+  const response = await fetch(urlQuery, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_POSTHOG_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  return response.json();
 }
+
+async function fetchSessions() {
+  const body = {
+    query: {
+      kind: "HogQLQuery",
+      query: "SELECT  count (session_id) FROM sessions ",
+    },
+  };
+  const response = await fetch(urlQuery, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_POSTHOG_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  return response.json();
+}
+
+export {
+  fetchAvgTime,
+  fetchContries,
+  fetchPageViews,
+  fetchPaths,
+  fetchPersons,
+  fetchSessions,
+};
