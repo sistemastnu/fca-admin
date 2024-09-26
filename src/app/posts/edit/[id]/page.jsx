@@ -1,10 +1,12 @@
 "use client";
 
 import Breadcrumb from "@/components/Breadcrumps/Breadcrumb";
+import Loader from "@/components/common";
 import SelectFile from "@/components/common/SelectFile";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
-import { useState } from "react";
-export default function Add() {
+import { useEffect, useState } from "react";
+
+export default function Edit({ params }) {
   const [tags, setTags] = useState([]);
   const [inputTag, setInputTag] = useState("");
   const [file, setFile] = useState(null);
@@ -13,7 +15,25 @@ export default function Add() {
     title: "",
     content: "",
   });
+  const [data, setData] = useState(null);
+  const [isLoading, setLoading] = useState(true);
+  const tagID = params.id;
+  useEffect(() => {
+    fetch(`/api/posts/${tagID}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+        setFormData({
+          title: data.post.tittle || "",
+          content: data.post.content || "",
+        });
+        setTags(data.tags.map((item) => item.tag));
+        setLoading(false);
+      });
+  }, []);
 
+  if (isLoading) return <Loader />;
+  console.log(data);
   const handleEnterTags = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -24,10 +44,20 @@ export default function Add() {
     }
   };
 
-  const removeFromTags = (e) => {
+  const removeFromTags = async (e) => {
     const value = e.target.dataset.valor;
     const newArray = tags.filter((item) => item !== value);
     setTags(newArray);
+    const deleteTag = {
+      tag: value,
+    };
+    await fetch(`/api/posts/${tagID}`, {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(deleteTag),
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -50,6 +80,7 @@ export default function Add() {
       formDataSend.append("tittle", formData.title);
       formDataSend.append("content", formData.content);
       formDataSend.append("file", file);
+      //formDataSend.append("tags[]", tags);
 
       tags.forEach((tag) => formDataSend.append("tags[]", tag));
 

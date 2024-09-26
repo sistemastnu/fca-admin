@@ -1,5 +1,5 @@
-async function getOpinions() {
-  const response = await fetch(`${process.env.NEXT_URL}/api/opinions/`, {
+async function getPosts() {
+  const response = await fetch(`${process.env.NEXT_URL}/api/posts/`, {
     method: "GET",
   });
   return response.json();
@@ -7,13 +7,13 @@ async function getOpinions() {
 
 import Breadcrumb from "@/components/Breadcrumps/Breadcrumb";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
-import TableThree from "@/components/Tables/TableThree";
+import TablePosts from "@/components/Posts/tablePosts";
 import Image from "next/image";
 import iconPlus from "../../../public/icons/plus.svg";
 import ButtonWithIcon from "../ui/Button";
 
 export default async function Opinions() {
-  const data = await getOpinions();
+  const data = await getPosts();
   return (
     <DefaultLayout>
       <Breadcrumb pageName={"Posts"} />
@@ -25,7 +25,7 @@ export default async function Opinions() {
         />
       </div>
       <div className="overflow-hidden mt-10 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <TableThree data={data} />
+        <TablePosts data={data} />
       </div>
     </DefaultLayout>
   );
