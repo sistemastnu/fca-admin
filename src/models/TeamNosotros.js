@@ -7,10 +7,14 @@ const TeamNosotros = sequelize.define("teamNosotros", {
     allowNull: false,
   },
   descriptions: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false,
   },
   photoUrl: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  status: {
     type: DataTypes.STRING,
     allowNull: false,
   },

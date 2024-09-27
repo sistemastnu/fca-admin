@@ -7,12 +7,12 @@ const Nosotros = sequelize.define("nosotros", {
     allowNull: false,
   },
   content: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false,
   },
   photoUrl: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
 });
 

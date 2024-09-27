@@ -73,9 +73,7 @@ export default function Add() {
         <div className="col-span-5 xl:col-span-3">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke px-7 py-4 dark:border-strokedark">
-              <h3 className="font-medium text-black dark:text-white">
-                About us
-              </h3>
+              <h3 className="font-medium text-black dark:text-white">Posts</h3>
             </div>
             <div className="p-7">
               <form

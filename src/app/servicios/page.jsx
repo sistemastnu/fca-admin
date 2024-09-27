@@ -16,7 +16,7 @@ import useSWR from "swr";
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
 export default function Servicios() {
-  const { data } = useSWR("/api/servicios", fetcher);
+  const { data, mutate } = useSWR("/api/servicios", fetcher);
   const [items, setItems] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -39,9 +39,10 @@ export default function Servicios() {
       });
     }
   };
-  const handleSubmit = () => {
-    console.log(items);
+  const refreshData = () => {
+    mutate();
   };
+
   const updateOrderInBackend = async (updatedItems) => {
     try {
       const response = await fetch("/api/servicios", {
@@ -84,6 +85,8 @@ export default function Servicios() {
                   id={item.order}
                   cardTittle={item.title}
                   cardContent={item.content}
+                  idService={item.id}
+                  refreshData={refreshData}
                 />
               ))}
             </SortableContext>

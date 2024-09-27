@@ -39,8 +39,15 @@ export async function POST(request) {
   await sequelize.sync();
   try {
     const data = await request.json();
-    const newService = await Servicios.update(data);
-    return NextResponse.json(newService.get({ plain: true }), { status: 201 });
+    console.log(data);
+    await Servicios.update(
+      {
+        title: data.tittle,
+        content: data.content,
+      },
+      { where: { id: data.idService } }
+    );
+    return NextResponse.json({ status: 201 });
   } catch (e) {
     return NextResponse.json({ message: e.message }, { status: 500 });
   }

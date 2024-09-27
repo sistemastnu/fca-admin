@@ -1,14 +1,50 @@
 "use client";
 import Breadcrumb from "@/components/Breadcrumps/Breadcrumb";
-import SelectPhoto from "@/components/FormUI/SelectPhoto";
+import Loader from "@/components/common";
+import SelectFile from "@/components/common/SelectFile";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
+import NosotrosModal from "@/components/Nosotros/NosotrosModal";
 import TableNosotros from "@/components/Nosotros/TableNosotros";
 import TableSponsors from "@/components/Nosotros/TableSponsors";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
+
+const fetcher = (url) => fetch(url).then((r) => r.json());
 
 const Nosotros = () => {
+  const { data, mutate } = useSWR("/api/nosotros", fetcher);
+  const [file, setFile] = useState(null);
+  const [formData, setFormData] = useState({
+    id: "",
+    tittle: "",
+    content: "",
+  });
+
+  useEffect(() => {
+    if (data) {
+      setFormData({
+        id: data.nosotrosInfo.id,
+        tittle: data.nosotrosInfo.tittle,
+        content: data.nosotrosInfo.content,
+      });
+    }
+  }, [data]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  if (!data) return <Loader />;
+
   return (
     <DefaultLayout>
       <Breadcrumb pageName={"Nosotros"} />
+      <NosotrosModal data={data} />
+
       <div className="grid grid-cols-5 gap-8">
         <div className="col-span-5 xl:col-span-3">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -27,7 +63,7 @@ const Nosotros = () => {
                 }}
               >
                 <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                  <div className="w-full sm:w-1/2">
+                  <div className="w-full ">
                     <label
                       className="mb-3 block text-sm font-medium text-black dark:text-white"
                       htmlFor="fullName"
@@ -40,6 +76,8 @@ const Nosotros = () => {
                         type="text"
                         name="tittle"
                         id="tittle"
+                        value={formData.tittle}
+                        onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -85,27 +123,51 @@ const Nosotros = () => {
 
                     <textarea
                       className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                      name="bio"
-                      id="bio"
+                      name="content"
+                      id="content"
+                      value={formData.content}
+                      onChange={handleChange}
                       rows={6}
                       placeholder="Write your bio here"
                     ></textarea>
+
+                    <label
+                      className="mb-3 mt-3 block text-sm font-medium text-black dark:text-white"
+                      htmlFor="Username"
+                    >
+                      File:
+                    </label>
+
+                    {file && (
+                      <div className="mt-2 mb-2 text-sm text-gray-600 dark:text-gray-400">
+                        Selected file: {file.name}
+                      </div>
+                    )}
+                    <SelectFile onFileSelect={setFile} selectedFile={file} />
                   </div>
+                </div>
+                <div className="flex justify-end">
+                  <button
+                    className="flex justify-end rounded bg-primary px-6 py-2 font-medium text-gray hover:bg-opacity-90"
+                    type="submit"
+                  >
+                    Save
+                  </button>
                 </div>
               </form>
             </div>
-          </div>
-        </div>
-        <SelectPhoto tittleSect={"Nosotros Image"} />
-        <div className="col-span-5 xl:col-span-3">
-          <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-            <TableNosotros />
           </div>
         </div>
 
         <div className="col-span-5 xl:col-span-2">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <TableSponsors />
+          </div>
+        </div>
+
+        <div className="col-span-5 xl:col-span-3">
+          <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+            <TableNosotros data={data.teamNosotros} />
           </div>
         </div>
       </div>
