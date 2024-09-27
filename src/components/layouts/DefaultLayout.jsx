@@ -2,6 +2,7 @@
 import Header from "@/components/header/header";
 import Sidebar from "@/components/sidebar";
 import { useState } from "react";
+import { Toaster } from "sonner";
 
 export default function DefaultLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -13,6 +14,7 @@ export default function DefaultLayout({ children }) {
         <div className="relative flex flex-1 flex-col lg:ml-72.5">
           <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
           <main>
+            <Toaster richColors />
             <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
               {children}
             </div>

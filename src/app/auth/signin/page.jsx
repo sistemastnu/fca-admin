@@ -38,7 +38,6 @@ export default function SignIn() {
       });
       if (res.error) {
         setError(res.error);
-        console.log(res.error);
       } else {
         router.push("/");
       }

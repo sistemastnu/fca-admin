@@ -1,7 +1,7 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-const SortableItem = ({ id, children }) => {
+const SortableItem = ({ id, children, onClick }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
 
@@ -10,8 +10,18 @@ const SortableItem = ({ id, children }) => {
     transition,
   };
 
+  const hanldeClick = () => {
+    console.log("clicked");
+  };
+
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+    <div
+      onClick={hanldeClick}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
       {children}
     </div>
   );

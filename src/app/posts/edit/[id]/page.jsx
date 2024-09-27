@@ -33,7 +33,6 @@ export default function Edit({ params }) {
   }, []);
 
   if (isLoading) return <Loader />;
-  console.log(data);
   const handleEnterTags = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -67,11 +66,9 @@ export default function Edit({ params }) {
     if (!formData.title) newErrors.title = "Agrega un titulo";
     if (tags.length == 0) newErrors.tags = "Agrega por lo menos 1 tag";
     if (file == null) newErrors.file = "Seleciona una imagen para el post";
-    console.log(tags.length);
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      console.log(errors);
     } else {
       setErrors({});
 

@@ -31,7 +31,6 @@ export async function DELETE(request) {
     return NextResponse.json({ message: destroy }, { status: 200 });
     // await Tags.destroy({where:});
   } catch (e) {
-    console.log(e);
     return NextResponse.json({ message: e.message }, { status: 500 });
   }
 }

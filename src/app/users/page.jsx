@@ -14,7 +14,6 @@ import ButtonWithIcon from "../ui/Button";
 
 export default async function Users() {
   const data = await getUsers();
-  console.log(data);
   return (
     <>
       <DefaultLayout>
