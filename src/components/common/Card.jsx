@@ -1,4 +1,4 @@
-const Card = ({ tittle, content, onClick }) => {
+const Card = ({ tittle, content, onClick, atributes, licenters }) => {
   return (
     <div
       onClick={onClick}
@@ -9,6 +9,7 @@ const Card = ({ tittle, content, onClick }) => {
           {tittle}
         </h4>
       </div>
+
       <div className="px-7.5 pb-9 pt-6">
         <p className="font-medium">{content}</p>
       </div>

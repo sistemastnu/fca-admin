@@ -2,7 +2,6 @@
 
 import Breadcrumb from "@/components/Breadcrumps/Breadcrumb";
 import Loader from "@/components/common";
-import Card from "@/components/common/Card";
 import SortableItem from "@/components/common/SortableItem";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
 import { DndContext, closestCenter } from "@dnd-kit/core";
@@ -27,11 +26,6 @@ export default function Servicios() {
       setItems(sortedData);
     }
   }, [data]);
-
-  const handleDragStart = () => {
-    setIsDragging(true);
-  };
-
   const handleDragEnd = (event) => {
     const { active, over } = event;
     setIsDragging(false);
@@ -39,23 +33,43 @@ export default function Servicios() {
       setItems((items) => {
         const oldIndex = items.findIndex((item) => item.order === active.id);
         const newIndex = items.findIndex((item) => item.order === over.id);
-        return arrayMove(items, oldIndex, newIndex);
+        const updatedItems = arrayMove(items, oldIndex, newIndex);
+        updateOrderInBackend(updatedItems);
+        return updatedItems;
       });
     }
   };
-
   const handleSubmit = () => {
     console.log(items);
+  };
+  const updateOrderInBackend = async (updatedItems) => {
+    try {
+      const response = await fetch("/api/servicios", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(
+          updatedItems.map((item, index) => ({
+            id: item.id,
+            order: index + 1,
+          }))
+        ),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update order in backend");
+      }
+      console.log("Order updated successfully");
+    } catch (error) {
+      console.error("Error updating order:", error);
+    }
   };
   if (!data) return <Loader />;
 
   return (
     <>
-      <DndContext
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-        onDragStart={handleDragStart}
-      >
+      <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <DefaultLayout>
           <Breadcrumb pageName={"Servicios"} />
           <div className="grid grid-cols-1 gap-7.5 sm:grid-cols-2 xl:grid-cols-3">
@@ -68,20 +82,11 @@ export default function Servicios() {
                   key={item.order}
                   onClick={() => handleClick(item.order)}
                   id={item.order}
-                >
-                  <div>
-                    <Card tittle={item.title} content={item.content} />
-                  </div>
-                </SortableItem>
+                  cardTittle={item.title}
+                  cardContent={item.content}
+                />
               ))}
             </SortableContext>
-            <button
-              className="flex justify-center rounded bg-primary px-6 py-2 font-medium text-gray hover:bg-opacity-90"
-              type="submit"
-              onClick={() => handleSubmit()}
-            >
-              Save
-            </button>
           </div>
         </DefaultLayout>
       </DndContext>
