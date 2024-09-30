@@ -1,4 +1,11 @@
+"use client";
+import { useRouter } from "next/navigation";
+
 const TableThree = ({ data, t1, t2, t3, t4 }) => {
+  const router = useRouter();
+  const handleEdit = (id) => {
+    router.push(`users/edit/${id}`);
+  };
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="max-w-full overflow-x-auto">
@@ -49,7 +56,12 @@ const TableThree = ({ data, t1, t2, t3, t4 }) => {
                   <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                     <div className="flex items-center space-x-3.5">
                       <button className="hover:text-primary">View</button>
-                      <button className="hover:text-primary">Edit</button>
+                      <button
+                        className="hover:text-primary"
+                        onClick={() => handleEdit(dataItem.id)}
+                      >
+                        Edit
+                      </button>
                       <button className="hover:text-primary">Delete</button>
                     </div>
                   </td>

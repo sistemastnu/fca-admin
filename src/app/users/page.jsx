@@ -1,6 +1,7 @@
 async function getUsers(params) {
   const response = await fetch("http:localhost:3000/api/users", {
     method: "GET",
+    cache: "no-store",
   });
   return response.json();
 }

@@ -1,7 +1,7 @@
 import sequelize from "@/lib/sequelize";
 import { DataTypes } from "sequelize";
 
-const TeamNosotros = sequelize.define("teamNosotros", {
+const TeamNosotros = sequelize.define("TeamNosotros", {
   name: {
     type: DataTypes.STRING,
     allowNull: false,

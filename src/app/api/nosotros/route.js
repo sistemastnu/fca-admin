@@ -21,9 +21,3 @@ export async function GET() {
     return NextResponse.json({ message: e.message }, { status: 500 });
   }
 }
-
-export async function POST(request) {
-  try {
-    await sequelize.sync();
-  } catch (error) {}
-}

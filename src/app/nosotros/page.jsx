@@ -3,7 +3,6 @@ import Breadcrumb from "@/components/Breadcrumps/Breadcrumb";
 import Loader from "@/components/common";
 import SelectFile from "@/components/common/SelectFile";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
-import NosotrosModal from "@/components/Nosotros/NosotrosModal";
 import TableNosotros from "@/components/Nosotros/TableNosotros";
 import TableSponsors from "@/components/Nosotros/TableSponsors";
 import { useEffect, useState } from "react";
@@ -37,13 +36,15 @@ const Nosotros = () => {
       [name]: value,
     }));
   };
+  const refreshData = () => {
+    mutate();
+  };
 
   if (!data) return <Loader />;
 
   return (
     <DefaultLayout>
       <Breadcrumb pageName={"Nosotros"} />
-      <NosotrosModal data={data} />
 
       <div className="grid grid-cols-5 gap-8">
         <div className="col-span-5 xl:col-span-3">
@@ -137,14 +138,15 @@ const Nosotros = () => {
                     >
                       File:
                     </label>
-
-                    {file && (
-                      <div className="mt-2 mb-2 text-sm text-gray-600 dark:text-gray-400">
-                        Selected file: {file.name}
-                      </div>
-                    )}
-                    <SelectFile onFileSelect={setFile} selectedFile={file} />
                   </div>
+                </div>
+                <div>
+                  {file && (
+                    <div className="mt-2 mb-2 text-sm text-gray-600 dark:text-gray-400">
+                      Selected file: {file.name}
+                    </div>
+                  )}
+                  <SelectFile onFileSelect={setFile} selectedFile={file} />
                 </div>
                 <div className="flex justify-end">
                   <button
@@ -167,7 +169,7 @@ const Nosotros = () => {
 
         <div className="col-span-5 xl:col-span-3">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-            <TableNosotros data={data.teamNosotros} />
+            <TableNosotros data={data.teamNosotros} refresData={refreshData} />
           </div>
         </div>
       </div>

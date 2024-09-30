@@ -50,7 +50,7 @@ const SortableItem = ({
       setErrors(newErrors);
     } else {
       setErrors({});
-      const response = await fetch("/api/servicios/", {
+      await fetch("/api/servicios/", {
         method: "POST",
         body: JSON.stringify(formData),
       });
