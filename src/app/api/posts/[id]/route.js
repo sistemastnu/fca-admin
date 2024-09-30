@@ -35,12 +35,22 @@ export async function DELETE(request) {
   }
 }
 
-export async function UPDATE(request, { params }) {
+export async function PUT(request, { params }) {
   try {
     await sequelize.sync();
     const id = params.id;
-    const data = await request.sync();
-    await Posts.update({}, { where: { id: id } });
+    const data = await request.json();
+    const changeStatus = data.changeStatus;
+    console.log(changeStatus);
+    if (changeStatus) {
+      await Posts.update(
+        { status: changeStatus == "active" ? "disabled" : "active" },
+        { where: { id: id } }
+      );
+      return NextResponse.json({ message: "Status changed" }, { status: 200 });
+    }
+
+    // await Posts.update({}, { where: { id: id } });
 
     return NextResponse.json({});
   } catch (e) {

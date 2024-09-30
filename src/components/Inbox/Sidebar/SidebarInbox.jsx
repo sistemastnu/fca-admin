@@ -4,7 +4,7 @@ const SideBarInbox = () => {
       <div className="fixed bottom-0 top-22.5 z-999 flex w-[230px] -translate-x-[120%] flex-col rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark lg:static lg:w-1/5 lg:translate-x-0 lg:border-none false">
         <button className="absolute -right-20 z-99999 block rounded-md border border-stroke bg-white p-1.5 shadow-sm dark:border-strokedark dark:bg-boxdark lg:hidden false">
           <svg
-            class="h-5 w-5 fill-current"
+            className="h-5 w-5 fill-current"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 32 32"
           >
@@ -12,19 +12,19 @@ const SideBarInbox = () => {
           </svg>
         </button>
         <div className="px-4 pt-4">
-          <button class="flex w-full rounded-md bg-primary px-5.5 py-2.5 font-medium text-white">
+          <button className="flex w-full rounded-md bg-primary px-5.5 py-2.5 font-medium text-white">
             Compose
           </button>
         </div>
-        <div class="no-scrollbar max-h-full overflow-auto py-6">
-          <ul class="flex flex-col gap-2">
+        <div className="no-scrollbar max-h-full overflow-auto py-6">
+          <ul className="flex flex-col gap-2">
             <li>
               <a
-                class="relative flex items-center gap-2.5 px-5 py-2.5 font-medium duration-300 ease-linear before:absolute before:left-0 before:h-0 before:w-1 before:bg-primary before:duration-300 before:ease-linear hover:bg-primary/5 hover:text-primary hover:before:h-full"
+                className="relative flex items-center gap-2.5 px-5 py-2.5 font-medium duration-300 ease-linear before:absolute before:left-0 before:h-0 before:w-1 before:bg-primary before:duration-300 before:ease-linear hover:bg-primary/5 hover:text-primary hover:before:h-full"
                 href="/"
               >
                 <svg
-                  class="fill-current"
+                  className="fill-current"
                   width="20"
                   height="20"
                   viewBox="0 0 20 20"
@@ -45,18 +45,18 @@ const SideBarInbox = () => {
             </li>
             <li>
               <a
-                class="relative flex items-center gap-2.5 px-5 py-2.5 font-medium duration-300 ease-linear before:absolute before:left-0 before:h-0 before:w-1 before:bg-primary before:duration-300 before:ease-linear hover:bg-primary/5 hover:text-primary hover:before:h-full"
+                className="relative flex items-center gap-2.5 px-5 py-2.5 font-medium duration-300 ease-linear before:absolute before:left-0 before:h-0 before:w-1 before:bg-primary before:duration-300 before:ease-linear hover:bg-primary/5 hover:text-primary hover:before:h-full"
                 href="/"
               >
                 <svg
-                  class="fill-current"
+                  className="fill-current"
                   width="20"
                   height="20"
                   viewBox="0 0 20 20"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <g clip-path="url(#clip0_4348_2007)">
+                  <g clipPath="url(#clip0_4348_2007)">
                     <path
                       d="M5.03112 19.4375C4.74987 19.4375 4.46862 19.3437 4.24987 19.1875C3.81237 18.875 3.56237 18.3125 3.65612 17.7812L4.46862 12.75L0.968622 9.15625C0.593622 8.78125 0.468622 8.21875 0.624872 7.6875C0.781122 7.1875 1.21862 6.8125 1.71862 6.75L6.56237 5.96875L8.74987 1.375C8.99987 0.875 9.46862 0.5625 9.99987 0.5625C10.5311 0.5625 11.0311 0.875 11.2499 1.375L13.4374 5.9375L18.2499 6.6875C18.7499 6.78125 19.1874 7.125 19.3436 7.625C19.5311 8.15625 19.3749 8.71875 18.9999 9.09375L15.5311 12.7187L16.3436 17.7812C16.4374 18.3437 16.2186 18.875 15.7499 19.1875C15.3124 19.5 14.7811 19.5312 14.3124 19.2812L9.99987 16.9375L5.68737 19.2812C5.49987 19.4062 5.24987 19.4375 5.03112 19.4375ZM1.96862 8.125C1.96862 8.125 1.96862 8.15625 1.96862 8.1875L5.62487 11.9375C5.84362 12.1562 5.93737 12.5 5.90612 12.8125L5.06237 18.0312C5.06237 18.0312 5.06237 18.0312 5.06237 18.0625L9.56237 15.625C9.84362 15.4687 10.1874 15.4687 10.4999 15.625L14.9999 18.0625C14.9999 18.0625 14.9999 18.0625 14.9999 18.0312L14.1561 12.7812C14.0936 12.4687 14.2186 12.1562 14.4374 11.9062L18.0936 8.15625C18.1249 8.125 18.0936 8.09375 18.0936 8.09375L13.0624 7.3125C12.7499 7.25 12.4686 7.0625 12.3436 6.75L9.99987 2L7.74987 6.78125C7.62487 7.0625 7.34362 7.28125 7.03112 7.34375L1.96862 8.125Z"
                       fill=""
@@ -73,18 +73,18 @@ const SideBarInbox = () => {
             </li>
             <li>
               <a
-                class="relative flex items-center gap-2.5 px-5 py-2.5 font-medium duration-300 ease-linear before:absolute before:left-0 before:h-0 before:w-1 before:bg-primary before:duration-300 before:ease-linear hover:bg-primary/5 hover:text-primary hover:before:h-full"
+                className="relative flex items-center gap-2.5 px-5 py-2.5 font-medium duration-300 ease-linear before:absolute before:left-0 before:h-0 before:w-1 before:bg-primary before:duration-300 before:ease-linear hover:bg-primary/5 hover:text-primary hover:before:h-full"
                 href="/"
               >
                 <svg
-                  class="fill-current"
+                  className="fill-current"
                   width="20"
                   height="20"
                   viewBox="0 0 20 20"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <g clip-path="url(#clip0_4348_2010)">
+                  <g clipPath="url(#clip0_4348_2010)">
                     <path
                       d="M10.4687 10.3125V5.28125C10.4687 4.90625 10.1562 4.59375 9.78125 4.59375C9.40625 4.59375 9.09375 4.90625 9.09375 5.28125V10.5938C9.09375 10.7813 9.15625 10.9687 9.28125 11.0937L12.75 14.625C12.875 14.75 13.0625 14.8437 13.25 14.8437C13.4375 14.8437 13.5937 14.7813 13.75 14.6563C14.0312 14.375 14.0312 13.9375 13.75 13.6562L10.4687 10.3125Z"
                       fill=""
@@ -105,11 +105,11 @@ const SideBarInbox = () => {
             </li>
             <li>
               <a
-                class="relative flex items-center gap-2.5 px-5 py-2.5 font-medium duration-300 ease-linear before:absolute before:left-0 before:h-0 before:w-1 before:bg-primary before:duration-300 before:ease-linear hover:bg-primary/5 hover:text-primary hover:before:h-full"
+                className="relative flex items-center gap-2.5 px-5 py-2.5 font-medium duration-300 ease-linear before:absolute before:left-0 before:h-0 before:w-1 before:bg-primary before:duration-300 before:ease-linear hover:bg-primary/5 hover:text-primary hover:before:h-full"
                 href="/"
               >
                 <svg
-                  class="fill-current"
+                  className="fill-current"
                   width="20"
                   height="20"
                   viewBox="0 0 20 20"
@@ -126,11 +126,11 @@ const SideBarInbox = () => {
             </li>
             <li>
               <a
-                class="relative flex items-center gap-2.5 px-5 py-2.5 font-medium duration-300 ease-linear before:absolute before:left-0 before:h-0 before:w-1 before:bg-primary before:duration-300 before:ease-linear hover:bg-primary/5 hover:text-primary hover:before:h-full"
+                className="relative flex items-center gap-2.5 px-5 py-2.5 font-medium duration-300 ease-linear before:absolute before:left-0 before:h-0 before:w-1 before:bg-primary before:duration-300 before:ease-linear hover:bg-primary/5 hover:text-primary hover:before:h-full"
                 href="/"
               >
                 <svg
-                  class="fill-current"
+                  className="fill-current"
                   width="20"
                   height="20"
                   viewBox="0 0 20 20"
@@ -151,11 +151,11 @@ const SideBarInbox = () => {
             </li>
             <li>
               <a
-                class="relative flex items-center gap-2.5 px-5 py-2.5 font-medium duration-300 ease-linear before:absolute before:left-0 before:h-0 before:w-1 before:bg-primary before:duration-300 before:ease-linear hover:bg-primary/5 hover:text-primary hover:before:h-full"
+                className="relative flex items-center gap-2.5 px-5 py-2.5 font-medium duration-300 ease-linear before:absolute before:left-0 before:h-0 before:w-1 before:bg-primary before:duration-300 before:ease-linear hover:bg-primary/5 hover:text-primary hover:before:h-full"
                 href="/"
               >
                 <svg
-                  class="fill-current"
+                  className="fill-current"
                   width="20"
                   height="20"
                   viewBox="0 0 20 20"
@@ -180,11 +180,11 @@ const SideBarInbox = () => {
             </li>
             <li>
               <a
-                class="relative flex items-center gap-2.5 px-5 py-2.5 font-medium duration-300 ease-linear before:absolute before:left-0 before:h-0 before:w-1 before:bg-primary before:duration-300 before:ease-linear hover:bg-primary/5 hover:text-primary hover:before:h-full"
+                className="relative flex items-center gap-2.5 px-5 py-2.5 font-medium duration-300 ease-linear before:absolute before:left-0 before:h-0 before:w-1 before:bg-primary before:duration-300 before:ease-linear hover:bg-primary/5 hover:text-primary hover:before:h-full"
                 href="/"
               >
                 <svg
-                  class="fill-current"
+                  className="fill-current"
                   width="20"
                   height="20"
                   viewBox="0 0 20 20"

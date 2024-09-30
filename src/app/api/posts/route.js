@@ -5,7 +5,7 @@ import { writeFile } from "fs/promises";
 import { NextResponse } from "next/server";
 import path from "path";
 
-export async function GET(request) {
+export async function GET() {
   await sequelize.sync();
   try {
     const posts = await Posts.findAll();
@@ -15,6 +15,22 @@ export async function GET(request) {
       {
         message: e.message,
       },
+      {
+        status: 500,
+      }
+    );
+  }
+}
+
+export async function PUT(request) {
+  await sequelize.sync();
+  try {
+    const info = request.json();
+    console.log(info);
+    //return NextResponse.json({});
+  } catch (e) {
+    return NextResponse.json(
+      { message: e.message },
       {
         status: 500,
       }

@@ -1,6 +1,7 @@
 async function getPosts() {
-  const response = await fetch(`${process.env.NEXT_URL}/api/posts/`, {
+  const response = await fetch(`${process.env.NEXT_URL}/api/posts`, {
     method: "GET",
+    cache: "no-store",
   });
   return response.json();
 }
@@ -14,6 +15,7 @@ import ButtonWithIcon from "../ui/Button";
 
 export default async function Opinions() {
   const data = await getPosts();
+  console.log(data);
   return (
     <DefaultLayout>
       <Breadcrumb pageName={"Posts"} />

@@ -21,11 +21,11 @@ const Nosotros = () => {
   });
 
   useEffect(() => {
-    if (data) {
+    if (data?.nosotrosInfo != null) {
       setFormData({
-        id: data.nosotrosInfo.id,
-        tittle: data.nosotrosInfo.tittle,
-        content: data.nosotrosInfo.content,
+        id: data.nosotrosInfo.id ?? "",
+        tittle: data.nosotrosInfo.tittle ?? "",
+        content: data.nosotrosInfo.content ?? "",
       });
     }
   }, [data]);

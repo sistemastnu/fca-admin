@@ -1,11 +1,28 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const TablePosts = ({ data }) => {
   const router = useRouter();
 
   const handleEdit = (id) => {
     router.push(`posts/edit/${id}`);
+  };
+
+  const handleActive = async (id, currentStatus) => {
+    const body = {
+      changeStatus: currentStatus,
+    };
+    const response = await fetch(`/api/posts/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(body),
+    });
+    if (response.status == 200) {
+      toast.success("Status updated");
+      router.refresh();
+    } else {
+      toast.error("Something went wrong");
+    }
   };
 
   return (
@@ -63,7 +80,14 @@ const TablePosts = ({ data }) => {
                       >
                         Edit
                       </button>
-                      <button className="hover:text-primary">Active</button>
+                      <button
+                        className="hover:text-primary"
+                        onClick={() =>
+                          handleActive(dataItem.id, dataItem.status)
+                        }
+                      >
+                        Active
+                      </button>
                     </div>
                   </td>
                 </tr>

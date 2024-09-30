@@ -1,7 +1,6 @@
 "use client";
 
 import Breadcrumb from "@/components/Breadcrumps/Breadcrumb";
-import Loader from "@/components/common";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -30,7 +29,7 @@ export default function Contactanos() {
       });
     }
   }, [data]);
-  if (!data) return <Loader />;
+  //if (!data) return <Loader />;
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
