@@ -39,15 +39,20 @@ export async function PUT(request, { params }) {
   try {
     await sequelize.sync();
     const id = params.id;
-    const data = await request.json();
-    const changeStatus = data.changeStatus;
-    if (changeStatus) {
-      await TeamNosotros.update(
-        {
-          status: changeStatus == "active" ? "disabled" : "active",
-        },
-        { where: { id: id } }
-      );
+    const contentType = request.headers.get("Content-Type");
+    console.log(contentType);
+    if (contentType.includes("application/json")) {
+      const data = await request.json();
+      const changeStatus = data.changeStatus;
+
+      if (changeStatus) {
+        await TeamNosotros.update(
+          {
+            status: changeStatus == "active" ? "disabled" : "active",
+          },
+          { where: { id: id } }
+        );
+      }
     }
   } catch (e) {
     NextResponse.json({ message: e.message }, { status: 500 });

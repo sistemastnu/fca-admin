@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import SelectFileModal from "../common/SelectFileModal";
 
 const NosotrosModal = ({ data, refreshData, closeModal }) => {
@@ -12,6 +13,7 @@ const NosotrosModal = ({ data, refreshData, closeModal }) => {
     description: data?.descriptions || "",
     photoUrl: data?.photoUrl || "",
   });
+
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -22,20 +24,30 @@ const NosotrosModal = ({ data, refreshData, closeModal }) => {
     formDataSend.append("name", formData.name);
     formDataSend.append("position", formData.position);
     formDataSend.append("descriptions", formData.description);
-    formDataSend.append("photoUrl", file);
+    if (formData.photoUrl != "") {
+      formDataSend.append("photoUrl", formData.photoUrl);
+    } else {
+      formDataSend.append("photoUrl", file);
+    }
 
     const method = data ? "PUT" : "POST";
     const endpoint = data
       ? `/api/teamNosotros/${data.id}`
       : "/api/teamNosotros";
 
-    await fetch(endpoint, {
+    const response = await fetch(endpoint, {
       method,
       body: formDataSend,
     });
 
-    refreshData();
-    closeModal();
+    if (response.status == 200) {
+      toast.success("Member updated");
+      refreshData();
+      closeModal();
+    } else {
+      toast.error("Something went wrong");
+      closeModal();
+    }
   };
 
   const handleChange = (e) => {
@@ -128,6 +140,7 @@ const NosotrosModal = ({ data, refreshData, closeModal }) => {
                 Selected file: {file.name}
               </div>
             )}
+
             <SelectFileModal onFileSelect={setFile} selectedFile={file} />
 
             <button

@@ -5,8 +5,14 @@ import Loader from "@/components/common";
 import SelectFile from "@/components/common/SelectFile";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
 import { useEffect, useState } from "react";
+import useSWR from "swr";
+
+const fetcher = (url) => fetch(url).then((r) => r.json());
 
 export default function Edit({ params }) {
+  const id = params.id;
+  const { data } = useSWR(`/api/posts/${id}`, fetcher);
+
   const [tags, setTags] = useState([]);
   const [inputTag, setInputTag] = useState("");
   const [file, setFile] = useState(null);
@@ -14,25 +20,20 @@ export default function Edit({ params }) {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
+    photoUrl: "",
   });
-  const [data, setData] = useState(null);
-  const [isLoading, setLoading] = useState(true);
-  const tagID = params.id;
+  console.log(data);
   useEffect(() => {
-    fetch(`/api/posts/${tagID}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        setFormData({
-          title: data.post.tittle || "",
-          content: data.post.content || "",
-        });
-        setTags(data.tags.map((item) => item.tag));
-        setLoading(false);
+    if (data) {
+      setFormData({
+        title: data.post.tittle,
+        content: data.post.content,
       });
-  }, []);
+      setTags(data.tags.map((item) => item.tag));
+    }
+  }, [data]);
 
-  if (isLoading) return <Loader />;
+  if (!data) return <Loader />;
   const handleEnterTags = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -47,16 +48,16 @@ export default function Edit({ params }) {
     const value = e.target.dataset.valor;
     const newArray = tags.filter((item) => item !== value);
     setTags(newArray);
-    const deleteTag = {
-      tag: value,
-    };
-    await fetch(`/api/posts/${tagID}`, {
-      method: "DELETE",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(deleteTag),
-    });
+    // const deleteTag = {
+    //   tag: value,
+    // };
+    // await fetch(`/api/posts/${tagID}`, {
+    //   method: "DELETE",
+    //   headers: {
+    //     "Content-type": "application/json",
+    //   },
+    //   body: JSON.stringify(deleteTag),
+    // });
   };
 
   const handleSubmit = async (e) => {
@@ -71,18 +72,14 @@ export default function Edit({ params }) {
       setErrors(newErrors);
     } else {
       setErrors({});
-
       const formDataSend = new FormData();
-
       formDataSend.append("tittle", formData.title);
       formDataSend.append("content", formData.content);
       formDataSend.append("file", file);
-      //formDataSend.append("tags[]", tags);
-
       tags.forEach((tag) => formDataSend.append("tags[]", tag));
 
-      const response = await fetch("/api/posts/", {
-        method: "POST",
+      await fetch(`/api/posts/${id}`, {
+        method: "PUT",
         body: formDataSend,
       });
     }
@@ -267,8 +264,12 @@ export default function Edit({ params }) {
                 </div>
 
                 {file && (
-                  <div className="mt-2 mb-2 text-sm text-gray-600 dark:text-gray-400">
-                    Selected file: {file.name}
+                  <div className="mb-4">
+                    <img
+                      src={URL.createObjectURL(file)}
+                      alt="File preview"
+                      className="w-full h-auto rounded-md"
+                    />
                   </div>
                 )}
 

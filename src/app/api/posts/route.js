@@ -44,7 +44,7 @@ export async function POST(request) {
     const data = await request.formData();
     const directory = "public/assets/";
     const file = data.get("file");
-    const tags = data.getAll("tags");
+    const tags = data.getAll("tags[]");
     const now = new Date().toISOString().slice(0, 19).replace("T", " ");
     if (!file) {
       return NextResponse.json(

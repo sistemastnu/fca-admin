@@ -15,6 +15,7 @@ const TablePosts = ({ data }) => {
     };
     const response = await fetch(`/api/posts/${id}`, {
       method: "PUT",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
     if (response.status == 200) {
