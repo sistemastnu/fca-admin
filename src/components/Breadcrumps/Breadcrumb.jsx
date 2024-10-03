@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const Breadcrumb = ({ pageName, a }) => {
+const Breadcrumb = ({ pageName, a, redirect = '/' }) => {
   return (
     <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div className="text-tittle-md2 font-semibold text-black dark:text-white">
@@ -11,7 +11,7 @@ const Breadcrumb = ({ pageName, a }) => {
       <nav>
         <ol className="flex items-center gap-2">
           <li>
-            <Link className="font-medium" href={"/"}>
+            <Link className="font-medium" href={redirect}>
               Dashboard / {a ?? ""}
             </Link>
           </li>

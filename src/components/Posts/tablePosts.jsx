@@ -1,8 +1,9 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import Spinner from "../common/Spinner";
 
-const TablePosts = ({ data }) => {
+const TablePosts = ({ data, refreshData }) => {
   const router = useRouter();
 
   const handleEdit = (id) => {
@@ -57,7 +58,9 @@ const TablePosts = ({ data }) => {
                   </td>
                   <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                     <p className="text-black dark:text-white">
-                      {new Date(dataItem.publish_at).toLocaleDateString()}
+                      {new Date(dataItem.publish_at).toLocaleDateString(
+                        "en-US"
+                      )}
                     </p>
                   </td>
                   <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
@@ -95,8 +98,11 @@ const TablePosts = ({ data }) => {
               ))
             ) : (
               <tr>
-                <td colSpan="4" className="text-center py-4">
-                  No data available
+                <td
+                  colSpan="4"
+                  className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11"
+                >
+                  Loading ....
                 </td>
               </tr>
             )}

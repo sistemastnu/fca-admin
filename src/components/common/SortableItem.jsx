@@ -9,6 +9,7 @@ const SortableItem = ({
   cardContent,
   idService,
   refreshData,
+  apiUrl,
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
@@ -44,13 +45,13 @@ const SortableItem = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
-    if (!formData.content) newErrors.content = "Agrega contenido";
-    if (!formData.tittle) newErrors.tittle = "Agrega un titulo";
+    if (!formData.content) newErrors.content = "Add Content";
+    if (!formData.tittle) newErrors.tittle = "Add a tittle";
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
       setErrors({});
-      await fetch("/api/servicios/", {
+      await fetch(apiUrl, {
         method: "POST",
         body: JSON.stringify(formData),
       });

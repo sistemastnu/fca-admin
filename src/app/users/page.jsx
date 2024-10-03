@@ -1,29 +1,28 @@
-async function getUsers(params) {
-  const response = await fetch("http:localhost:3000/api/users", {
-    method: "GET",
-    cache: "no-store",
-  });
-  return response.json();
-}
-
+"use client";
 import Breadcrumb from "@/components/Breadcrumps/Breadcrumb";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
 import TableThree from "@/components/Tables/TableThree";
 import Image from "next/image";
 import iconPlus from "../../../public/icons/plus.svg";
 import ButtonWithIcon from "../ui/Button";
+import useSWR from "swr";
+import Loader from "@/components/common";
 
-export default async function Users() {
-  const data = await getUsers();
+const fetcher = (url) => fetch(url).then((r) => r.json());
+
+export default function Users() {
+  // const data = await getUsers();
+  const { data } = useSWR("/api/users", fetcher);
+  if (!data) return <Loader />;
   return (
     <>
       <DefaultLayout>
         <Breadcrumb pageName={"Users"} />
         <div className="flex flex-row items-end justify-end gap-4">
           <ButtonWithIcon
-            tittle={"Agregar Usuario"}
+            tittle={"Add User"}
             icon={<Image src={iconPlus} width={20} height={20} alt="icon" />}
-            refa="users/add"
+            linkTo="users/add"
           />
         </div>
         <div className="overflow-hidden mt-10 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">

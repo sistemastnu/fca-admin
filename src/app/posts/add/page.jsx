@@ -2,8 +2,12 @@
 
 import Breadcrumb from "@/components/Breadcrumps/Breadcrumb";
 import SelectFile from "@/components/common/SelectFile";
+import Spinner from "@/components/common/Spinner";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 export default function Add() {
   const [tags, setTags] = useState([]);
   const [inputTag, setInputTag] = useState("");
@@ -13,6 +17,8 @@ export default function Add() {
     title: "",
     content: "",
   });
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleEnterTags = (e) => {
     if (e.key === "Enter") {
@@ -33,18 +39,15 @@ export default function Add() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
-    if (!formData.content) newErrors.content = "Agrega contenido";
-    if (!formData.title) newErrors.title = "Agrega un titulo";
-    if (tags.length == 0) newErrors.tags = "Agrega por lo menos 1 tag";
-    if (file == null) newErrors.file = "Seleciona una imagen para el post";
+    if (!formData.content) newErrors.content = "Add Content";
+    if (!formData.title) newErrors.title = "Add a title";
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
       setErrors({});
-
+      setLoading(true);
       const formDataSend = new FormData();
-
       formDataSend.append("tittle", formData.title);
       formDataSend.append("content", formData.content);
       formDataSend.append("file", file);
@@ -55,6 +58,14 @@ export default function Add() {
         method: "POST",
         body: formDataSend,
       });
+      if (response.status === 200) {
+        toast.success("Post was successfully created");
+        router.push("/posts");
+        setLoading(false);
+      } else {
+        toast.error("Something went wrong");
+        setLoading(false);
+      }
     }
   };
 
@@ -68,7 +79,7 @@ export default function Add() {
 
   return (
     <DefaultLayout>
-      <Breadcrumb pageName={"Post"} a={"Posts /"} />
+      <Breadcrumb pageName={"Post"} a={"Posts /"} redirect="/posts" />
       <div className="grid grid-cols-3 gap-8">
         <div className="col-span-5 xl:col-span-3">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -149,11 +160,6 @@ export default function Add() {
                       onChange={(e) => setInputTag(e.target.value)}
                       onKeyDown={handleEnterTags}
                     />
-                    {errors.tags && (
-                      <p className="text-red font-bold text-sm italic">
-                        {errors.tags}
-                      </p>
-                    )}
                   </div>
                 </div>
 
@@ -235,31 +241,29 @@ export default function Add() {
                 </div>
 
                 {file && (
-                  <div className="mt-2 mb-2 text-sm text-gray-600 dark:text-gray-400">
-                    Selected file: {file.name}
+                  <div className="ml-2 h-full rounded-md mb-5">
+                    <p className="text-black font-bold my-2">New Image: </p>
+                    <Image
+                      src={URL.createObjectURL(file)}
+                      alt="File preview"
+                      width="300"
+                      height="300"
+                    />
                   </div>
                 )}
 
                 <SelectFile onFileSelect={setFile} selectedFile={file} />
 
-                {errors.file && (
-                  <p className="text-red font-bold text-sm italic">
-                    {errors.file}
-                  </p>
-                )}
-
                 <div className="flex justify-end gap-4.5">
-                  <button
-                    className="flex justify-center rounded border border-stroke px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                    type="submit"
-                  >
+                  <button className="flex justify-center rounded border border-stroke px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white">
                     Cancel
                   </button>
                   <button
                     className="flex justify-center rounded bg-primary px-6 py-2 font-medium text-gray hover:bg-opacity-90"
                     type="submit"
+                    disabled={loading}
                   >
-                    Save
+                    {loading ? <Spinner /> : "Save"}
                   </button>
                 </div>
               </form>

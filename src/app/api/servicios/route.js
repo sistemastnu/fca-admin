@@ -17,7 +17,6 @@ export async function PUT(request) {
   await sequelize.sync();
   try {
     const data = await request.json();
-
     for (const item in data) {
       await Servicios.update(
         {
@@ -28,7 +27,6 @@ export async function PUT(request) {
         }
       );
     }
-
     return NextResponse.json({ status: 201 });
   } catch (e) {
     return NextResponse.json({ message: e.message }, { status: 500 });

@@ -55,7 +55,6 @@ const TableThree = ({ data, t1, t2, t3, t4 }) => {
                   </td>
                   <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                     <div className="flex items-center space-x-3.5">
-                      <button className="hover:text-primary">View</button>
                       <button
                         className="hover:text-primary"
                         onClick={() => handleEdit(dataItem.id)}

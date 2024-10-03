@@ -56,12 +56,14 @@ export async function POST(request) {
     const filename = file.name.replaceAll(" ", "_");
     const filePath = path.join(process.cwd(), directory + filename);
     await writeFile(filePath, buffer);
+    const relativePath = "/assets/" + filename;
 
     const userCreated = await Posts.create({
       tittle: data.get("tittle"),
       content: data.get("content"),
       publish_at: now,
-      image: directory + filename,
+      image: filePath,
+      relativePath: relativePath,
       status: "active",
     });
 

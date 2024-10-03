@@ -4,15 +4,18 @@ import Breadcrumb from "@/components/Breadcrumps/Breadcrumb";
 import Loader from "@/components/common";
 import SelectFile from "@/components/common/SelectFile";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
+import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import useSWR from "swr";
+import { toast } from "sonner";
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
 export default function Edit({ params }) {
   const id = params.id;
   const { data } = useSWR(`/api/posts/${id}`, fetcher);
-
+  const router = useRouter();
   const [tags, setTags] = useState([]);
   const [inputTag, setInputTag] = useState("");
   const [file, setFile] = useState(null);
@@ -20,20 +23,23 @@ export default function Edit({ params }) {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
-    photoUrl: "",
+    image: "",
+    relativePath: ""
   });
-  console.log(data);
   useEffect(() => {
     if (data) {
       setFormData({
         title: data.post.tittle,
         content: data.post.content,
+        image: data.post.image,
+        relativePath: data.post.relativePath,
       });
       setTags(data.tags.map((item) => item.tag));
     }
   }, [data]);
 
   if (!data) return <Loader />;
+
   const handleEnterTags = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -48,25 +54,13 @@ export default function Edit({ params }) {
     const value = e.target.dataset.valor;
     const newArray = tags.filter((item) => item !== value);
     setTags(newArray);
-    // const deleteTag = {
-    //   tag: value,
-    // };
-    // await fetch(`/api/posts/${tagID}`, {
-    //   method: "DELETE",
-    //   headers: {
-    //     "Content-type": "application/json",
-    //   },
-    //   body: JSON.stringify(deleteTag),
-    // });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
-    if (!formData.content) newErrors.content = "Agrega contenido";
-    if (!formData.title) newErrors.title = "Agrega un titulo";
-    if (tags.length == 0) newErrors.tags = "Agrega por lo menos 1 tag";
-    if (file == null) newErrors.file = "Seleciona una imagen para el post";
+    if (!formData.content) newErrors.content = "Add Content";
+    if (!formData.title) newErrors.title = "Add Title";
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -75,13 +69,24 @@ export default function Edit({ params }) {
       const formDataSend = new FormData();
       formDataSend.append("tittle", formData.title);
       formDataSend.append("content", formData.content);
-      formDataSend.append("file", file);
+      if(file){
+        formDataSend.append("file", file);
+      }else{
+        formDataSend.append("image", formData.image);
+        formDataSend.append("relativePath", formData.relativePath);
+      }
       tags.forEach((tag) => formDataSend.append("tags[]", tag));
 
-      await fetch(`/api/posts/${id}`, {
+      const response  = await fetch(`/api/posts/${id}`, {
         method: "PUT",
         body: formDataSend,
       });
+      if(response.status === 200){
+        toast.success("Post updated");
+        router.push("/posts");
+      }else{
+        toast.error("Something went wrong");
+      }
     }
   };
 
@@ -93,9 +98,14 @@ export default function Edit({ params }) {
     });
   };
 
+  const handleOnCancel = (e) =>{
+    e.preventDefault();
+    router.push("/posts");
+  }
+
   return (
     <DefaultLayout>
-      <Breadcrumb pageName={"Post"} a={"Posts /"} />
+      <Breadcrumb pageName={"Post"} a={"Posts /"} redirect="/posts"/>
       <div className="grid grid-cols-3 gap-8">
         <div className="col-span-5 xl:col-span-3">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -107,7 +117,6 @@ export default function Edit({ params }) {
             <div className="p-7">
               <form
                 action="#"
-                onSubmit={handleSubmit}
                 onKeyDown={(e) => {
                   if (e.key == "Enter") {
                     e.preventDefault();
@@ -178,11 +187,6 @@ export default function Edit({ params }) {
                       onChange={(e) => setInputTag(e.target.value)}
                       onKeyDown={handleEnterTags}
                     />
-                    {errors.tags && (
-                      <p className="text-red font-bold text-sm italic">
-                        {errors.tags}
-                      </p>
-                    )}
                   </div>
                 </div>
 
@@ -263,34 +267,45 @@ export default function Edit({ params }) {
                   </div>
                 </div>
 
-                {file && (
-                  <div className="mb-4">
-                    <img
-                      src={URL.createObjectURL(file)}
+                <div className="flex flex-row  mb-5">
+                {formData.relativePath && (
+                  <div className="h-full rounded-md" >
+                  <p className="text-black font-bold my-2">Old Image: </p>
+                    <Image
+                      src={formData.relativePath}
                       alt="File preview"
-                      className="w-full h-auto rounded-md"
+                      width="300"
+                      height="300"
                     />
                   </div>
                 )}
 
+                {file && (
+                  <div className="ml-2 h-full rounded-md ">
+                  <p className="text-black font-bold my-2">New Image: </p>
+                    <Image
+                      src={URL.createObjectURL(file)}
+                      alt="File preview"
+                      width="300"
+                      height="300"
+                    />
+                  </div>
+                )}
+                </div>
+
                 <SelectFile onFileSelect={setFile} selectedFile={file} />
 
-                {errors.file && (
-                  <p className="text-red font-bold text-sm italic">
-                    {errors.file}
-                  </p>
-                )}
-
                 <div className="flex justify-end gap-4.5">
-                  <button
+                <button
                     className="flex justify-center rounded border border-stroke px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                    type="submit"
+                    onClick={handleOnCancel}
                   >
                     Cancel
                   </button>
                   <button
                     className="flex justify-center rounded bg-primary px-6 py-2 font-medium text-gray hover:bg-opacity-90"
                     type="submit"
+                    onClick={handleSubmit}
                   >
                     Save
                   </button>

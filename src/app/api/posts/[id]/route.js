@@ -60,23 +60,25 @@ export async function PUT(request, { params }) {
     const directory = "public/assets/";
     const file = data.get("file");
     const tags = data.getAll("tags[]");
-    console.log(data);
-    if (!file) {
-      return NextResponse.json(
-        { message: "Not File Received" },
-        { status: 500 }
-      );
+    let imageUrl;
+    let relativePath;
+    if (file) {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const filename = file.name.replaceAll(" ", "_");
+      const filePath = path.join(process.cwd(), directory + filename);
+      await writeFile(filePath, buffer);
+      imageUrl = filePath;
+      relativePath = "/assets/" + filename;
+    } else {
+      imageUrl = data.get("image");
+      relativePath = data.get("relativePath");
     }
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const filename = file.name.replaceAll(" ", "_");
-    const filePath = path.join(process.cwd(), directory + filename);
-    await writeFile(filePath, buffer);
-
     await Posts.update(
       {
         tittle: data.get("tittle"),
         content: data.get("content"),
-        image: directory + filename,
+        image: imageUrl,
+        relativePath: relativePath,
         status: "active",
       },
       { where: { id: id } }

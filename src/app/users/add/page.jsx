@@ -10,14 +10,13 @@ import person from "../../../../public/icons/person.svg";
 const AddUser = () => {
   //const [selectedOption, setSelectedOption] = useState("");
   const [isOptionSelected, setIsOptionSelected] = useState(false);
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     rol: "",
     password: "",
   });
-
-  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     setFormData({
@@ -35,7 +34,7 @@ const AddUser = () => {
     setIsOptionSelected(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
 
@@ -52,6 +51,13 @@ const AddUser = () => {
       setErrors(newErrors);
     } else {
       setErrors({});
+      await fetch("/api/users/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
     }
   };
 
