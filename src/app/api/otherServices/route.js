@@ -16,7 +16,7 @@ export async function POST(request) {
   await sequelize.sync();
   try {
     const data = await request.json();
-    await OtherServices.create(
+    await OtherServices.update(
       {
         title: data.tittle,
         content: data.content,
