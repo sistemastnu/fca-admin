@@ -5,18 +5,25 @@ import SelectFile from "@/components/common/SelectFile";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
 import TableNosotros from "@/components/Nosotros/TableNosotros";
 import TableSponsors from "@/components/Nosotros/TableSponsors";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import useSWR from "swr";
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
 const Nosotros = () => {
   const { data, mutate } = useSWR("/api/nosotros", fetcher);
+  const [errors, setErrors] = useState({});
+  const router = useRouter();
   const [file, setFile] = useState(null);
   const [formData, setFormData] = useState({
     id: "",
     tittle: "",
     content: "",
+    photoUrl: "",
+    relativePath: "",
   });
 
   useEffect(() => {
@@ -25,9 +32,14 @@ const Nosotros = () => {
         id: data.nosotrosInfo.id ?? "",
         tittle: data.nosotrosInfo.tittle ?? "",
         content: data.nosotrosInfo.content ?? "",
+        photoUrl: data.nosotrosInfo.photoUrl ?? "",
+        relativePath: data.nosotrosInfo.relativePath ?? "",
       });
+      setFile(null);
     }
   }, [data]);
+
+  if (!data) return <Loader />;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,7 +52,53 @@ const Nosotros = () => {
     mutate();
   };
 
-  if (!data) return <Loader />;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newErrors = {};
+    if (!formData.content) newErrors.content = "Add Content";
+    if (!formData.tittle) newErrors.tittle = "Add a tittle";
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+    } else {
+      setErrors({});
+      const formDataWithFile = new FormData();
+      let endpoint;
+      let method;
+      if (formData.id != "") {
+        formDataWithFile.append("id", formData.id);
+        formDataWithFile.append("tittle", formData.tittle);
+        formDataWithFile.append("content", formData.content);
+        if (file) {
+          console.log("entro aqui");
+          formDataWithFile.append("file", file);
+        } else {
+          formDataWithFile.append("photoUrl", formData.photoUrl);
+          formDataWithFile.append("relativePath", formData.relativePath);
+        }
+        endpoint = "/api/nosotros/";
+        method = "PUT";
+      } else {
+        formDataWithFile.append("tittle", formData.tittle);
+        formDataWithFile.append("content", formData.content);
+        formDataWithFile.append("file", file);
+        endpoint = "/api/nosotros/";
+        method = "POST";
+      }
+
+      const response = await fetch(endpoint, {
+        method: method,
+        body: formDataWithFile,
+      });
+      if (response.status === 200) {
+        toast.success("Success");
+        router.push("/nosotros");
+        router.refresh();
+        refreshData();
+      } else {
+        toast.error("Failed to save");
+      }
+    }
+  };
 
   return (
     <DefaultLayout>
@@ -141,9 +199,29 @@ const Nosotros = () => {
                   </div>
                 </div>
                 <div>
+                  {formData.relativePath && (
+                    <div className="h-full rounded-md">
+                      <p className="text-black font-bold my-2">
+                        Current Image:{" "}
+                      </p>
+                      <Image
+                        src={formData.relativePath}
+                        alt="File preview"
+                        width="300"
+                        height="300"
+                      />
+                    </div>
+                  )}
+
                   {file && (
-                    <div className="mt-2 mb-2 text-sm text-gray-600 dark:text-gray-400">
-                      Selected file: {file.name}
+                    <div className="ml-2 h-full rounded-md ">
+                      <p className="text-black font-bold my-2">New Image: </p>
+                      <Image
+                        src={URL.createObjectURL(file)}
+                        alt="File preview"
+                        width="300"
+                        height="300"
+                      />
                     </div>
                   )}
                   <SelectFile onFileSelect={setFile} selectedFile={file} />
@@ -152,6 +230,7 @@ const Nosotros = () => {
                   <button
                     className="flex justify-end rounded bg-primary px-6 py-2 font-medium text-gray hover:bg-opacity-90"
                     type="submit"
+                    onClick={handleSubmit}
                   >
                     Save
                   </button>
@@ -163,13 +242,16 @@ const Nosotros = () => {
 
         <div className="col-span-5 xl:col-span-2">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-            <TableSponsors />
+            <TableSponsors data={data?.sponsors} refreshData={refreshData} />
           </div>
         </div>
 
         <div className="col-span-5 xl:col-span-3">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-            <TableNosotros data={data.teamNosotros} refresData={refreshData} />
+            <TableNosotros
+              data={data?.teamNosotros}
+              refreshData={refreshData}
+            />
           </div>
         </div>
       </div>

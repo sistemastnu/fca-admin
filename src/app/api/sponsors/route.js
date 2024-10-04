@@ -1,27 +1,19 @@
 import sequelize from "@/lib/sequelize";
 import Sponsors from "@/models/Sponsors";
+import { NextResponse } from "next/server";
+import { UploadFile } from "@/helpers/files";
 
 export async function POST(request) {
   try {
     await sequelize.sync();
     const data = await request.formData();
-    const directory = "public/assets/";
-    const file = data.get("photoUrl");
-    if (!file) {
-      return NextResponse.json(
-        { message: "Not File Received" },
-        { status: 500 }
-      );
-    }
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const filename = file.name.replaceAll(" ", "_");
-    const filePath = path.join(process.cwd(), directory + filename);
-    await writeFile(filePath, buffer);
+    const file = data.get("file");
+    const fileUploaded = await UploadFile(file, "sponsors");
 
     const sponsors = await Sponsors.create({
-      sponsorsName: data.get("name"),
-      descriptions: data.get("descriptions"),
-      photoSponsor: filePath,
+      sponsorName: data.get("sponsorName"),
+      photoSponsor: fileUploaded.filePath,
+      relativePath: fileUploaded.relativePath,
       status: "active",
     });
 

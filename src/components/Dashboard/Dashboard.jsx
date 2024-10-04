@@ -1,10 +1,14 @@
 export const revalidate = 10;
 export async function getServerSideProps() {
-  const response = await fetch(`${process.env.NEXT_URL}/api/dashboard/`, {
-    cache: "no-store",
-  });
-  const data = await response.json();
-  return data;
+  try {
+    const response = await fetch(`${process.env.NEXT_URL}/api/dashboard/`, {
+      cache: "no-store",
+    });
+    const data = await response.json();
+    return data;
+  } catch (e) {
+    console.log(e.message);
+  }
 }
 
 const { default: CardDataStats } = require("@/components/cards/CardDashBoard");

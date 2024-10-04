@@ -14,6 +14,10 @@ const Sponsors = sequelize.define("sponsors", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  relativePath: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
 });
 
 export default Sponsors;

@@ -14,6 +14,10 @@ const Nosotros = sequelize.define("nosotros", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  relativePath: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
 });
 
 export default Nosotros;

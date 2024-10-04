@@ -1,8 +1,7 @@
 import sequelize from "@/lib/sequelize";
 import Sponsors from "@/models/Sponsors";
-import { writeFile } from "fs/promises";
-import path from "path";
 import { NextResponse } from "next/server";
+import { UploadFile } from "@/helpers/files";
 
 export async function PUT(request, { params }) {
   try {
@@ -23,32 +22,24 @@ export async function PUT(request, { params }) {
       }
     }
     const data = await request.formData();
-    const directory = "public/assets/";
-    const file = data.get("photoUrl");
+    console.log(data);
+    const file = data.get("file");
     let filePath;
-    if (!file) {
-      return NextResponse.json(
-        { message: "Not File Received" },
-        { status: 500 }
-      );
-    }
+    let relativePath;
 
-    if (typeof file === "string") {
-      filePath = file;
-    } else if (file instanceof File || file instanceof Blob) {
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const filename = file.name.replaceAll(" ", "_");
-      filePath = path.join(process.cwd(), directory + filename);
-      await writeFile(filePath, buffer);
+    if (file) {
+      const upload = await UploadFile(file, "sponsors");
+      filePath = upload.filePath;
+      relativePath = upload.relativePath;
+    } else {
+      filePath = data.get("photoSponsor");
+      relativePath = data.get("relativePath");
     }
 
     const sponsor = await Sponsors.update(
       {
-        name: data.get("name"),
-        descriptions: data.get("descriptions"),
-        photoUrl: filePath,
-        status: "active",
-        position: data.get("position"),
+        sponsorName: data.get("sponsorName"),
+        photoSponsor: filePath,
       },
       { where: { id: id } }
     );

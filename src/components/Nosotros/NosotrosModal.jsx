@@ -13,11 +13,6 @@ const NosotrosModal = ({ data, refreshData, closeModal }) => {
     description: data?.descriptions || "",
     photoUrl: data?.photoUrl || "",
   });
-
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formDataSend = new FormData();
@@ -40,7 +35,7 @@ const NosotrosModal = ({ data, refreshData, closeModal }) => {
       body: formDataSend,
     });
 
-    if (response.status == 200) {
+    if (response.status === 200) {
       toast.success("Member updated");
       refreshData();
       closeModal();

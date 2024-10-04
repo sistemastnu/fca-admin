@@ -27,7 +27,12 @@ export const authOptions = {
           );
 
           if (isValidPassword) {
-            return { id: user.id, name: user.name, email: user.email };
+            return {
+              id: user.id,
+              name: user.username,
+              email: user.email,
+              role: user.rol,
+            };
           } else {
             throw new Error("Invalid email or password");
           }
@@ -37,6 +42,20 @@ export const authOptions = {
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role;
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.user.role = token.role;
+      session.user.id = token.id;
+      return session;
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);

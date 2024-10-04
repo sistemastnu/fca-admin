@@ -3,7 +3,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import NosotrosModal from "./NosotrosModal";
 
-const TableNosotros = ({ data, refresData }) => {
+const TableNosotros = ({ data, refreshData }) => {
   const [selectedMember, setSelectedMember] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -20,7 +20,7 @@ const TableNosotros = ({ data, refresData }) => {
     });
     if (response.status == 200) {
       toast.success("Status updated");
-      refresData();
+      refreshData();
     } else {
       toast.error("Something went wrong");
     }
@@ -34,6 +34,7 @@ const TableNosotros = ({ data, refresData }) => {
     setSelectedMember(null);
     setIsModalOpen(true);
   };
+
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="flex justify-end py-2">
@@ -46,9 +47,9 @@ const TableNosotros = ({ data, refresData }) => {
       </div>
       {isModalOpen && (
         <NosotrosModal
-          data={selectedMember} // Pass the selected member to modal
-          refreshData={refresData} // Refresh table data after action
-          closeModal={() => setIsModalOpen(false)} // Function to close modal
+          data={selectedMember}
+          refreshData={refreshData}
+          closeModal={() => setIsModalOpen(false)}
         />
       )}
 
