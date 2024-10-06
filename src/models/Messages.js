@@ -2,12 +2,12 @@ import sequelize from "@/lib/sequelize";
 import { DataTypes } from "sequelize";
 
 const Messages = sequelize.define("Messages", {
-  senderId: {
-    type: DataTypes.INTEGER,
+  sender: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
-  receiverId: {
-    type: DataTypes.INTEGER,
+  receiver: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
   subject: {
@@ -16,6 +16,16 @@ const Messages = sequelize.define("Messages", {
   },
   body: {
     type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  status: {
+    type: DataTypes.STRING,
+    defaultValue: "unread",
+    allowNull: false,
+  },
+  label: {
+    type: DataTypes.STRING,
+    defaultValue: "inbox",
     allowNull: false,
   },
 });

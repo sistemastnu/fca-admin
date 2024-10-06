@@ -1,12 +1,12 @@
 import sequelize from "@/lib/sequelize";
-import Inbox from "@/app/inbox/page";
+import Messages from "@/models/Messages";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   await sequelize.sync();
   try {
-    const inbox = await Inbox.findAll();
-    return NextResponse.json(inbox);
+    const messages = await Messages.findAll();
+    return NextResponse.json(messages);
   } catch (e) {
     return NextResponse.json({});
   }
