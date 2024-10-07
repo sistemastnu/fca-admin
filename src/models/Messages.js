@@ -2,15 +2,15 @@ import sequelize from "@/lib/sequelize";
 import { DataTypes } from "sequelize";
 
 const Messages = sequelize.define("Messages", {
+  firstName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  lastName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   sender: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  receiver: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  subject: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -22,6 +22,10 @@ const Messages = sequelize.define("Messages", {
     type: DataTypes.STRING,
     defaultValue: "unread",
     allowNull: false,
+  },
+  phoneNumber: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   label: {
     type: DataTypes.STRING,

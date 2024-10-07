@@ -16,46 +16,48 @@ const ViewMessage = ({ params }) => {
   const mostrarBodyConSaltosDeLinea = (texto) => {
     return texto.split("\n").map((linea, index) => <p key={index}>{linea}</p>);
   };
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setResponse(value);
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(response);
-    // const responseData = {
-    //   message_id: id,
-    //   body: response.response,
-    // };
-    // await fetch(`/api/inbox/reply`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(responseData),
-    // });
-    // setResponse("");
-    // alert("Message sent successfully");
-    // window.location.href = "/inbox";
-  };
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setResponse(value);
+  // };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   console.log(response);
+  //   // const responseData = {
+  //   //   message_id: id,
+  //   //   body: response.response,
+  //   // };
+  //   // await fetch(`/api/inbox/reply`, {
+  //   //   method: "POST",
+  //   //   headers: {
+  //   //     "Content-Type": "application/json",
+  //   //   },
+  //   //   body: JSON.stringify(responseData),
+  //   // });
+  //   // setResponse("");
+  //   // alert("Message sent successfully");
+  //   // window.location.href = "/inbox";
+  // };
   return (
     <DefaultLayout>
       <Breadcrumb pageName={"View Message"} />
       <div className="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="bg-white p-6 rounded-lg shadow-sm mb-4">
-          <h2 className="text-xl font-bold text-black dark:text-white">
-            Subject: {data.subject}
-          </h2>
-          <p className="text-base text-gray-600 mb-4">
-            From: {data.sender}
+          <p className="text-black text-bold mb-4">
+            From: <strong>{data.sender}</strong>
             <br />
-            To: {data.receiver}
+            Phone: <strong>{data.phoneNumber}</strong>
+            <br />
+            Name: <strong>{data.firstName}</strong>
+            <br />
+            Last Name: <strong>{data.lastName}</strong>
           </p>
+          <p className="text-black text-bold mb-4"></p>
           <div className="space-y-4 text-base text-black">
             {mostrarBodyConSaltosDeLinea(data.body)}
           </div>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm">
+        {/* <div className="bg-white p-6 rounded-lg shadow-sm">
           <h3 className="text-lg font-semibold mb-4">Reply</h3>
           <textarea
             className="w-full p-2 border border-gray-300 rounded-md mb-4"
@@ -72,7 +74,7 @@ const ViewMessage = ({ params }) => {
           >
             Send
           </button>
-        </div>
+        </div> */}
       </div>
     </DefaultLayout>
   );
