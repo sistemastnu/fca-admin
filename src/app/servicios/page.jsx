@@ -5,6 +5,7 @@ import Loader from "@/components/common";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
 import SortableList from "./Components/SortableList";
 import useSWR from "swr";
+import FormServices from "../content/Components/FormServices";
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 

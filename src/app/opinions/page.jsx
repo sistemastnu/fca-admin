@@ -2,38 +2,36 @@
 
 import Breadcrumb from "@/components/Breadcrumps/Breadcrumb";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
-import TablePosts from "@/components/Posts/tablePosts";
-import Image from "next/image";
-import iconPlus from "../../../public/icons/plus.svg";
 import ButtonWithIcon from "../ui/Button";
+import iconPlus from "../../../public/icons/plus.svg";
+import Image from "next/image";
 import useSWR from "swr";
 import Loader from "@/components/common";
+import TableOpinions from "@/components/Opinions/TableOpinions";
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
-export default function Opinions() {
-  //const data = await getPosts();
-  const { data, mutate } = useSWR("/api/posts", fetcher);
-
+const Options = () => {
+  const { data, mutate } = useSWR("/api/opinions", fetcher);
   const refreshData = () => {
     mutate();
   };
 
   if (!data) return <Loader />;
-
   return (
     <DefaultLayout>
-      <Breadcrumb pageName={"Posts"} />
+      <Breadcrumb pageName={"Opiniones"} />
       <div className="flex flex-row items-end justify-end gap-4">
         <ButtonWithIcon
-          tittle={"Add a Post"}
+          tittle={"Add a Opinions"}
           icon={<Image src={iconPlus} width={20} height={20} alt="icon" />}
-          linkTo={"posts/add"}
+          linkTo={"opinions/add"}
         />
       </div>
-      <div className="overflow-hidden mt-10 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <TablePosts data={data} refreshData={refreshData} />
+      <div className=" overflow-hidden mt-10 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+        <TableOpinions data={data} refreshData={refreshData} />
       </div>
     </DefaultLayout>
   );
-}
+};
+export default Options;

@@ -10,9 +10,10 @@ export async function UploadFile(file, folder) {
   const filename = file.name.replaceAll(" ", "_");
   const filePath = path.join(process.cwd(), directory, filename);
   await writeFile(filePath, buffer);
+  let fileUrl = process.env.NEXT_URL + "/assets/" + folder + "/" + filename;
 
   return {
-    filePath,
+    filePath: fileUrl,
     relativePath: "/assets/" + folder + "/" + filename,
   };
 }

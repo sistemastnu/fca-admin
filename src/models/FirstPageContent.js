@@ -1,31 +1,22 @@
 import sequelize from "@/lib/sequelize";
 import { DataTypes } from "sequelize";
 
-const Opinions = sequelize.define("opinions", {
-  name: {
+const FirstPageContent = sequelize.define("FirstPageContent", {
+  firstTitle: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  descriptions: {
+  firstSubtitle: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  stars: {
+  secondTitle: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  position: {
+  secondSubtitle: {
     type: DataTypes.STRING,
     allowNull: false,
-  },
-  photo: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  relativePath: {
-    type: DataTypes.STRING,
-    allowNull: true,
   },
 });
-
-export default Opinions;
+export default FirstPageContent;

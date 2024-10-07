@@ -8,6 +8,8 @@ import { NextResponse } from "next/server";
 import Servicios from "@/models/Servicios";
 import Posts from "@/models/Posts";
 import Contactanos from "@/models/Contactanos";
+import FirstPageContent from "@/models/FirstPageContent";
+import Opinions from "@/models/Opinion";
 
 export async function GET() {
   try {
@@ -21,6 +23,8 @@ export async function GET() {
       tags,
       servicios,
       posts,
+      firstPageContent,
+      opinions,
     ] = await Promise.all([
       Contactanos.findOne(),
       Nosotros.findOne(),
@@ -30,6 +34,8 @@ export async function GET() {
       Tags.findAll(),
       Servicios.findAll(),
       Posts.findAll(),
+      FirstPageContent.findOne(),
+      Opinions.findAll(),
     ]);
 
     return NextResponse.json({
@@ -41,6 +47,8 @@ export async function GET() {
       tags,
       servicios,
       posts,
+      firstPageContent,
+      opinions,
     });
   } catch (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });

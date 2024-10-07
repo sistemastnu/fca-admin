@@ -18,27 +18,30 @@ const TableOne = ({ data }) => {
             </h5>
           </div>
         </div>
+        {Array.isArray(data) && data.length > 0 ? (
+          data.map((item, index) => (
+            <div
+              className={`grid grid-cols-2  ${
+                index === data.length - 1
+                  ? ""
+                  : "border-b border-stroke dark:border-strokedark"
+              }`}
+              key={index}
+            >
+              <div className="flex items-center justify-center gap-3 p-2.5 xl:p-5">
+                <p className="hidden text-black dark:text-white sm:block">
+                  {item[0]}
+                </p>
+              </div>
 
-        {data.map((item, index) => (
-          <div
-            className={`grid grid-cols-2  ${
-              index === data.length - 1
-                ? ""
-                : "border-b border-stroke dark:border-strokedark"
-            }`}
-            key={index}
-          >
-            <div className="flex items-center justify-center gap-3 p-2.5 xl:p-5">
-              <p className="hidden text-black dark:text-white sm:block">
-                {item[0]}
-              </p>
+              <div className="flex items-center justify-center p-2.5 xl:p-5">
+                <p className="text-black dark:text-white">{item[1]}</p>
+              </div>
             </div>
-
-            <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-black dark:text-white">{item[1]}</p>
-            </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <div>nodata</div>
+        )}
       </div>
     </div>
   );
