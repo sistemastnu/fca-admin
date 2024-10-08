@@ -1,3 +1,4 @@
+import { UploadFile } from "@/helpers/files";
 import sequelize from "@/lib/sequelize";
 import TeamNosotros from "@/models/TeamNosotros";
 import { writeFile } from "fs/promises";
@@ -8,7 +9,6 @@ export async function POST(request) {
   try {
     await sequelize.sync();
     const data = await request.formData();
-    const directory = "public/assets/";
     const file = data.get("photoUrl");
     if (!file) {
       return NextResponse.json(
@@ -16,15 +16,13 @@ export async function POST(request) {
         { status: 500 }
       );
     }
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const filename = file.name.replaceAll(" ", "_");
-    const filePath = path.join(process.cwd(), directory + filename);
-    await writeFile(filePath, buffer);
+    const uploadFile = await UploadFile(file, "team");
 
     const teamNosotros = await TeamNosotros.create({
       name: data.get("name"),
       descriptions: data.get("descriptions"),
-      photoUrl: filePath,
+      photoUrl: uploadFile.filePath,
+      relativePath: uploadFile.relativePath,
       status: "active",
       position: data.get("position"),
     });

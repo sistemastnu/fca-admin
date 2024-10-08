@@ -6,6 +6,7 @@ import DefaultLayout from "@/components/layouts/DefaultLayout";
 import SortableList from "./Components/SortableList";
 import useSWR from "swr";
 import FormServices from "../content/Components/FormServices";
+import ButtonForm from "@/components/FormUI/ButtonForm";
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
@@ -24,6 +25,7 @@ export default function Servicios() {
   return (
     <DefaultLayout>
       <Breadcrumb pageName={"Servicios"} />
+
       <div className="grid grid-cols-1 gap-7.5 sm:grid-cols-2 xl:grid-cols-3 mb-9">
         <SortableList
           data={dataServicios}
@@ -31,9 +33,10 @@ export default function Servicios() {
           mutate={mutateServicios}
         />
       </div>
+      {/* <ButtonForm text="Add a service" /> */}
       <div>
         <h2 className="text-title-md2 font-semibold text-black dark:text-white mb-6">
-          {"Otros Servicios"}
+          {"Servicios Especializados"}
         </h2>
         <div className="grid grid-cols-1 gap-7.5 sm:grid-cols-2 xl:grid-cols-4">
           <SortableList
@@ -43,6 +46,7 @@ export default function Servicios() {
           />
         </div>
       </div>
+      {/* <ButtonForm text="Add a secundary service" /> */}
     </DefaultLayout>
   );
 }

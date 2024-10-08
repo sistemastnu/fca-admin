@@ -51,6 +51,7 @@ export async function GET() {
       opinions,
     });
   } catch (error) {
+    console.log(error.message);
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }

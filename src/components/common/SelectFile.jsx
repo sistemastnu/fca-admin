@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 
-const SelectFile = ({ onFileSelect, selectedFile, relativePath = "" }) => {
+const SelectFile = ({ onFileSelect, selectedFile, relativePath }) => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {

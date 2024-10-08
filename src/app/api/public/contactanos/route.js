@@ -1,18 +1,12 @@
-import sequelize from "@/lib/sequelize";
-import TeamNosotros from "@/models/TeamNosotros";
-import Nosotros from "@/models/Nosotros";
-import Sponsors from "@/models/Sponsors";
+import Contactanos from "@/models/Contactanos";
 import { NextResponse } from "next/server";
+import sequelize from "@/lib/sequelize";
 
 export async function GET() {
   await sequelize.sync();
   try {
-    const [team, nosotrosInfo, sponsors] = await Promise.all([
-      TeamNosotros.findAll(),
-      Nosotros.findOne(),
-      Sponsors.findAll(),
-    ]);
-    return NextResponse.json({ team, nosotrosInfo, sponsors });
+    const contactanos = await Contactanos.findOne();
+    return NextResponse.json(contactanos);
   } catch (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }

@@ -10,6 +10,14 @@ const OtherServices = sequelize.define("OtherServices", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  photo: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  relativePath: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   order: {
     type: DataTypes.INTEGER,
     allowNull: false,

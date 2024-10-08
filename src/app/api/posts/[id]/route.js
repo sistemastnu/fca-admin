@@ -61,12 +61,6 @@ export async function PUT(request, { params }) {
       }
     }
     if (file) {
-      // const buffer = Buffer.from(await file.arrayBuffer());
-      // const filename = file.name.replaceAll(" ", "_");
-      // const filePath = path.join(process.cwd(), directory + filename);
-      // await writeFile(filePath, buffer);
-      // imageUrl = filePath;
-      // relativePath = "/assets/" + filename;
       const uploadFile = await UploadFile(file, "posts");
       imageUrl = uploadFile.filePath;
       relativePath = uploadFile.relativePath;

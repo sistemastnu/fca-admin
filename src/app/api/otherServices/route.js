@@ -1,3 +1,4 @@
+import { UploadFile } from "@/helpers/files";
 import sequelize from "@/lib/sequelize";
 import OtherServices from "@/models/OtherServices";
 import { NextResponse } from "next/server";
@@ -15,13 +16,27 @@ export async function GET() {
 export async function POST(request) {
   await sequelize.sync();
   try {
-    const data = await request.json();
+    const data = await request.formData();
+    const file = data.get("file");
+    let filePath;
+    let relativePath;
+    if (file) {
+      const uploadFile = await UploadFile(file, "servicios");
+      filePath = uploadFile.filePath;
+      relativePath = uploadFile.relativePath;
+    } else {
+      relativePath = data.get("relativePath");
+      filePath = data.get("photo");
+    }
+
     await OtherServices.update(
       {
-        title: data.tittle,
-        content: data.content,
+        title: data.get("tittle"),
+        content: data.get("content"),
+        photo: filePath,
+        relativePath: relativePath,
       },
-      { where: { id: data.idService } }
+      { where: { id: data.get("idService") } }
     );
     return NextResponse.json({ status: 201 });
   } catch (e) {

@@ -68,6 +68,8 @@ export default function SortableList({ data, apiUrl, mutate }) {
             cardContent={item.content}
             idService={item.id}
             refreshData={mutate}
+            relativePath={item.relativePath}
+            photo={item.photo}
             apiUrl={apiUrl}
           />
         ))}
