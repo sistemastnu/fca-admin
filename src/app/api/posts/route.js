@@ -1,9 +1,8 @@
+import { UploadFile } from "@/helpers/files";
 import sequelize from "@/lib/sequelize";
 import Posts from "@/models/Posts";
 import Tags from "@/models/Tags";
-import { writeFile } from "fs/promises";
 import { NextResponse } from "next/server";
-import path from "path";
 
 export async function GET() {
   await sequelize.sync();
@@ -52,18 +51,20 @@ export async function POST(request) {
         { status: 500 }
       );
     }
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const filename = file.name.replaceAll(" ", "_");
-    const filePath = path.join(process.cwd(), directory + filename);
-    await writeFile(filePath, buffer);
-    const relativePath = "/assets/" + filename;
+    const uploadFile = await UploadFile(file, "posts");
+
+    // const buffer = Buffer.from(await file.arrayBuffer());
+    // const filename = file.name.replaceAll(" ", "_");
+    // const filePath = path.join(process.cwd(), directory + filename);
+    // await writeFile(filePath, buffer);
+    // const relativePath = "/assets/" + filename;
 
     const userCreated = await Posts.create({
       tittle: data.get("tittle"),
       content: data.get("content"),
       publish_at: now,
-      image: filePath,
-      relativePath: relativePath,
+      image: uploadFile.filePath,
+      relativePath: uploadFile.relativePath,
       status: "active",
     });
 

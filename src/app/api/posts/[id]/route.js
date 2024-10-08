@@ -1,9 +1,8 @@
+import { UploadFile } from "@/helpers/files";
 import sequelize from "@/lib/sequelize";
 import Posts from "@/models/Posts";
 import Tags from "@/models/Tags";
-import { writeFile } from "fs/promises";
 import { NextResponse } from "next/server";
-import path from "path";
 
 export async function GET(request, { params }) {
   try {
@@ -42,9 +41,14 @@ export async function PUT(request, { params }) {
     await sequelize.sync();
     const id = params.id;
     const contentType = request.headers.get("Content-Type");
+    let imageUrl;
+    let relativePath;
+    const data = await request.formData();
+    const file = data.get("file");
+    const tags = data.getAll("tags[]");
     if (contentType.includes("application/json")) {
-      const data = await request.json();
-      const changeStatus = data.changeStatus;
+      const status = await request.json();
+      const changeStatus = status.changeStatus;
       if (changeStatus) {
         await Posts.update(
           { status: changeStatus == "active" ? "disabled" : "active" },
@@ -56,19 +60,16 @@ export async function PUT(request, { params }) {
         );
       }
     }
-    const data = await request.formData();
-    const directory = "public/assets/";
-    const file = data.get("file");
-    const tags = data.getAll("tags[]");
-    let imageUrl;
-    let relativePath;
     if (file) {
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const filename = file.name.replaceAll(" ", "_");
-      const filePath = path.join(process.cwd(), directory + filename);
-      await writeFile(filePath, buffer);
-      imageUrl = filePath;
-      relativePath = "/assets/" + filename;
+      // const buffer = Buffer.from(await file.arrayBuffer());
+      // const filename = file.name.replaceAll(" ", "_");
+      // const filePath = path.join(process.cwd(), directory + filename);
+      // await writeFile(filePath, buffer);
+      // imageUrl = filePath;
+      // relativePath = "/assets/" + filename;
+      const uploadFile = await UploadFile(file, "posts");
+      imageUrl = uploadFile.filePath;
+      relativePath = uploadFile.relativePath;
     } else {
       imageUrl = data.get("image");
       relativePath = data.get("relativePath");

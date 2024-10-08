@@ -14,6 +14,10 @@ const TeamNosotros = sequelize.define("TeamNosotros", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  relativePath: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   status: {
     type: DataTypes.STRING,
     allowNull: false,
