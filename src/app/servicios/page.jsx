@@ -7,10 +7,12 @@ import SortableList from "./Components/SortableList";
 import useSWR from "swr";
 import FormServices from "../content/Components/FormServices";
 import ButtonForm from "@/components/FormUI/ButtonForm";
+import { useRouter } from "next/navigation";
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
 export default function Servicios() {
+  const router = useRouter();
   const { data: dataServicios, mutate: mutateServicios } = useSWR(
     "/api/servicios",
     fetcher
@@ -19,6 +21,10 @@ export default function Servicios() {
     "/api/otherServices",
     fetcher
   );
+
+  const handleClick = () => {
+    router.push("/servicios/add");
+  };
 
   if (!dataServicios || !dataOtherServices) return <Loader />;
 
@@ -33,7 +39,7 @@ export default function Servicios() {
           mutate={mutateServicios}
         />
       </div>
-      {/* <ButtonForm text="Add a service" /> */}
+
       <div>
         <h2 className="text-title-md2 font-semibold text-black dark:text-white mb-6">
           {"Servicios Especializados"}
@@ -46,7 +52,7 @@ export default function Servicios() {
           />
         </div>
       </div>
-      {/* <ButtonForm text="Add a secundary service" /> */}
+      <ButtonForm onClick={handleClick} text="Add a service" />
     </DefaultLayout>
   );
 }
