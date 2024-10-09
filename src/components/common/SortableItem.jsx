@@ -20,7 +20,6 @@ const SortableItem = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [errors, setErrors] = useState({});
   const [file, setFile] = useState(null);
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -43,9 +42,14 @@ const SortableItem = ({
     setIsModalOpen(false);
   };
 
-  const handleEdit = (e, id) => {
+  const handleEdit = (e, id, url) => {
     e.preventDefault();
-    router.push(`/servicios/edit/${id}`);
+    const lastSegment = url.split("/").pop();
+    if (lastSegment == "servicios") {
+      router.push(`/servicios/edit/${id}`);
+    } else if (lastSegment == "otherServices") {
+      router.push(`/servicios/editSpecial/${id}`);
+    }
   };
 
   const handleChange = (e) => {
@@ -184,17 +188,17 @@ const SortableItem = ({
                 selectedFile={file}
                 relativePath={relativePath}
               />
-              <button
-                type="submit"
-                className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                onClick={handleSubmit}
-              >
-                Save
-              </button>
             </form>
             <button
+              type="submit"
+              className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              onClick={handleSubmit}
+            >
+              Save
+            </button>
+            <button
               className="text-white ml-2 inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              onClick={(e) => handleEdit(e, idService)}
+              onClick={(e) => handleEdit(e, idService, apiUrl)}
             >
               Edit Page Content
             </button>

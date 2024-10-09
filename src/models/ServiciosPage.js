@@ -1,31 +1,29 @@
 import sequelize from "@/lib/sequelize";
 import { DataTypes } from "sequelize";
 
-const Servicios = sequelize.define("Servicios", {
-  title: {
+const ServiciosPage = sequelize.define("ServiciosPage", {
+  tittle: {
     type: DataTypes.STRING,
     allowNull: false,
   },
   content: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false,
   },
-  photo: {
+  mediaContent: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  color: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  hoverColor: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  order: {
+  idService: {
     type: DataTypes.INTEGER,
+    references: {
+      model: "Servicios",
+      key: "id",
+    },
     allowNull: false,
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
   },
 });
 
-export default Servicios;
+export default ServiciosPage;

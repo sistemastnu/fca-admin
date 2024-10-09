@@ -8,49 +8,60 @@ import InputForm from "@/components/FormUI/InputForm";
 import TextAreaForm from "@/components/FormUI/TextAreaForm";
 import SelectFile from "@/components/common/SelectFile";
 import ButtonForm from "@/components/FormUI/ButtonForm";
+import { toast } from "sonner";
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
 const EditService = ({ params }) => {
   const id = params.id;
-  const { data } = useSWR(`/api/servicios/${id}`, fetcher);
+  const { data } = useSWR(`/api/serviciosPage/${id}`, fetcher);
   const router = useRouter();
   const [file, setFile] = useState(null);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
+    tittle: "",
     content: "",
     imagePage: "",
     relative: "",
   });
+
   useEffect(() => {
     if (data) {
-      const baseURL = "http://localhost:3000";
-      const result = data.imagePage?.replace(baseURL, "");
       setFormData({
-        content: data.contentPage ?? "",
-        imagePage: data.imagePage,
-        relative: result,
+        tittle: data.tittle,
+        content: data.content ?? "",
+        imagePage: data.mediaContent,
+        relative: data.mediaContent?.replace("http://localhost:3000", ""),
       });
     }
   }, [data]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const formDataSend = new FormData();
-    formDataSend.append("contentPage", formData.content);
-
+    let method = "POST";
+    if (data) {
+      method = "PUT";
+    }
+    formDataSend.append("tittle", formData.tittle);
+    formDataSend.append("content", formData.content);
     if (file) {
       formDataSend.append("file", file);
     } else {
       formDataSend.append("imagePage", formData.imagePage);
     }
-    const response = await fetch(`/api/servicios/${id}`, {
-      method: "PUT",
+    const response = await fetch(`/api/serviciosPage/${id}`, {
+      method: method,
       body: formDataSend,
     });
-    if (response.ok) {
+    if (response.status === 200) {
+      toast.success("Servicio actualizado");
       router.push("/servicios");
+      setIsLoading(false);
     } else {
-      console.error("Error updating service");
+      toast.error("Algo salio mal");
+      setIsLoading(false);
     }
   };
   const handleChange = (e) => {
@@ -77,6 +88,13 @@ const EditService = ({ params }) => {
                   }
                 }}
               >
+                <InputForm
+                  tittle={"Título"}
+                  name={"tittle"}
+                  id={"tittle"}
+                  value={formData.tittle}
+                  onChange={handleChange}
+                />
                 <TextAreaForm
                   onChange={handleChange}
                   value={formData.content}
@@ -88,7 +106,7 @@ const EditService = ({ params }) => {
                   onFileSelect={setFile}
                   relativePath={formData.relative}
                 />
-                <ButtonForm />
+                <ButtonForm isLoading={isLoading} />
               </form>
             </div>
           </div>
