@@ -93,7 +93,7 @@ const HeaderInbox = ({ refreshData }) => {
           </div>
         </div>
       </div>
-      <div className="relative">
+      {/* <div className="relative">
         <input
           placeholder="Search htmlFor user, email address..."
           className="block w-full bg-transparent pl-7 pr-25 font-medium outline-none"
@@ -122,7 +122,7 @@ const HeaderInbox = ({ refreshData }) => {
             ></path>
           </svg>
         </span>
-      </div>
+      </div> */}
     </div>
   );
 };
