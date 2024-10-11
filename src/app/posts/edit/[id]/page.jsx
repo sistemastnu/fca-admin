@@ -24,7 +24,7 @@ export default function Edit({ params }) {
     title: "",
     content: "",
     image: "",
-    relativePath: ""
+    relativePath: "",
   });
   useEffect(() => {
     if (data) {
@@ -69,22 +69,22 @@ export default function Edit({ params }) {
       const formDataSend = new FormData();
       formDataSend.append("tittle", formData.title);
       formDataSend.append("content", formData.content);
-      if(file){
+      if (file) {
         formDataSend.append("file", file);
-      }else{
+      } else {
         formDataSend.append("image", formData.image);
         formDataSend.append("relativePath", formData.relativePath);
       }
       tags.forEach((tag) => formDataSend.append("tags[]", tag));
 
-      const response  = await fetch(`/api/posts/${id}`, {
+      const response = await fetch(`/api/posts/${id}`, {
         method: "PUT",
         body: formDataSend,
       });
-      if(response.status === 200){
+      if (response.status === 200) {
         toast.success("Post updated");
         router.push("/posts");
-      }else{
+      } else {
         toast.error("Something went wrong");
       }
     }
@@ -98,14 +98,14 @@ export default function Edit({ params }) {
     });
   };
 
-  const handleOnCancel = (e) =>{
+  const handleOnCancel = (e) => {
     e.preventDefault();
     router.push("/posts");
-  }
+  };
 
   return (
     <DefaultLayout>
-      <Breadcrumb pageName={"Post"} a={"Posts /"} redirect="/posts"/>
+      <Breadcrumb pageName={"Post"} a={"Posts /"} redirect="/posts" />
       <div className="grid grid-cols-3 gap-8">
         <div className="col-span-5 xl:col-span-3">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -267,36 +267,14 @@ export default function Edit({ params }) {
                   </div>
                 </div>
 
-                <div className="flex flex-row  mb-5">
-                {formData.relativePath && (
-                  <div className="h-full rounded-md" >
-                  <p className="text-black font-bold my-2">Old Image: </p>
-                    <Image
-                      src={formData.relativePath}
-                      alt="File preview"
-                      width="300"
-                      height="300"
-                    />
-                  </div>
-                )}
-
-                {file && (
-                  <div className="ml-2 h-full rounded-md ">
-                  <p className="text-black font-bold my-2">New Image: </p>
-                    <Image
-                      src={URL.createObjectURL(file)}
-                      alt="File preview"
-                      width="300"
-                      height="300"
-                    />
-                  </div>
-                )}
-                </div>
-
-                <SelectFile onFileSelect={setFile} selectedFile={file} />
+                <SelectFile
+                  onFileSelect={setFile}
+                  selectedFile={file}
+                  relativePath={formData.relativePath}
+                />
 
                 <div className="flex justify-end gap-4.5">
-                <button
+                  <button
                     className="flex justify-center rounded border border-stroke px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
                     onClick={handleOnCancel}
                   >

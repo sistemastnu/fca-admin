@@ -53,12 +53,6 @@ export async function POST(request) {
     }
     const uploadFile = await UploadFile(file, "posts");
 
-    // const buffer = Buffer.from(await file.arrayBuffer());
-    // const filename = file.name.replaceAll(" ", "_");
-    // const filePath = path.join(process.cwd(), directory + filename);
-    // await writeFile(filePath, buffer);
-    // const relativePath = "/assets/" + filename;
-
     const userCreated = await Posts.create({
       tittle: data.get("tittle"),
       content: data.get("content"),

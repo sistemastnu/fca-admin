@@ -71,6 +71,8 @@ export default function SortableList({ data, apiUrl, mutate }) {
             relativePath={item.relativePath}
             photo={item.photo}
             apiUrl={apiUrl}
+            color={item.color}
+            hoverButton={item.hoverColor}
           />
         ))}
       </SortableContext>

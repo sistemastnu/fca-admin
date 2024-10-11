@@ -7,6 +7,7 @@ const SelectFileModal = ({ onFileSelect, selectedFile, relativePath = "" }) => {
       onFileSelect(file);
     }
   };
+  console.log(relativePath);
   return (
     <div>
       <div className="flex flex-row  mb-5">

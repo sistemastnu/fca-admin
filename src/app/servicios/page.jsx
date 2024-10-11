@@ -5,7 +5,6 @@ import Loader from "@/components/common";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
 import SortableList from "./Components/SortableList";
 import useSWR from "swr";
-import FormServices from "../content/Components/FormServices";
 import ButtonForm from "@/components/FormUI/ButtonForm";
 import { useRouter } from "next/navigation";
 

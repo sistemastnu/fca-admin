@@ -16,6 +16,10 @@ export default function Inbox() {
   const refreshData = () => {
     mutate();
   };
+  const handleClickStarted = async () => {
+    const newData = await fetch("/api/inbox/started").then((res) => res.json());
+    mutate(newData, false);
+  };
   return (
     <DefaultLayout>
       <Breadcrumb pageName={"Inbox"} />
@@ -24,7 +28,10 @@ export default function Inbox() {
           className="h-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark lg:flex"
           x-data="{inboxSidebarToggle: false}"
         >
-          <SideBarInbox />
+          <SideBarInbox
+            onClickStarted={handleClickStarted}
+            onClickInbox={refreshData}
+          />
           <div className="flex h-full flex-col border-l border-stroke dark:border-strokedark lg:w-4/5">
             <HeaderInbox refreshData={refreshData} />
             <MessageTable data={data} refreshData={refreshData} />

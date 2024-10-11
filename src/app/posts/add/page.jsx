@@ -77,6 +77,10 @@ export default function Add() {
     });
   };
 
+  const handleCancel = (e) => {
+    router.push("/posts");
+  };
+
   return (
     <DefaultLayout>
       <Breadcrumb pageName={"Post"} a={"Posts /"} redirect="/posts" />
@@ -239,34 +243,24 @@ export default function Add() {
                     )}
                   </div>
                 </div>
-
-                {file && (
-                  <div className="ml-2 h-full rounded-md mb-5">
-                    <p className="text-black font-bold my-2">New Image: </p>
-                    <Image
-                      src={URL.createObjectURL(file)}
-                      alt="File preview"
-                      width="300"
-                      height="300"
-                    />
-                  </div>
-                )}
-
                 <SelectFile onFileSelect={setFile} selectedFile={file} />
-
-                <div className="flex justify-end gap-4.5">
-                  <button className="flex justify-center rounded border border-stroke px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white">
-                    Cancel
-                  </button>
-                  <button
-                    className="flex justify-center rounded bg-primary px-6 py-2 font-medium text-gray hover:bg-opacity-90"
-                    type="submit"
-                    disabled={loading}
-                  >
-                    {loading ? <Spinner /> : "Save"}
-                  </button>
-                </div>
               </form>
+              <div className="flex justify-end gap-4.5">
+                <button
+                  className="flex justify-center rounded border border-stroke px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="flex justify-center rounded bg-primary px-6 py-2 font-medium text-gray hover:bg-opacity-90"
+                  type="submit"
+                  onClick={handleSubmit}
+                  disabled={loading}
+                >
+                  {loading ? <Spinner /> : "Save"}
+                </button>
+              </div>
             </div>
           </div>
         </div>

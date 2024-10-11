@@ -43,9 +43,6 @@ export async function PUT(request, { params }) {
     const contentType = request.headers.get("Content-Type");
     let imageUrl;
     let relativePath;
-    const data = await request.formData();
-    const file = data.get("file");
-    const tags = data.getAll("tags[]");
     if (contentType.includes("application/json")) {
       const status = await request.json();
       const changeStatus = status.changeStatus;
@@ -60,6 +57,9 @@ export async function PUT(request, { params }) {
         );
       }
     }
+    const data = await request.formData();
+    const file = data.get("file");
+    const tags = data.getAll("tags[]");
     if (file) {
       const uploadFile = await UploadFile(file, "posts");
       imageUrl = uploadFile.filePath;

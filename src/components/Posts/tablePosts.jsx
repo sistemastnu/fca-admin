@@ -21,7 +21,7 @@ const TablePosts = ({ data, refreshData }) => {
     });
     if (response.status == 200) {
       toast.success("Status updated");
-      router.refresh();
+      refreshData();
     } else {
       toast.error("Something went wrong");
     }

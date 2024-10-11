@@ -14,6 +14,8 @@ const SortableItem = ({
   photo,
   relativePath,
   apiUrl,
+  color,
+  hoverButton,
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
@@ -21,13 +23,16 @@ const SortableItem = ({
   const [errors, setErrors] = useState({});
   const [file, setFile] = useState(null);
   const router = useRouter();
+  const lastSegment = apiUrl.split("/").pop();
 
   const [formData, setFormData] = useState({
     idService: idService,
     tittle: cardTittle,
     content: cardContent,
     photo: photo,
-    relativePath: relativePath,
+    color: color,
+    hoverButton: hoverButton,
+    relativePath: photo?.replace("http://localhost:3000", ""),
   });
 
   const style = {
@@ -73,13 +78,14 @@ const SortableItem = ({
       formDataSend.append("idService", formData.idService);
       formDataSend.append("tittle", formData.tittle);
       formDataSend.append("content", formData.content);
+      formDataSend.append("color", formData.color);
+      formDataSend.append("hoverColor", formData.hoverButton);
       if (file) {
         formDataSend.append("file", file);
       } else {
         formDataSend.append("photo", formData.photo);
         formDataSend.append("relativePath", formData.relativePath);
       }
-
       await fetch(apiUrl, {
         method: "POST",
         body: formDataSend,
@@ -132,9 +138,9 @@ const SortableItem = ({
                 >
                   <path
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
@@ -145,7 +151,7 @@ const SortableItem = ({
               <div className="grid gap-4 mb-4 grid-cols-2">
                 <div className="col-span-2">
                   <label
-                    for="name"
+                    htmlFor="name"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Tittle
@@ -165,7 +171,7 @@ const SortableItem = ({
               <div className="grid gap-4 mb-4 grid-cols-2">
                 <div className="col-span-2">
                   <label
-                    for="name"
+                    htmlFor="name"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Content
@@ -183,10 +189,51 @@ const SortableItem = ({
                 </div>
               </div>
 
+              {lastSegment == "servicios" && (
+                <div className="flex flex-row gap-3">
+                  <div className="col-span-2">
+                    <label
+                      htmlFor="name"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Button Color
+                    </label>
+                    <input
+                      type="color"
+                      name="color"
+                      id="color"
+                      value={formData.color}
+                      onChange={handleChange}
+                      className="p-1 h-10 w-14 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700"
+                      placeholder="Introduzca el titulo"
+                      required=""
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <label
+                      htmlFor="name"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Hover Color
+                    </label>
+                    <input
+                      type="color"
+                      name="hoverButton"
+                      id="hoverButton"
+                      value={formData.hoverButton}
+                      onChange={handleChange}
+                      className="p-1 h-10 w-14 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700"
+                      placeholder="Introduzca el titulo"
+                      required=""
+                    />
+                  </div>
+                </div>
+              )}
+
               <SelectFileModal
                 onFileSelect={setFile}
                 selectedFile={file}
-                relativePath={relativePath}
+                relativePath={formData.relativePath}
               />
             </form>
             <button

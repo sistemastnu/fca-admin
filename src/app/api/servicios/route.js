@@ -54,6 +54,8 @@ export async function POST(request) {
       {
         title: data.get("tittle"),
         content: data.get("content"),
+        color: data.get("color"),
+        hoverColor: data.get("hoverColor"),
         photo: filePath,
         relativePath: relativePath,
       },
