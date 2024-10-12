@@ -22,10 +22,10 @@ const Posts = sequelize.define("Posts", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  relativePath:{
+  relativePath: {
     type: DataTypes.STRING,
     allowNull: true,
-  }
+  },
 });
 
 export default Posts;

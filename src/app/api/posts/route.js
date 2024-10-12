@@ -1,7 +1,8 @@
 import { UploadFile } from "@/helpers/files";
 import sequelize from "@/lib/sequelize";
-import Posts from "@/models/Posts";
-import Tags from "@/models/Tags";
+import { Posts } from "@/models/associations/associations";
+import { Tags } from "@/models/associations/associations";
+
 import { NextResponse } from "next/server";
 
 export async function GET() {

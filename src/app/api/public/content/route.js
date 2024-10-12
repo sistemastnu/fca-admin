@@ -3,13 +3,16 @@ import Nosotros from "@/models/Nosotros";
 import OtherServices from "@/models/OtherServices";
 import TeamNosotros from "@/models/TeamNosotros";
 import Sponsors from "@/models/Sponsors";
-import Tags from "@/models/Tags";
 import { NextResponse } from "next/server";
 import Servicios from "@/models/Servicios";
-import Posts from "@/models/Posts";
 import Contactanos from "@/models/Contactanos";
 import FirstPageContent from "@/models/FirstPageContent";
+import { Posts } from "@/models/associations/associations";
+import { Tags } from "@/models/associations/associations";
 import Opinions from "@/models/Opinion";
+import { col, fn } from "sequelize";
+
+export const revalidate = 0;
 
 export async function GET() {
   try {
@@ -20,7 +23,6 @@ export async function GET() {
       otherServices,
       teamNosotros,
       sponsors,
-      tags,
       servicios,
       posts,
       firstPageContent,
@@ -31,9 +33,23 @@ export async function GET() {
       OtherServices.findAll(),
       TeamNosotros.findAll(),
       Sponsors.findAll(),
-      Tags.findAll(),
       Servicios.findAll(),
-      Posts.findAll(),
+      Posts.findAll({
+        attributes: [
+          "id",
+          "tittle",
+          "content",
+          "image",
+          [fn("GROUP_CONCAT", col("tags.tag")), "post_tags"],
+        ],
+        include: [
+          {
+            model: Tags,
+            attributes: [],
+          },
+        ],
+        group: ["posts.id"],
+      }),
       FirstPageContent.findOne(),
       Opinions.findAll(),
     ]);
@@ -44,7 +60,6 @@ export async function GET() {
       otherServices,
       teamNosotros,
       sponsors,
-      tags,
       servicios,
       posts,
       firstPageContent,
