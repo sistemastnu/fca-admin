@@ -49,6 +49,8 @@ const Content = () => {
       toast.error("Error");
     }
   };
+
+  if (!data) return <Loader />;
   return (
     <DefaultLayout>
       <Breadcrumb pageName={"Content"} />

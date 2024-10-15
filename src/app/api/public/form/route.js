@@ -3,6 +3,8 @@ import Messages from "@/models/Messages";
 import { NextResponse } from "next/server";
 import sequelize from "@/lib/sequelize";
 
+export const revalidate = 0;
+
 export async function POST(request) {
   await sequelize.sync();
   try {

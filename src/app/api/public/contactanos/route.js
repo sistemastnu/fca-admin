@@ -2,6 +2,8 @@ import Contactanos from "@/models/Contactanos";
 import { NextResponse } from "next/server";
 import sequelize from "@/lib/sequelize";
 
+export const revalidate = 0;
+
 export async function GET() {
   await sequelize.sync();
   try {

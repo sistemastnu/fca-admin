@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 import Input from "../ui/Input";
+import Loader from "@/components/common";
 export const dynamic = "force-dynamic";
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
@@ -52,6 +53,7 @@ export default function Contactanos() {
     }
   };
 
+  if (!data) return <Loader />;
   return (
     <>
       <DefaultLayout>

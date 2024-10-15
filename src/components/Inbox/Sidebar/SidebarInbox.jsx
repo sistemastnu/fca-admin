@@ -57,7 +57,7 @@ const SideBarInbox = ({ onClickStarted, onClickInbox, onClickTrash }) => {
                 Started
               </a>
             </li>
-            <li>
+            {/* <li>
               <a
                 className="relative flex items-center gap-2.5 px-5 py-2.5 font-medium duration-300 ease-linear before:absolute before:left-0 before:h-0 before:w-1 before:bg-primary before:duration-300 before:ease-linear hover:bg-primary/5 hover:text-primary hover:before:h-full"
                 onClick={onClickTrash}
@@ -89,7 +89,7 @@ const SideBarInbox = ({ onClickStarted, onClickInbox, onClickTrash }) => {
                 </svg>
                 Trash
               </a>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

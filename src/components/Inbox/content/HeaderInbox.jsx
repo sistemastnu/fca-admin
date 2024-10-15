@@ -5,7 +5,7 @@ const HeaderInbox = ({ refreshData }) => {
   return (
     <div className="flex flex-col-reverse justify-between gap-6 py-4.5 pl-4 pr-4 sm:flex-row lg:pl-10 lg:pr-7.5">
       <div className="flex items-center gap-4">
-        <label
+        {/* <label
           htmlFor="checkboxAll"
           className="flex cursor-pointer select-none items-center font-medium"
         >
@@ -28,10 +28,10 @@ const HeaderInbox = ({ refreshData }) => {
               </span>
             </div>
           </div>
-        </label>
-        <button>
+        </label> */}
+        {/* <button>
           <Trash />
-        </button>
+        </button> */}
         <button onClick={() => refreshData()}>
           <Reload />
         </button>

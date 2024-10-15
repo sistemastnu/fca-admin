@@ -2,6 +2,8 @@ import ServiciosEspePage from "@/models/ServiciosEspecializadosPage";
 import { NextResponse } from "next/server";
 import sequelize from "@/lib/sequelize";
 
+export const revalidate = 0;
+
 export async function GET(request, { params }) {
   await sequelize.sync();
   try {

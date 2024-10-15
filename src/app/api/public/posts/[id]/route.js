@@ -4,6 +4,8 @@ import { Posts } from "@/models/associations/associations";
 import { Tags } from "@/models/associations/associations";
 import { fn, col } from "sequelize";
 
+export const revalidate = 0;
+
 export async function GET(request, { params }) {
   const { id } = params;
   await sequelize.sync();

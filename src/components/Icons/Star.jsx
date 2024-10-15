@@ -9,7 +9,7 @@ const Star = ({ onClick, started }) => {
         xmlns="http://www.w3.org/2000/svg"
         className={
           started
-            ? "fill-[#D4AF37] dark:fill-[#E5E7EE]/70"
+            ? "fill-[#D4AF37] dark:fill-[#D4AF37]/70"
             : "fill-[#E5E7EE] dark:fill-[#E5E7EE]/70"
         }
       >

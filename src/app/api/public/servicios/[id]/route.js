@@ -2,6 +2,8 @@ import sequelize from "@/lib/sequelize";
 import ServiciosPage from "@/models/ServiciosPage";
 import { NextResponse } from "next/server";
 
+export const revalidate = 0;
+
 export async function GET(request, { params }) {
   await sequelize.sync();
   try {
