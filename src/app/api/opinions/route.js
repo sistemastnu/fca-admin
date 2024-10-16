@@ -25,9 +25,8 @@ export async function POST(request) {
   try {
     const data = await request.formData();
     const file = data.get("photo");
-    console.log(data);
+
     const uploadFile = await UploadFile(file, "opinions");
-    // console.log(uploadFile.relativePath);
     await Opinions.create({
       name: data.get("name"),
       position: data.get("position"),

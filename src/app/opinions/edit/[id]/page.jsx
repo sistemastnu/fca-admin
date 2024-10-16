@@ -12,7 +12,6 @@ import { toast } from "sonner";
 const fetcher = (url) => fetch(url).then((r) => r.json());
 export default function EditOpinion({ params }) {
   const id = params.id;
-  console.log(id);
   const { data } = useSWR(`/api/opinions/${id}`, fetcher);
   const [file, setFile] = useState(null);
   const router = useRouter();

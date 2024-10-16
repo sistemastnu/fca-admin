@@ -69,7 +69,6 @@ const Nosotros = () => {
         formDataWithFile.append("tittle", formData.tittle);
         formDataWithFile.append("content", formData.content);
         if (file) {
-          console.log("entro aqui");
           formDataWithFile.append("file", file);
         } else {
           formDataWithFile.append("photoUrl", formData.photoUrl);

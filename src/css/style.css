@@ -8,6 +8,29 @@
   body {
     @apply relative z-1 bg-whiten font-satoshi text-base font-normal text-body;
   }
+  .no-tailwindcss-base {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-size: revert;
+      font-weight: revert;
+    }
+
+    p {
+      font-size: revert;
+      color: revert;
+    }
+
+    ol,
+    ul {
+      list-style: revert;
+      margin: revert;
+      padding: revert;
+    }
+  }
 }
 
 @layer components {
@@ -43,14 +66,6 @@
   @apply border-primary bg-primary;
 }
 
-.apexcharts-legend-text {
-  @apply !text-body dark:!text-bodydark;
-}
-
-.apexcharts-text {
-  @apply !fill-body dark:!fill-bodydark;
-}
-
 .apexcharts-xcrosshairs {
   @apply !fill-stroke dark:!fill-strokedark;
 }
@@ -73,11 +88,6 @@
 
 .apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
   @apply dark:!border-strokedark dark:!bg-meta-4;
-}
-
-.apexcharts-xaxistooltip,
-.apexcharts-yaxistooltip {
-  @apply dark:!border-meta-4 dark:!bg-meta-4 dark:!text-bodydark1;
 }
 
 .apexcharts-xaxistooltip-bottom:after {
@@ -111,14 +121,6 @@
 
 .flatpickr-calendar.arrowTop:after {
   @apply dark:!border-b-boxdark;
-}
-
-.flatpickr-calendar {
-  @apply !p-6 dark:!bg-boxdark dark:!text-bodydark dark:!shadow-8 2xsm:!w-auto;
-}
-
-.flatpickr-day {
-  @apply dark:!text-bodydark dark:hover:!border-meta-4 dark:hover:!bg-meta-4;
 }
 
 .flatpickr-months .flatpickr-prev-month,
@@ -194,10 +196,6 @@ span.flatpickr-weekday,
 .flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n + 1)),
 .flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n + 1)) {
   box-shadow: -10px 0 0 #3c50e0;
-}
-
-.map-btn .jvm-zoom-btn {
-  @apply flex h-7.5 w-7.5 items-center justify-center rounded border border-stroke bg-white px-0 pb-0.5 pt-0 text-2xl leading-none text-body hover:border-primary hover:bg-primary hover:text-white dark:border-strokedark dark:bg-meta-4 dark:text-bodydark dark:hover:border-primary dark:hover:bg-primary dark:hover:text-white;
 }
 
 .mapOne .jvm-zoom-btn {

@@ -39,7 +39,7 @@ export default function SignIn() {
       if (res.error) {
         setError(res.error);
       } else {
-        router.push("/");
+        router.push(res.url);
       }
     } catch (err) {
       console.error("Error en la solicitud:", err);

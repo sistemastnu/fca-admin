@@ -97,7 +97,6 @@ async function updateTags({ userCreated, newTags }) {
   const currentTagsArray = currentTags.map((tag) => tag.tag);
   const tagsToDelete = currentTagsArray.filter((tag) => !newTags.includes(tag));
   const tagsToInsert = newTags.filter((tag) => !currentTagsArray.includes(tag));
-  console.log(newTags);
   await Promise.all([
     ...tagsToDelete.map((tag) =>
       Tags.destroy({

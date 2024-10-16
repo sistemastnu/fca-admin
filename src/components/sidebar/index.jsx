@@ -1,4 +1,4 @@
-"use cliente";
+"use client";
 import useLocalStorage from "@/components/hooks/useLocalStorage";
 import Image from "next/image";
 import Link from "next/link";

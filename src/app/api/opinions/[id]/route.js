@@ -7,7 +7,6 @@ export async function GET(request, { params }) {
   await sequelize.sync();
   try {
     const { id } = params;
-    console.log(id);
     const opinion = await Opinions.findByPk(id);
     return NextResponse.json(opinion);
   } catch (error) {

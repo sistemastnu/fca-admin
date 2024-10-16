@@ -8,7 +8,7 @@ export async function POST(request) {
   const data = await request.json();
   try {
     const first = await FirstPageContent.findOne();
-    console.log(first);
+
     if (!first) {
       const created = await FirstPageContent.create(data);
       return NextResponse.json(created);

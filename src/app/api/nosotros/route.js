@@ -27,7 +27,7 @@ export async function POST(request) {
   await sequelize.sync();
   try {
     const data = await request.formData();
-    console.log(data);
+
     const file = await data.get("file");
     let filePath;
     let relativePath;

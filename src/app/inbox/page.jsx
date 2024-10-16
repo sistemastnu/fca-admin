@@ -29,7 +29,6 @@ export default function Inbox() {
     mutate(newData, false);
   };
   const prevPage = async () => {
-    console.log(data.currentPage - 1);
     if (data.currentPage == 0) {
       const newData = await fetch(`/api/inbox`).then((res) => res.json());
       mutate(newData, false);

@@ -30,7 +30,6 @@ const AddOpinon = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("teste");
     const newErrors = {};
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
