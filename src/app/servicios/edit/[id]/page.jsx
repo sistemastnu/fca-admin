@@ -9,6 +9,11 @@ import TextAreaForm from "@/components/FormUI/TextAreaForm";
 import SelectFile from "@/components/common/SelectFile";
 import ButtonForm from "@/components/FormUI/ButtonForm";
 import { toast } from "sonner";
+import dynamic from "next/dynamic";
+
+const RichText = dynamic(() => import("@/components/FormUI/RichText"), {
+  ssr: false,
+});
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
@@ -16,40 +21,27 @@ const EditService = ({ params }) => {
   const id = params.id;
   const { data } = useSWR(`/api/serviciosPage/${id}`, fetcher);
   const router = useRouter();
-  const [file, setFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    tittle: "",
-    content: "",
-    imagePage: "",
-    relative: "",
-  });
+  const [editorData, setEditorData] = useState("");
+  const [tittle, setTittle] = useState("");
 
   useEffect(() => {
     if (data) {
-      setFormData({
-        tittle: data.tittle,
-        content: data.content ?? "",
-        imagePage: data.mediaContent,
-        relative: data.mediaContent?.replace("http://localhost:3000", ""),
-      });
+      setTittle(data.tittle);
+      setEditorData(data.content);
     }
   }, [data]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(editorData);
     setIsLoading(true);
     const formDataSend = new FormData();
+    formDataSend.append("tittle", tittle);
+    formDataSend.append("content", editorData);
     let method = "POST";
     if (data) {
       method = "PUT";
-    }
-    formDataSend.append("tittle", formData.tittle);
-    formDataSend.append("content", formData.content);
-    if (file) {
-      formDataSend.append("file", file);
-    } else {
-      formDataSend.append("imagePage", formData.imagePage);
     }
     const response = await fetch(`/api/serviciosPage/${id}`, {
       method: method,
@@ -79,35 +71,21 @@ const EditService = ({ params }) => {
               </h3>
             </div>
             <div className="p-7">
-              <form
-                action="#"
-                onSubmit={handleSubmit}
-                onKeyDown={(e) => {
-                  if (e.key == "Enter") {
-                    e.preventDefault();
-                  }
-                }}
-              >
-                <InputForm
-                  tittle={"Título"}
-                  name={"tittle"}
-                  id={"tittle"}
-                  value={formData.tittle}
-                  onChange={handleChange}
+              <InputForm
+                tittle={"Título"}
+                name={"tittle"}
+                id={"tittle"}
+                value={tittle}
+                onChange={handleChange}
+              />
+              <div className="no-tailwindcss-base pb-6">
+                <RichText
+                  editorData={editorData}
+                  setEditorData={setEditorData}
                 />
-                <TextAreaForm
-                  onChange={handleChange}
-                  value={formData.content}
-                  name={"content"}
-                  id={"content"}
-                />
-                <SelectFile
-                  selectedFile={file}
-                  onFileSelect={setFile}
-                  relativePath={formData.relative}
-                />
-                <ButtonForm isLoading={isLoading} />
-              </form>
+              </div>
+
+              <ButtonForm onClick={handleSubmit} isLoading={isLoading} />
             </div>
           </div>
         </div>

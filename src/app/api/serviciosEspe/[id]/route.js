@@ -45,19 +45,10 @@ export async function PUT(request, { params }) {
   try {
     const { id } = params;
     const data = await request.formData();
-    const file = await data.get("file");
-    let filePath;
-    if (file) {
-      const uploadFile = await UploadFile(file, "serviciosEspePage");
-      filePath = uploadFile.filePath;
-    } else {
-      filePath = data.get("imagePage");
-    }
     await ServiciosEspePage.update(
       {
         tittle: data.get("tittle"),
         content: data.get("content"),
-        mediaContent: filePath,
       },
       { where: { idService: id } }
     );

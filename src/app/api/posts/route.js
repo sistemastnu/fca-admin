@@ -61,14 +61,14 @@ export async function POST(request) {
       status: "active",
     });
 
-    // await Promise.all(
-    //   tags.map(async (element) => {
-    //     return Tags.create({
-    //       tag: element,
-    //       idPost: userCreated.id,
-    //     });
-    //   })
-    // );
+    await Promise.all(
+      tags.map(async (element) => {
+        return Tags.create({
+          tag: element,
+          idPost: userCreated.id,
+        });
+      })
+    );
 
     return NextResponse.json({ Message: "Success", status: 201 });
   } catch (e) {
