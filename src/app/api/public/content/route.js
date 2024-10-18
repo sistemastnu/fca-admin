@@ -40,6 +40,7 @@ export async function GET() {
           "tittle",
           "content",
           "image",
+          "description",
           [fn("GROUP_CONCAT", col("tags.tag")), "post_tags"],
         ],
         include: [

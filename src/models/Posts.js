@@ -10,6 +10,10 @@ const Posts = sequelize.define("Posts", {
     type: DataTypes.TEXT,
     allowNull: true,
   },
+  description: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   publish_at: {
     type: DataTypes.DATE,
     allowNull: false,

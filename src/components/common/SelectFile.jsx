@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 
-const SelectFile = ({ onFileSelect, selectedFile, relativePath }) => {
+const SelectFile = ({ onFileSelect, selectedFile, relativePath, tittle }) => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -10,6 +10,9 @@ const SelectFile = ({ onFileSelect, selectedFile, relativePath }) => {
   };
   return (
     <div>
+      <label className="mb-3 block text-sm font-medium text-black dark:text-white">
+        {tittle}
+      </label>
       <div className="flex flex-row  mb-5">
         {relativePath && (
           <div className="h-full rounded-md">
@@ -22,7 +25,6 @@ const SelectFile = ({ onFileSelect, selectedFile, relativePath }) => {
             />
           </div>
         )}
-
         {selectedFile && (
           <div className="ml-2 h-full rounded-md mb-5">
             <p className="text-black font-bold my-2">New Image: </p>

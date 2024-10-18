@@ -45,6 +45,7 @@ export async function PUT(request, { params }) {
   try {
     const { id } = params;
     const data = await request.formData();
+
     await ServiciosEspePage.update(
       {
         tittle: data.get("tittle"),

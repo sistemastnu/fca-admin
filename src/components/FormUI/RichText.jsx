@@ -348,7 +348,7 @@ export default function RichText({ editorData, setEditorData }) {
   };
 
   return (
-    <div className="no-tailwind">
+    <div className="no-tailwindcss-base">
       <div className="main-container">
         <div
           className="editor-container editor-container_classic-editor editor-container_include-style"

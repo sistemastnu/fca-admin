@@ -16,6 +16,7 @@ export async function GET(request, { params }) {
         "tittle",
         "content",
         "image",
+        "description",
         [fn("GROUP_CONCAT", col("tags.tag")), "post_tags"],
       ],
       include: [

@@ -72,6 +72,7 @@ export async function PUT(request, { params }) {
       {
         tittle: data.get("tittle"),
         content: data.get("content"),
+        description: data.get("description"),
         image: imageUrl,
         relativePath: relativePath,
         status: "active",
