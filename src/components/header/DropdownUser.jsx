@@ -4,14 +4,14 @@ import Link from "next/link";
 import { useState } from "react";
 import ClickOutside from "../ClickOutside";
 
-const DropDownUser = () => {
+const DropDownUser = ({ info }) => {
   const [dropdownOpen, setDropdownOpen] = useState();
   const handleLogOut = () => {
     signOut({
       callbackUrl: "/", // Redirige a la página principal u otra URL después del logout
     });
   };
-
+  console.log(info);
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)}>
       <Link
@@ -21,9 +21,9 @@ const DropDownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            User 1
+            {info.user.toUpperCase()}
           </span>
-          <span className="block text-xs">Admin</span>
+          <span className="block text-xs">{info.rol}</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">

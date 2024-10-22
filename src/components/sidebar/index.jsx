@@ -4,15 +4,20 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "../../../public/images/Logotipo-FCA-B.png";
 import SidebarItem from "./SideBarItem";
-import { menuGroups } from "./menuData";
-
-const SidebarProps = {
-  sidebarOpen: false,
-  setSidebarOpen: function (arg) {},
-};
+import { adminData } from "./menuData";
+import { editorData } from "./editorData";
+import { useSession } from "next-auth/react";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
+  const { data: session } = useSession();
+  const role = session.user.role;
+  let menuGroups;
+  if (role == "admin") {
+    menuGroups = adminData;
+  } else {
+    menuGroups = editorData;
+  }
   return (
     <aside
       className={`fixed left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 ${
@@ -46,24 +51,28 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       </div>
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
         <nav className=" px-4 py-4 lg:mt-9 lg:px-6">
-          {menuGroups.map((group, groupIndex) => (
-            <div key={groupIndex}>
-              <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
-                {group.name}
-              </h3>
+          {menuGroups.map((group, groupIndex) => {
+            return (
+              <div key={groupIndex}>
+                <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
+                  {group.name}
+                </h3>
 
-              <ul className="mb-6 flex flex-col gap-1.5">
-                {group.menuItems.map((menuItem, menuIndex) => (
-                  <SidebarItem
-                    key={menuIndex}
-                    item={menuItem}
-                    pageName={pageName}
-                    setPageName={setPageName}
-                  />
-                ))}
-              </ul>
-            </div>
-          ))}
+                <ul className="mb-6 flex flex-col gap-1.5">
+                  {group.menuItems.map((menuItem, menuIndex) => {
+                    return (
+                      <SidebarItem
+                        key={menuIndex}
+                        item={menuItem}
+                        pageName={pageName}
+                        setPageName={setPageName}
+                      />
+                    );
+                  })}
+                </ul>
+              </div>
+            );
+          })}
         </nav>
       </div>
     </aside>

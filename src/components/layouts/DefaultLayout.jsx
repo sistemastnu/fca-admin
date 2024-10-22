@@ -3,10 +3,15 @@ import Header from "@/components/header/header";
 import Sidebar from "@/components/sidebar";
 import { useState } from "react";
 import { Toaster } from "sonner";
+import { useSession } from "next-auth/react";
+import Loader from "../common";
 
 export default function DefaultLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const { status } = useSession();
+  if (status === "loading") {
+    return <Loader />;
+  }
   return (
     <>
       <div className="flex">

@@ -68,6 +68,7 @@ export default function Edit({ params }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
+    console.log(editorData);
     if (!formData.content) newErrors.content = "Add Content";
     if (!formData.title) newErrors.title = "Add Title";
 

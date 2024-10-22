@@ -1,10 +1,13 @@
 import "@/css/satoshi.css";
 import "@/css/style.css";
-export default async function RootLayout({ children }) {
+
+import ClientSessionProvider from "./ClientSessionProvider";
+
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body suppressHydrationWarning={true}>
-        <div className="">{children}</div>
+        <ClientSessionProvider>{children}</ClientSessionProvider>
       </body>
     </html>
   );

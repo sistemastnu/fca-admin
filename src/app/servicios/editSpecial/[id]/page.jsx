@@ -10,8 +10,13 @@ import SelectFile from "@/components/common/SelectFile";
 import ButtonForm from "@/components/FormUI/ButtonForm";
 import { toast } from "sonner";
 import Loader from "@/components/common";
+import dynamic from "next/dynamic";
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
+
+const RichText = dynamic(() => import("@/components/FormUI/RichText"), {
+  ssr: false,
+});
 
 const EditService = ({ params }) => {
   const id = params.id;
@@ -19,6 +24,7 @@ const EditService = ({ params }) => {
   const router = useRouter();
   const [file, setFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [editorData, setEditorData] = useState("");
   const [formData, setFormData] = useState({
     tittle: "",
     content: "",
@@ -34,6 +40,7 @@ const EditService = ({ params }) => {
         imagePage: data.mediaContent,
         relative: data.mediaContent?.replace("http://localhost:3000", ""),
       });
+      setEditorData(data.content);
     }
   }, [data]);
 
@@ -97,17 +104,12 @@ const EditService = ({ params }) => {
                   value={formData.tittle}
                   onChange={handleChange}
                 />
-                <TextAreaForm
-                  onChange={handleChange}
-                  value={formData.content}
-                  name={"content"}
-                  id={"content"}
-                />
-                <SelectFile
-                  selectedFile={file}
-                  onFileSelect={setFile}
-                  relativePath={formData.relative}
-                />
+                <div className="no-tailwindcss-base pb-6">
+                  <RichText
+                    editorData={editorData}
+                    setEditorData={setEditorData}
+                  />
+                </div>
                 <ButtonForm isLoading={isLoading} />
               </form>
             </div>

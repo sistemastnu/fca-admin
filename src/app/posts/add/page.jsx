@@ -46,33 +46,34 @@ export default function Add() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
-    if (!formData.title) newErrors.title = "Add a title";
-    if (file === null) newErrors.file = "Select a file";
+    console.log(editorData);
+    // if (!formData.title) newErrors.title = "Add a title";
+    // if (file === null) newErrors.file = "Select a file";
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-    } else {
-      setErrors({});
-      setLoading(true);
-      const formDataSend = new FormData();
-      formDataSend.append("tittle", formData.title);
-      formDataSend.append("content", editorData);
-      formDataSend.append("description", formData.description);
-      formDataSend.append("file", file);
-      tags.forEach((tag) => formDataSend.append("tags[]", tag));
-      const response = await fetch("/api/posts/", {
-        method: "POST",
-        body: formDataSend,
-      });
-      if (response.status === 200) {
-        toast.success("Post was successfully created");
-        //router.push("/posts");
-        setLoading(false);
-      } else {
-        toast.error("Something went wrong");
-        setLoading(false);
-      }
-    }
+    // if (Object.keys(newErrors).length > 0) {
+    //   setErrors(newErrors);
+    // } else {
+    //   setErrors({});
+    //   setLoading(true);
+    //   const formDataSend = new FormData();
+    //   formDataSend.append("tittle", formData.title);
+    //   formDataSend.append("content", editorData);
+    //   formDataSend.append("description", formData.description);
+    //   formDataSend.append("file", file);
+    //   tags.forEach((tag) => formDataSend.append("tags[]", tag));
+    //   const response = await fetch("/api/posts/", {
+    //     method: "POST",
+    //     body: formDataSend,
+    //   });
+    //   if (response.status === 200) {
+    //     toast.success("Post was successfully created");
+    //     //router.push("/posts");
+    //     setLoading(false);
+    //   } else {
+    //     toast.error("Something went wrong");
+    //     setLoading(false);
+    //   }
+    // }
   };
 
   const handleChange = (e) => {

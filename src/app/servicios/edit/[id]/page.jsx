@@ -5,8 +5,6 @@ import useSWR from "swr";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import InputForm from "@/components/FormUI/InputForm";
-import TextAreaForm from "@/components/FormUI/TextAreaForm";
-import SelectFile from "@/components/common/SelectFile";
 import ButtonForm from "@/components/FormUI/ButtonForm";
 import { toast } from "sonner";
 import dynamic from "next/dynamic";
