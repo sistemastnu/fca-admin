@@ -9,7 +9,7 @@ import useSWR from "swr";
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
 const Content = () => {
-  const { data, mutate } = useSWR("/api/firstpagecontent", fetcher);
+  const { data, mutate, isLoading } = useSWR("/api/firstpagecontent", fetcher);
   const [formData, setFormData] = useState({
     id: "",
     firstTitle: "",

@@ -20,10 +20,10 @@ const RichText = dynamic(() => import("@/components/FormUI/RichText"), {
 
 const EditService = ({ params }) => {
   const id = params.id;
-  const { data } = useSWR(`/api/serviciosEspe/${id}`, fetcher);
+  const { data, isLoading } = useSWR(`/api/serviciosEspe/${id}`, fetcher);
   const router = useRouter();
   const [file, setFile] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingForm, setIsLoadingForm] = useState(false);
   const [editorData, setEditorData] = useState("");
   const [formData, setFormData] = useState({
     tittle: "",
@@ -35,7 +35,7 @@ const EditService = ({ params }) => {
   useEffect(() => {
     if (data) {
       setFormData({
-        tittle: data.tittle,
+        tittle: data.tittle ?? "",
         content: data.content ?? "",
         imagePage: data.mediaContent,
         relative: data.mediaContent?.replace("http://localhost:3000", ""),
@@ -66,16 +66,16 @@ const EditService = ({ params }) => {
     if (response.status === 200) {
       toast.success("Servicio actualizado");
       router.push("/servicios");
-      setIsLoading(false);
+      setIsLoadingForm(false);
     } else {
       toast.error("Algo salio mal");
-      setIsLoading(false);
+      setIsLoadingForm(false);
     }
   };
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  if (!data) return <Loader />;
+  if (isLoading) return <Loader />;
   return (
     <DefaultLayout>
       <Breadcrumb pageName={"Edit Service"} redirect="/servicios" />
@@ -110,7 +110,7 @@ const EditService = ({ params }) => {
                     setEditorData={setEditorData}
                   />
                 </div>
-                <ButtonForm isLoading={isLoading} />
+                <ButtonForm isLoading={isLoadingForm} />
               </form>
             </div>
           </div>

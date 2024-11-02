@@ -1,4 +1,5 @@
 import User from "@/models/User";
+import sequelize from "@/lib/sequelize";
 import bcrypt from "bcrypt";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -16,6 +17,7 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        await sequelize.sync();
         const user = await User.findOne({
           where: { username: credentials.username },
         });
