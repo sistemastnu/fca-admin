@@ -22,6 +22,10 @@ const Posts = sequelize.define("Posts", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  prettyUrl: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   image: {
     type: DataTypes.STRING,
     allowNull: true,

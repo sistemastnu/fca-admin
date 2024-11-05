@@ -3,15 +3,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import ClickOutside from "../ClickOutside";
+import { useRouter } from "next/navigation";
 
 const DropDownUser = ({ info }) => {
+  const router = useRouter();
   const [dropdownOpen, setDropdownOpen] = useState();
   const handleLogOut = () => {
     signOut({
-      callbackUrl: "/", // Redirige a la página principal u otra URL después del logout
+      callbackUrl: "/",
     });
   };
-  console.log(info);
+  const handleProfile = () => {
+    router.push("/profile");
+  };
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)}>
       <Link
@@ -58,6 +62,12 @@ const DropDownUser = ({ info }) => {
         <div
           className={`absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark`}
         >
+          <button
+            className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+            onClick={handleProfile}
+          >
+            Profile
+          </button>
           <button
             className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
             onClick={handleLogOut}

@@ -10,11 +10,13 @@ import { toast } from "sonner";
 import dynamic from "next/dynamic";
 import MediumInputFormz from "@/components/FormUI/MediumInputForm";
 import TextAreaForm from "@/components/FormUI/TextAreaForm";
+import { useSession } from "next-auth/react";
 
 const RichText = dynamic(() => import("@/components/FormUI/RichText"), {
   ssr: false,
 });
 export default function Add() {
+  const { data: session } = useSession();
   const [tags, setTags] = useState([]);
   const [inputTag, setInputTag] = useState("");
   const [file, setFile] = useState(null);
@@ -43,22 +45,35 @@ export default function Add() {
     setTags(newArray);
   };
 
+  const handleErrors = () => {
+    const newErrors = {};
+    if (!formData.title) newErrors.title = "Add a title";
+    if (file === null) newErrors.file = "Select a file";
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+    } else {
+      setErrors({});
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newErrors = {};
-    console.log(editorData);
-    // if (!formData.title) newErrors.title = "Add a title";
-    // if (file === null) newErrors.file = "Select a file";
-
-    // if (Object.keys(newErrors).length > 0) {
-    //   setErrors(newErrors);
-    // } else {
-    //   setErrors({});
+    console.log(session.user.id);
+    // const postTitle = formData.title;
+    // const description = formData.description;
+    // let prettyUrl = postTitle.replace(/\s+/g, "-");
+    // if (prettyUrl.endsWith("-")) {
+    //   prettyUrl = prettyUrl.slice(0, -1);
+    // }
+    // handleErrors();
+    // console.log(Object.keys(errors).length);
+    // if (Object.keys(errors).length == 0) {
     //   setLoading(true);
     //   const formDataSend = new FormData();
-    //   formDataSend.append("tittle", formData.title);
+    //   formDataSend.append("tittle", postTitle);
     //   formDataSend.append("content", editorData);
-    //   formDataSend.append("description", formData.description);
+    //   formDataSend.append("description", description);
+    //   formDataSend.append("prettyUrl", prettyUrl);
     //   formDataSend.append("file", file);
     //   tags.forEach((tag) => formDataSend.append("tags[]", tag));
     //   const response = await fetch("/api/posts/", {
@@ -105,6 +120,7 @@ export default function Add() {
                   name={"title"}
                   id={"title"}
                   onChange={handleChange}
+                  error={errors.title}
                 />
                 <MediumInputFormz
                   tittle={"Tags"}

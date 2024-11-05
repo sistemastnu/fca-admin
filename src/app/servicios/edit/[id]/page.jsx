@@ -32,7 +32,6 @@ const EditService = ({ params }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(editorData);
     setIsLoading(true);
     const formDataSend = new FormData();
     formDataSend.append("tittle", tittle);

@@ -15,7 +15,8 @@ export async function GET() {
         "content",
         "image",
         "description",
-        [fn("GROUP_CONCAT", col("tags.tag")), "post_tags"],
+        "prettyUrl",
+        [fn("GROUP_CONCAT", col("Tags.tag")), "post_tags"],
       ],
       include: [
         {
@@ -23,7 +24,7 @@ export async function GET() {
           attributes: [],
         },
       ],
-      group: ["posts.id"],
+      group: ["Posts.id"],
     });
     return NextResponse.json(posts);
   } catch (error) {

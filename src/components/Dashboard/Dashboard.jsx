@@ -6,9 +6,7 @@ export async function getServerSideProps() {
     });
     const data = await response.json();
     return data;
-  } catch (e) {
-    console.log(e.message);
-  }
+  } catch (e) {}
 }
 
 const { default: CardDataStats } = require("@/components/cards/CardDashBoard");

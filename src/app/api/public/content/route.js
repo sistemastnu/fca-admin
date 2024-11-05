@@ -41,7 +41,9 @@ export async function GET() {
           "content",
           "image",
           "description",
-          [fn("GROUP_CONCAT", col("tags.tag")), "post_tags"],
+          "prettyUrl",
+          "createdAt",
+          [fn("GROUP_CONCAT", col("Tags.tag")), "post_tags"],
         ],
         include: [
           {

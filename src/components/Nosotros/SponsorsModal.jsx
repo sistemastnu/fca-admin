@@ -10,7 +10,6 @@ const SponsorsModal = ({ data, refreshData, closeModal }) => {
     sponsorName: data?.sponsorName || "",
     photoSponsor: data?.photoSponsor || "",
   });
-  console.log(data);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formDataSend = new FormData();
@@ -39,7 +38,7 @@ const SponsorsModal = ({ data, refreshData, closeModal }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name);
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,

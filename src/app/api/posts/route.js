@@ -42,7 +42,6 @@ export async function POST(request) {
   try {
     const data = await request.formData();
     const directory = "public/assets/";
-    console.log(data);
     const file = data.get("file");
     const tags = data.getAll("tags[]");
     const now = new Date().toISOString().slice(0, 19).replace("T", " ");
@@ -59,6 +58,7 @@ export async function POST(request) {
       content: data.get("content"),
       description: data.get("description"),
       image: uploadFile.filePath,
+      prettyUrl: data.get("prettyUrl"),
       publish_at: now,
       status: "active",
     });

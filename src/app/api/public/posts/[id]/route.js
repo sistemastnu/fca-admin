@@ -17,18 +17,19 @@ export async function GET(request, { params }) {
         "content",
         "image",
         "description",
-        [fn("GROUP_CONCAT", col("tags.tag")), "post_tags"],
+        "prettyUrl",
       ],
       include: [
         {
           model: Tags,
+
           attributes: [],
         },
       ],
       where: {
-        id: id,
+        prettyUrl: id,
       },
-      group: ["posts.id"],
+      group: ["Posts.id"],
     });
     return NextResponse.json(posts);
   } catch (error) {
