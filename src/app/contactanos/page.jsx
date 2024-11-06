@@ -30,7 +30,6 @@ export default function Contactanos() {
       });
     }
   }, [data]);
-  //if (!data) return <Loader />;
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({

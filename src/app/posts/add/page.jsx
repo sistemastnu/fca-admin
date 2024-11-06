@@ -58,37 +58,38 @@ export default function Add() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     console.log(session.user.id);
-    // const postTitle = formData.title;
-    // const description = formData.description;
-    // let prettyUrl = postTitle.replace(/\s+/g, "-");
-    // if (prettyUrl.endsWith("-")) {
-    //   prettyUrl = prettyUrl.slice(0, -1);
-    // }
-    // handleErrors();
-    // console.log(Object.keys(errors).length);
-    // if (Object.keys(errors).length == 0) {
-    //   setLoading(true);
-    //   const formDataSend = new FormData();
-    //   formDataSend.append("tittle", postTitle);
-    //   formDataSend.append("content", editorData);
-    //   formDataSend.append("description", description);
-    //   formDataSend.append("prettyUrl", prettyUrl);
-    //   formDataSend.append("file", file);
-    //   tags.forEach((tag) => formDataSend.append("tags[]", tag));
-    //   const response = await fetch("/api/posts/", {
-    //     method: "POST",
-    //     body: formDataSend,
-    //   });
-    //   if (response.status === 200) {
-    //     toast.success("Post was successfully created");
-    //     //router.push("/posts");
-    //     setLoading(false);
-    //   } else {
-    //     toast.error("Something went wrong");
-    //     setLoading(false);
-    //   }
-    // }
+    const postTitle = formData.title;
+    const description = formData.description;
+    let prettyUrl = postTitle.replace(/\s+/g, "-");
+    if (prettyUrl.endsWith("-")) {
+      prettyUrl = prettyUrl.slice(0, -1);
+    }
+    handleErrors();
+    if (Object.keys(errors).length == 0) {
+      setLoading(true);
+      const formDataSend = new FormData();
+      formDataSend.append("tittle", postTitle);
+      formDataSend.append("content", editorData);
+      formDataSend.append("description", description);
+      formDataSend.append("prettyUrl", prettyUrl);
+      formDataSend.append("file", file);
+      formDataSend.append("idEditor", session.user.id);
+      tags.forEach((tag) => formDataSend.append("tags[]", tag));
+      const response = await fetch("/api/posts/", {
+        method: "POST",
+        body: formDataSend,
+      });
+      if (response.status === 200) {
+        toast.success("Post was successfully created");
+        //router.push("/posts");
+        setLoading(false);
+      } else {
+        toast.error("Something went wrong");
+        setLoading(false);
+      }
+    }
   };
 
   const handleChange = (e) => {

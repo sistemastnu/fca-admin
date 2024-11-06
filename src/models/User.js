@@ -18,6 +18,14 @@ const User = sequelize.define("user", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  profilePhoto: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  bio: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
   rol: {
     type: DataTypes.STRING,
     allowNull: false,

@@ -30,6 +30,10 @@ const Posts = sequelize.define("Posts", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
   relativePath: {
     type: DataTypes.STRING,
     allowNull: true,

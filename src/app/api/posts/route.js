@@ -52,17 +52,16 @@ export async function POST(request) {
       );
     }
     const uploadFile = await UploadFile(file, "posts");
-
     const userCreated = await Posts.create({
       tittle: data.get("tittle"),
       content: data.get("content"),
       description: data.get("description"),
       image: uploadFile.filePath,
       prettyUrl: data.get("prettyUrl"),
+      userId: data.get("idEditor"),
       publish_at: now,
       status: "active",
     });
-
     await Promise.all(
       tags.map(async (element) => {
         return Tags.create({
@@ -71,7 +70,6 @@ export async function POST(request) {
         });
       })
     );
-
     return NextResponse.json({ Message: "Success", status: 201 });
   } catch (e) {
     return NextResponse.json(

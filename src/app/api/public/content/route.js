@@ -9,6 +9,7 @@ import Contactanos from "@/models/Contactanos";
 import FirstPageContent from "@/models/FirstPageContent";
 import { Posts } from "@/models/associations/associations";
 import { Tags } from "@/models/associations/associations";
+import { User } from "@/models/associations/associations";
 import Opinions from "@/models/Opinion";
 import { col, fn } from "sequelize";
 
@@ -49,6 +50,10 @@ export async function GET() {
           {
             model: Tags,
             attributes: [],
+          },
+          {
+            model: User,
+            attributes: ["fullName", "email", "profilePhoto", "bio"],
           },
         ],
         group: ["posts.id"],
