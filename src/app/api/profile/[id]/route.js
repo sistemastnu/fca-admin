@@ -24,6 +24,7 @@ export async function PUT(request, { params }) {
         username: data.username,
         email: data.email,
         fullName: data.fullName,
+        occupation: data.occupation,
         bio: data.bio,
       },
       { where: { id } }

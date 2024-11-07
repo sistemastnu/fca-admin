@@ -11,6 +11,8 @@ import dynamic from "next/dynamic";
 import MediumInputFormz from "@/components/FormUI/MediumInputForm";
 import TextAreaForm from "@/components/FormUI/TextAreaForm";
 import { useSession } from "next-auth/react";
+import { cleanStringForURL } from "@/app/helpers/StringHelper";
+import { calculateReadingTime } from "@/app/helpers/WordsHelper";
 
 const RichText = dynamic(() => import("@/components/FormUI/RichText"), {
   ssr: false,
@@ -28,6 +30,7 @@ export default function Add() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [editorData, setEditorData] = useState("");
+  const [wordCount, setWordCount] = useState(0);
 
   const handleEnterTags = (e) => {
     if (e.key === "Enter") {
@@ -58,14 +61,10 @@ export default function Add() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log(session.user.id);
     const postTitle = formData.title;
     const description = formData.description;
-    let prettyUrl = postTitle.replace(/\s+/g, "-");
-    if (prettyUrl.endsWith("-")) {
-      prettyUrl = prettyUrl.slice(0, -1);
-    }
+    let prettyUrl = cleanStringForURL(postTitle);
+    const timeReadMinutes = calculateReadingTime(wordCount);
     handleErrors();
     if (Object.keys(errors).length == 0) {
       setLoading(true);
@@ -76,6 +75,7 @@ export default function Add() {
       formDataSend.append("prettyUrl", prettyUrl);
       formDataSend.append("file", file);
       formDataSend.append("idEditor", session.user.id);
+      formDataSend.append("timeRead", timeReadMinutes);
       tags.forEach((tag) => formDataSend.append("tags[]", tag));
       const response = await fetch("/api/posts/", {
         method: "POST",
@@ -161,7 +161,11 @@ export default function Add() {
 
               <SelectFile onFileSelect={setFile} selectedFile={file} />
 
-              <RichText editorData={editorData} setEditorData={setEditorData} />
+              <RichText
+                editorData={editorData}
+                setEditorData={setEditorData}
+                setWordCount={setWordCount}
+              />
 
               <div className="flex justify-end gap-4.5 pt-6">
                 <button

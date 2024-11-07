@@ -81,7 +81,13 @@ import "ckeditor5/ckeditor5.css";
 import "./editor.css";
 import Spinner from "../common/Spinner";
 
-export default function RichText({ editorData, setEditorData }) {
+function countWords(text) {
+  const cleanedText = text.replace(/<img[^>]*>/g, "").replace(/<[^>]*>/g, "");
+  const words = cleanedText.match(/\b\S+\b/g) || [];
+  return words.length;
+}
+
+export default function RichText({ editorData, setEditorData, setWordCount }) {
   const editorContainerRef = useRef(null);
   const editorRef = useRef(null);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
@@ -376,6 +382,7 @@ export default function RichText({ editorData, setEditorData }) {
                   onChange={(event, editor) => {
                     const data = editor.getData();
                     setEditorData(data);
+                    setWordCount(countWords(data));
                   }}
                 />
               ) : (

@@ -11,6 +11,8 @@ import { toast } from "sonner";
 import TextAreaForm from "@/components/FormUI/TextAreaForm";
 import MediumInputFormz from "@/components/FormUI/MediumInputForm";
 import dynamic from "next/dynamic";
+import { cleanStringForURL } from "@/app/helpers/StringHelper";
+import { calculateReadingTime } from "@/app/helpers/WordsHelper";
 
 const RichText = dynamic(() => import("@/components/FormUI/RichText"), {
   ssr: false,
@@ -33,6 +35,8 @@ export default function Edit({ params }) {
     relativePath: "",
     description: "",
   });
+  const [wordCount, setWordCount] = useState(0);
+
   useEffect(() => {
     if (data) {
       setFormData({
@@ -68,18 +72,24 @@ export default function Edit({ params }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
-    console.log(editorData);
+    const postTitle = formData.title;
+    const description = formData.description;
+    const prettyUrl = cleanStringForURL(postTitle);
+    const timeReadMinutes = calculateReadingTime(wordCount);
+    console.log(timeReadMinutes);
+
     if (!formData.content) newErrors.content = "Add Content";
     if (!formData.title) newErrors.title = "Add Title";
-
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
       setErrors({});
       const formDataSend = new FormData();
-      formDataSend.append("tittle", formData.title);
+      formDataSend.append("tittle", postTitle);
       formDataSend.append("content", editorData);
-      formDataSend.append("description", formData.description);
+      formDataSend.append("description", description);
+      formDataSend.append("prettyUrl", prettyUrl);
+      formDataSend.append("timeRead", timeReadMinutes);
       if (file) {
         formDataSend.append("file", file);
       } else {
@@ -177,7 +187,11 @@ export default function Edit({ params }) {
                 relativePath={formData.relativePath}
               />
 
-              <RichText editorData={editorData} setEditorData={setEditorData} />
+              <RichText
+                editorData={editorData}
+                setEditorData={setEditorData}
+                setWordCount={setWordCount}
+              />
 
               <div className="flex justify-end gap-4.5 pt-6">
                 <button

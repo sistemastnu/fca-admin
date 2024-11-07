@@ -2,6 +2,7 @@ import sequelize from "@/lib/sequelize";
 import { NextResponse } from "next/server";
 import { Posts } from "@/models/associations/associations";
 import { Tags } from "@/models/associations/associations";
+import { User } from "@/models/associations/associations";
 import { fn, col } from "sequelize";
 export const revalidate = 0;
 
@@ -22,6 +23,10 @@ export async function GET() {
         {
           model: Tags,
           attributes: [],
+        },
+        {
+          model: User,
+          attributes: ["fullName", "email", "profilePhoto", "bio"],
         },
       ],
       group: ["Posts.id"],

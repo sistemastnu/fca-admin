@@ -11,7 +11,7 @@ const Posts = sequelize.define("Posts", {
     allowNull: true,
   },
   description: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: true,
   },
   publish_at: {
@@ -24,6 +24,10 @@ const Posts = sequelize.define("Posts", {
   },
   prettyUrl: {
     type: DataTypes.STRING,
+    allowNull: true,
+  },
+  timeRead: {
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
   image: {

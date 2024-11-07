@@ -26,6 +26,7 @@ const Profile = ({ params }) => {
     email: "",
     username: "",
     bio: "",
+    occupation: "",
     image: "",
   });
   const [file, setFile] = useState(null);
@@ -37,6 +38,7 @@ const Profile = ({ params }) => {
         email: data.email ?? "",
         username: data.username ?? "",
         bio: data.bio ?? "",
+        occupation: data.occupation ?? "",
         image: data.image ?? "",
       });
       setFile(data.profilePhoto);
@@ -111,7 +113,7 @@ const Profile = ({ params }) => {
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="border-b border-stroke px-7 py-4 dark:border-strokedark">
                 <h3 className="font-medium text-black dark:text-white">
-                  Personal Information
+                  Informacion Personal
                 </h3>
               </div>
               <div className="p-7">
@@ -120,7 +122,7 @@ const Profile = ({ params }) => {
                     className="mb-3 block text-sm font-medium text-black dark:text-white"
                     htmlFor="fullName"
                   >
-                    Full Name
+                    Nombre
                   </label>
                   <div className="relative">
                     <Person />
@@ -140,7 +142,7 @@ const Profile = ({ params }) => {
                     className="mb-3 block text-sm font-medium text-black dark:text-white"
                     htmlFor="emailAddress"
                   >
-                    Email Address
+                    Correo Electronico
                   </label>
                   <div className="relative">
                     <Mail />
@@ -153,6 +155,23 @@ const Profile = ({ params }) => {
                       value={formData.email}
                     />
                   </div>
+                </div>
+
+                <div className="mb-5.5">
+                  <label
+                    className="mb-3 block text-sm font-medium text-black dark:text-white"
+                    htmlFor="Username"
+                  >
+                    Ocupacion
+                  </label>
+                  <input
+                    className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                    type="text"
+                    name="occupation"
+                    id="occupation"
+                    onChange={handleChange}
+                    value={formData.occupation}
+                  />
                 </div>
 
                 <div className="mb-5.5">

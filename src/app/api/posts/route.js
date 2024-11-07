@@ -59,6 +59,7 @@ export async function POST(request) {
       image: uploadFile.filePath,
       prettyUrl: data.get("prettyUrl"),
       userId: data.get("idEditor"),
+      timeRead: data.get("timeRead"),
       publish_at: now,
       status: "active",
     });

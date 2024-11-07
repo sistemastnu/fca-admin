@@ -26,6 +26,10 @@ const User = sequelize.define("user", {
     type: DataTypes.TEXT,
     allowNull: true,
   },
+  occupation: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   rol: {
     type: DataTypes.STRING,
     allowNull: false,

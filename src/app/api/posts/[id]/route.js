@@ -75,6 +75,8 @@ export async function PUT(request, { params }) {
         description: data.get("description"),
         image: imageUrl,
         relativePath: relativePath,
+        prettyUrl: data.get("prettyUrl"),
+        timeRead: data.get("timeRead"),
         status: "active",
       },
       { where: { id: id } }
