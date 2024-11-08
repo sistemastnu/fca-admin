@@ -6,6 +6,10 @@ const ServiciosPage = sequelize.define("ServiciosPage", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  slug: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   content: {
     type: DataTypes.TEXT,
     allowNull: false,

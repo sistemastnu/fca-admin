@@ -1,3 +1,4 @@
+import { cleanStringForURL } from "@/app/helpers/StringHelper";
 import { UploadFile } from "@/helpers/files";
 import sequelize from "@/lib/sequelize";
 import Servicios from "@/models/Servicios";
@@ -49,7 +50,7 @@ export async function POST(request) {
       relativePath = data.get("relativePath");
       filePath = data.get("photo");
     }
-
+    const slug = cleanStringForURL(data.get("tittle"));
     await Servicios.update(
       {
         title: data.get("tittle"),
@@ -57,6 +58,7 @@ export async function POST(request) {
         color: data.get("color"),
         hoverColor: data.get("hoverColor"),
         photo: filePath,
+        slug: slug,
         relativePath: relativePath,
       },
       { where: { id: data.get("idService") } }

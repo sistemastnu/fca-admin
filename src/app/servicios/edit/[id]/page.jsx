@@ -22,6 +22,7 @@ const EditService = ({ params }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [editorData, setEditorData] = useState("");
   const [tittle, setTittle] = useState("");
+  const [words, setWordsCount] = useState(0);
 
   useEffect(() => {
     if (data) {
@@ -54,7 +55,7 @@ const EditService = ({ params }) => {
     }
   };
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setTittle(e.target.value);
   };
   return (
     <DefaultLayout>
@@ -79,6 +80,7 @@ const EditService = ({ params }) => {
                 <RichText
                   editorData={editorData}
                   setEditorData={setEditorData}
+                  setWordCount={setWordsCount}
                 />
               </div>
 

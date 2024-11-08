@@ -9,7 +9,7 @@ export async function GET(request, { params }) {
   try {
     const { id } = params;
     const servicios = await ServiciosPage.findOne({
-      where: { idService: id },
+      where: { slugs: id },
     });
     return NextResponse.json(servicios);
   } catch (error) {

@@ -1,5 +1,7 @@
+import { cleanStringForURL } from "@/app/helpers/StringHelper";
 import { UploadFile } from "@/helpers/files";
 import sequelize from "@/lib/sequelize";
+import Servicios from "@/models/Servicios";
 import ServiciosPage from "@/models/ServiciosPage";
 import { NextResponse } from "next/server";
 
@@ -28,13 +30,20 @@ export async function POST(request, { params }) {
       const uploadFile = await UploadFile(file, "serviciosPage");
       filePath = uploadFile.filePath;
     }
-    const newServicePage = await ServiciosPage.create({
-      idService: idService,
-      tittle: data.get("tittle"),
-      content: data.get("content"),
-      mediaContent: filePath,
+    const slug = cleanStringForURL(data.get("tittle"));
+    const existingService = await Servicios.findOne({
+      attributes: ["slug"],
+      where: { id: idService },
     });
-    return NextResponse.json(newServicePage);
+    console.log(existingService);
+    // const newServicePage = await ServiciosPage.create({
+    //   idService: idService,
+    //   tittle: data.get("tittle"),
+    //   slug: slug,
+    //   content: data.get("content"),
+    //   mediaContent: filePath,
+    // });
+    return NextResponse.json({ status: 200 });
   } catch (e) {
     return NextResponse.json({ message: e.message }, { status: 500 });
   }
