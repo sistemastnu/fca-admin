@@ -44,11 +44,8 @@ export async function GET(request, { params }) {
       },
       group: ["Posts.id"],
     });
-
     const post = posts[0];
-
     const tagNames = post.getDataValue("post_tags").split(",");
-
     const recomendations = await Posts.findAll({
       attributes: [
         "id",
