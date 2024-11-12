@@ -20,17 +20,14 @@ export default function Servicios() {
     "/api/otherServices",
     fetcher
   );
-
   const handleClick = () => {
     router.push("/servicios/add");
   };
-
   if (!dataServicios || !dataOtherServices) return <Loader />;
 
   return (
     <DefaultLayout>
       <Breadcrumb pageName={"Servicios"} />
-
       <div className="grid grid-cols-1 gap-7.5 sm:grid-cols-2 xl:grid-cols-3 mb-9">
         <SortableList
           data={dataServicios}

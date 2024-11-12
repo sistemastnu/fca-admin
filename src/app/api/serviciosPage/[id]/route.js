@@ -35,15 +35,14 @@ export async function POST(request, { params }) {
       attributes: ["slug"],
       where: { id: idService },
     });
-    console.log(existingService);
-    // const newServicePage = await ServiciosPage.create({
-    //   idService: idService,
-    //   tittle: data.get("tittle"),
-    //   slug: slug,
-    //   content: data.get("content"),
-    //   mediaContent: filePath,
-    // });
-    return NextResponse.json({ status: 200 });
+    const newServicePage = await ServiciosPage.create({
+      idService: idService,
+      tittle: data.get("tittle"),
+      slug: slug,
+      content: data.get("content"),
+      mediaContent: filePath,
+    });
+    return NextResponse.json(newServicePage, { status: 200 });
   } catch (e) {
     return NextResponse.json({ message: e.message }, { status: 500 });
   }

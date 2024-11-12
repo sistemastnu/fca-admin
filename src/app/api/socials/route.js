@@ -1,14 +1,12 @@
 import sequelize from "@/lib/sequelize";
-import Posts from "@/models/Posts";
+import SocialMedia from "@/models/SocialMedia";
 import { NextResponse } from "next/server";
 
-export const revalidate = 0;
-
-export async function GET() {
+export default async function GET() {
   await sequelize.sync();
   try {
-    const slugs = await Posts.findAll({ attributes: ["prettyUrl"] });
-    return NextResponse.json(slugs);
+    const socialMedia = await SocialMedia.findAll();
+    return NextResponse.json(socialMedia);
   } catch (e) {
     return NextResponse.json({ message: e.message }, { status: 500 });
   }

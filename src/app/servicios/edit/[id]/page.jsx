@@ -47,7 +47,7 @@ const EditService = ({ params }) => {
     });
     if (response.status === 200) {
       toast.success("Servicio actualizado");
-      router.push("/servicios");
+      //router.push("/servicios");
       setIsLoading(false);
     } else {
       toast.error("Algo salio mal");
