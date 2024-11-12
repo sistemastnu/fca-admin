@@ -1,9 +1,15 @@
+"use client";
 import Breadcrumb from "@/components/Breadcrumps/Breadcrumb";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
 import ButtonWithIcon from "../ui/Button";
 import Image from "next/image";
+import TableThree from "@/components/Tables/TableThree";
+import useSWR from "swr";
+
+const fetcher = (url) => fetch(url).then((r) => r.json());
 
 export default function Socials() {
+  const { data, loading, error } = useSWR("/api/socials", fetcher);
   return (
     <DefaultLayout>
       <Breadcrumb pageName={"Redes Sociales"} />
@@ -14,7 +20,9 @@ export default function Socials() {
           linkTo={"socials/add"}
         />
       </div>
-      <div className="overflow-hidden mt-10 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark"></div>
+      <div className="overflow-hidden mt-10 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+        <TableThree data={data} t1={"Nombre"} t2={"status"} t3={"Enlace"} />
+      </div>
     </DefaultLayout>
   );
 }
