@@ -29,7 +29,11 @@ const SelectFile = ({ onFileSelect, selectedFile, relativePath, tittle }) => {
           <div className="ml-2 h-full rounded-md mb-5">
             <p className="text-black font-bold my-2">New Image: </p>
             <Image
-              src={URL.createObjectURL(selectedFile)}
+              src={
+                typeof selectedFile === "string"
+                  ? selectedFile
+                  : URL.createObjectURL(selectedFile)
+              }
               alt="File preview"
               width="300"
               height="300"
@@ -55,7 +59,6 @@ const SelectFile = ({ onFileSelect, selectedFile, relativePath, tittle }) => {
             drop
           </p>
           <p className="mt-1.5">SVG, PNG, JPG or GIF</p>
-          <p>(max, 800 X 800px)</p>
         </div>
       </div>
     </div>

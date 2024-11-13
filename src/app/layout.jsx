@@ -3,6 +3,11 @@ import "@/css/style.css";
 
 import ClientSessionProvider from "./ClientSessionProvider";
 
+export const metadata = {
+  title: "FCA ADMIN PAGE",
+  description: "Admin page for FCA ",
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">

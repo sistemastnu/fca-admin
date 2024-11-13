@@ -5,11 +5,18 @@ import ButtonWithIcon from "../ui/Button";
 import Image from "next/image";
 import TableThree from "@/components/Tables/TableThree";
 import useSWR from "swr";
+import iconPlus from "../../../public/icons/plus.svg";
+import TableSocials from "@/components/Socials/TableSocial";
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
 export default function Socials() {
-  const { data, loading, error } = useSWR("/api/socials", fetcher);
+  const { data, loading, error, mutate } = useSWR("/api/socials", fetcher);
+
+  const refreshData = () => {
+    mutate();
+  };
+
   return (
     <DefaultLayout>
       <Breadcrumb pageName={"Redes Sociales"} />
@@ -17,11 +24,11 @@ export default function Socials() {
         <ButtonWithIcon
           tittle={"Agregar una Red Social"}
           icon={<Image src={iconPlus} width={20} height={20} alt="icon" />}
-          linkTo={"socials/add"}
+          linkTo={"socials/social"}
         />
       </div>
       <div className="overflow-hidden mt-10 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <TableThree data={data} t1={"Nombre"} t2={"status"} t3={"Enlace"} />
+        <TableSocials data={data} refreshData={refreshData} />
       </div>
     </DefaultLayout>
   );
