@@ -1,3 +1,4 @@
+import sequelize from "@/lib/sequelize";
 import { DataTypes } from "sequelize";
 
 const Privacity = sequelize.define("Privacity", {

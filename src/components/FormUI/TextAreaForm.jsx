@@ -1,8 +1,15 @@
-const TextAreaForm = ({ value, onChange, name, id, tittle = "Contenido" }) => {
+const TextAreaForm = ({
+  value,
+  onChange,
+  name,
+  id,
+  tittle = "Contenido",
+  rows = 6,
+}) => {
   return (
     <div>
       <label
-        className="mb-3 block text-sm font-medium text-black dark:text-white"
+        className="mb-3 block text-sm font-medium  dark:text-white"
         htmlFor={id}
       >
         {tittle}
@@ -13,7 +20,7 @@ const TextAreaForm = ({ value, onChange, name, id, tittle = "Contenido" }) => {
         id={id}
         value={value}
         onChange={onChange}
-        rows={6}
+        rows={rows}
         placeholder="Write content here"
       ></textarea>
     </div>

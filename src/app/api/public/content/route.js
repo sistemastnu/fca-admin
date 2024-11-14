@@ -12,6 +12,7 @@ import { Tags } from "@/models/associations/associations";
 import { User } from "@/models/associations/associations";
 import Opinions from "@/models/Opinion";
 import { col, fn } from "sequelize";
+import SocialMedia from "@/models/SocialMedia";
 
 export const revalidate = 0;
 
@@ -28,6 +29,7 @@ export async function GET() {
       posts,
       firstPageContent,
       opinions,
+      socialMedia,
     ] = await Promise.all([
       Contactanos.findOne(),
       Nosotros.findOne(),
@@ -60,6 +62,7 @@ export async function GET() {
       }),
       FirstPageContent.findOne(),
       Opinions.findAll(),
+      SocialMedia.findAll(),
     ]);
 
     return NextResponse.json({
@@ -72,6 +75,7 @@ export async function GET() {
       posts,
       firstPageContent,
       opinions,
+      socialMedia,
     });
   } catch (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
