@@ -18,6 +18,10 @@ const GoogleTag = sequelize.define("GoogleTag", {
     type: DataTypes.TEXT,
     allowNull: true,
   },
+  status: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
 });
 
 export default GoogleTag;

@@ -8,7 +8,9 @@ import useSWR from "swr";
 import { fetcher } from "@/lib/fetchUtils";
 import GoogleTagComponent from "./GoogleTag/GoogleTagComponent";
 import FacebookTagComponent from "./FacebookTag/FacebookTagComponent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import Loader from "@/components/common";
 
 const Seo = () => {
   const { data, isLoading } = useSWR("/api/seo/", fetcher);
@@ -30,6 +32,36 @@ const Seo = () => {
     googleAnalytics: "",
     isGoogleEnabled,
   });
+  useEffect(() => {
+    if (data) {
+      console.log("dentro del useEffect");
+      if (data.googleTag != null) {
+        setGoogleTag({
+          htmlSiteVerification: data.googleTag.htmlSiteVerification ?? "",
+          tagHead: data.googleTag.tagHead ?? "",
+          tagBody: data.googleTag.tagBody ?? "",
+          googleAnalytics: data.googleTag.googleAnalytics ?? "",
+          isGoogleEnabled: data.googleTag.isGoogleEnabled ?? false,
+        });
+        setGoogleEnabled(data.googleTag.status);
+      }
+
+      if (data.facebookTag != null) {
+        setFacebookTag({
+          htmlVerification: data.facebookTag.htmlVerification ?? "",
+          pixel: data.facebookTag.pixel ?? "",
+          siteTitle: data.facebookTag.siteTitle ?? "",
+          siteUrl: data.facebookTag.siteUrl ?? "",
+          description: data.facebookTag.description ?? "",
+          metakeywords: data.facebookTag.metakeywords ?? "",
+          isFacebookEnabled: data.facebookTag.status ?? false,
+        });
+        setFacebookEnabled(data.facebookTag.status);
+      }
+    }
+  }, [data]);
+
+  if (isLoading) return <Loader />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,10 +69,19 @@ const Seo = () => {
       googleTag,
       facebookTag,
     };
-    await fetch("/api/seo/", {
-      method: "POSt",
+    const response = await fetch("/api/seo/", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
       body: JSON.stringify(data),
     });
+
+    if (response.status === 200) {
+      toast.success("SEO tags acutalizados Correctamente");
+    } else {
+      toast.success("Ocurrio un error actualizando los SEO TAGS");
+    }
   };
 
   return (
@@ -52,12 +93,14 @@ const Seo = () => {
           setEnabled={setGoogleEnabled}
           idToggle={"googleToggle"}
           setGoogleInformation={setGoogleTag}
+          googleInformation={googleTag}
         />
         <div className="border-t border-gray-300 my-4" />
         <FacebookTagComponent
           isEnabled={isFacebookEnabled}
           setEnabled={setFacebookEnabled}
           idToggle={"facebookToggle"}
+          facebookInformation={facebookTag}
           setFacebookInformation={setFacebookTag}
         />
 

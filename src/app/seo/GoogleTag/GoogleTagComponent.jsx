@@ -8,6 +8,7 @@ const GoogleTagComponent = ({
   setEnabled,
   idToggle,
   setGoogleInformation,
+  googleInformation,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -55,6 +56,7 @@ const GoogleTagComponent = ({
       >
         <div className="flex flex-col gap-3">
           <TextAreaForm
+            value={googleInformation.htmlSiteVerification}
             tittle={"Etiqueta HTML Google Site Verification"}
             rows={3}
             onChange={handleChange}
@@ -62,6 +64,7 @@ const GoogleTagComponent = ({
             name="htmlSiteVerification"
           />
           <TextAreaForm
+            value={googleInformation.tagHead}
             tittle={"Codigo Google Tag Manager (Head)"}
             rows={3}
             onChange={handleChange}
@@ -69,6 +72,7 @@ const GoogleTagComponent = ({
             name="tagHead"
           />
           <TextAreaForm
+            value={googleInformation.tagBody}
             tittle={"Codigo Google Tag Manager (Body)"}
             rows={3}
             id="tagBody"
@@ -76,6 +80,7 @@ const GoogleTagComponent = ({
             onChange={handleChange}
           />
           <TextAreaForm
+            value={googleInformation.googleAnalytics}
             tittle={"Codigo Google Analytics"}
             rows={3}
             onChange={handleChange}

@@ -1,6 +1,8 @@
 import sequelize from "@/lib/sequelize";
 import Privacity from "@/models/Privacidad";
 
+export const revalidate = 0;
+
 export async function GET() {
   await sequelize.sync();
   try {

@@ -8,6 +8,7 @@ const FacebookTagComponent = ({
   setEnabled,
   idToggle,
   setFacebookInformation,
+  facebookInformation,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -55,6 +56,7 @@ const FacebookTagComponent = ({
       >
         <div className="flex flex-col gap-3">
           <TextAreaForm
+            value={facebookInformation.htmlVerification}
             tittle="Etiqueta HTML Facebook Verification"
             rows={3}
             onChange={handleChange}
@@ -62,6 +64,7 @@ const FacebookTagComponent = ({
             name="htmlVerification"
           />
           <TextAreaForm
+            value={facebookInformation.pixel}
             tittle="Codigo Facebook Pixel"
             rows={3}
             onChange={handleChange}
@@ -69,6 +72,7 @@ const FacebookTagComponent = ({
             name="pixel"
           />
           <TextAreaForm
+            value={facebookInformation.siteTitle}
             tittle="Titulo Del sitio"
             rows={3}
             onChange={handleChange}
@@ -76,6 +80,7 @@ const FacebookTagComponent = ({
             name="siteTitle"
           />
           <TextAreaForm
+            value={facebookInformation.siteUrl}
             tittle="URL del sitio"
             rows={3}
             onChange={handleChange}
@@ -83,6 +88,7 @@ const FacebookTagComponent = ({
             name="siteUrl"
           />
           <TextAreaForm
+            value={facebookInformation.description}
             tittle="Descripcion"
             rows={3}
             onChange={handleChange}
@@ -90,6 +96,7 @@ const FacebookTagComponent = ({
             name="description"
           />
           <TextAreaForm
+            value={facebookInformation.metaDescription}
             tittle="Metakeywords"
             rows={3}
             onChange={handleChange}

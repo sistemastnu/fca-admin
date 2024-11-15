@@ -13,31 +13,22 @@ const FacebookTag = sequelize.define("FacebookTag", {
   },
   siteTitle: {
     type: DataTypes.TEXT,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
+    allowNull: true,
   },
   siteUrl: {
     type: DataTypes.TEXT,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
+    allowNull: true,
   },
   description: {
     type: DataTypes.TEXT,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
+    allowNull: true,
   },
   metakeywords: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
   status: {
-    type: DataTypes.STRING,
+    type: DataTypes.BOOLEAN,
     defaultValue: true,
   },
 });
