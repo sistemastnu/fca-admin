@@ -13,6 +13,11 @@ export async function GET() {
       facebookTag: facebookTagInfo,
       googleTag: googleTagInfo,
     };
+    if (facebookTagInfo) {
+      await Facebook;
+    }
+    if (googleTagInfo) {
+    }
     return NextResponse.json(respond);
   } catch (e) {
     return NextResponse.json({ message: e.message }, { status: 500 });
@@ -23,7 +28,8 @@ export async function POST(params) {
   await sequelize.sync();
   try {
     const data = await params.json();
-    await Seo.create(data);
+    console.log(data);
+    return NextResponse.json({ status: 200 });
   } catch (e) {
     return NextResponse.json({ message: e.message }, { status: 500 });
   }
