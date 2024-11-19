@@ -18,7 +18,8 @@ const Seo = () => {
   const [isFacebookEnabled, setFacebookEnabled] = useState(false);
   const [facebookTag, setFacebookTag] = useState({
     htmlVerification: "",
-    pixel: "",
+    pixelHead: "",
+    pixelBody: "",
     siteTitle: "",
     siteUrl: "",
     description: "",
@@ -49,7 +50,8 @@ const Seo = () => {
       if (data.facebookTag != null) {
         setFacebookTag({
           htmlVerification: data.facebookTag.htmlVerification ?? "",
-          pixel: data.facebookTag.pixel ?? "",
+          pixelHead: data.facebookTag.pixelHead ?? "",
+          pixelBody: data.facebookTag.pixelBody ?? "",
           siteTitle: data.facebookTag.siteTitle ?? "",
           siteUrl: data.facebookTag.siteUrl ?? "",
           description: data.facebookTag.description ?? "",

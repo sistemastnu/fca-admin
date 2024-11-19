@@ -6,11 +6,14 @@ import { useState } from "react";
 import email from "../../../../public/icons/email.svg";
 import passwordIcon from "../../../../public/icons/password.svg";
 import person from "../../../../public/icons/person.svg";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const AddUser = () => {
   //const [selectedOption, setSelectedOption] = useState("");
   const [isOptionSelected, setIsOptionSelected] = useState(false);
   const [errors, setErrors] = useState({});
+  const router = useRouter();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -51,13 +54,19 @@ const AddUser = () => {
       setErrors(newErrors);
     } else {
       setErrors({});
-      await fetch("/api/users/", {
+      const response = await fetch("/api/users/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
+      if (response.status === 200) {
+        toast.success("User added successfully");
+        router.push("/users");
+      } else {
+        toast.error("Something went wrong");
+      }
     }
   };
 

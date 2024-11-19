@@ -7,7 +7,11 @@ const FacebookTag = sequelize.define("FacebookTag", {
     type: DataTypes.TEXT,
     allowNull: true,
   },
-  pixel: {
+  pixelHead: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  pixelBody: {
     type: DataTypes.TEXT,
     allowNull: true,
   },

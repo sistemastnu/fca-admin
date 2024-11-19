@@ -83,7 +83,7 @@ export default function Add() {
       });
       if (response.status === 200) {
         toast.success("Post was successfully created");
-        //router.push("/posts");
+        router.push("/posts");
         setLoading(false);
       } else {
         toast.error("Something went wrong");

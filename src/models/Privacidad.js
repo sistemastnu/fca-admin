@@ -6,6 +6,10 @@ const Privacity = sequelize.define("Privacity", {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  slug: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 });
 
 export default Privacity;

@@ -3,7 +3,6 @@ import Breadcrumb from "@/components/Breadcrumps/Breadcrumb";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
 import ButtonWithIcon from "../ui/Button";
 import Image from "next/image";
-import TableThree from "@/components/Tables/TableThree";
 import useSWR from "swr";
 import iconPlus from "../../../public/icons/plus.svg";
 import TableSocials from "@/components/Socials/TableSocial";

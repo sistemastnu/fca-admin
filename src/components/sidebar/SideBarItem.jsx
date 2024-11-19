@@ -17,7 +17,6 @@ const SideBarItem = ({ item, pageName, setPageName }) => {
     return false;
   };
   const isItemActive = isActive(item);
-
   return (
     <>
       <li>

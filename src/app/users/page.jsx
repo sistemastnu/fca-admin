@@ -12,8 +12,12 @@ const fetcher = (url) => fetch(url).then((r) => r.json());
 
 export default function Users() {
   // const data = await getUsers();
-  const { data } = useSWR("/api/users", fetcher);
+  const { data, mutate } = useSWR("/api/users", fetcher);
   if (!data) return <Loader />;
+
+  const refreshData = () => {
+    mutate();
+  };
   return (
     <>
       <DefaultLayout>
@@ -26,7 +30,13 @@ export default function Users() {
           />
         </div>
         <div className="overflow-hidden mt-10 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-          <TableThree data={data} t1={"Username"} t2={"Email"} t3={"Rol"} />
+          <TableThree
+            data={data}
+            t1={"Username"}
+            t2={"Email"}
+            t3={"Rol"}
+            refreshData={refreshData}
+          />
         </div>
       </DefaultLayout>
     </>

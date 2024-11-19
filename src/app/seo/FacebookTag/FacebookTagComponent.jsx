@@ -64,12 +64,20 @@ const FacebookTagComponent = ({
             name="htmlVerification"
           />
           <TextAreaForm
-            value={facebookInformation.pixel}
-            tittle="Codigo Facebook Pixel"
+            value={facebookInformation.pixelHead}
+            tittle="Codigo Facebook Pixel(Head)"
             rows={3}
             onChange={handleChange}
-            id="pixel"
-            name="pixel"
+            id="pixelHead"
+            name="pixelHead"
+          />
+          <TextAreaForm
+            value={facebookInformation.pixelBody}
+            tittle="Codigo Facebook Pixel(Body)"
+            rows={3}
+            onChange={handleChange}
+            id="pixelBody"
+            name="pixelBody"
           />
           <TextAreaForm
             value={facebookInformation.siteTitle}

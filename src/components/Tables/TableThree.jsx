@@ -1,10 +1,38 @@
 "use client";
 import { useRouter } from "next/navigation";
+import ModalConfirmation from "../Modals/ModalConfirmation";
+import { useState } from "react";
+import { toast } from "sonner";
 
-const TableThree = ({ data, t1, t2, t3, t4 }) => {
+const TableThree = ({ data, t1, t2, t3, t4, refreshData }) => {
   const router = useRouter();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
   const handleEdit = (id) => {
     router.push(`users/edit/${id}`);
+  };
+
+  const handleDelete = (id) => {
+    setSelectedId(id);
+    setModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    setModalOpen(false);
+    try {
+      const response = await fetch(`/api/users/${selectedId}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        refreshData();
+        toast.success("User deleted successfully.");
+      } else {
+        toast.error("Failed to delete user.");
+      }
+    } catch (error) {
+      toast.error("Error deleting user.");
+    }
   };
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -61,7 +89,14 @@ const TableThree = ({ data, t1, t2, t3, t4 }) => {
                       >
                         Edit
                       </button>
-                      <button className="hover:text-primary">Delete</button>
+                      <button
+                        className="hover:text-primary"
+                        onClick={() => {
+                          handleDelete(dataItem.id);
+                        }}
+                      >
+                        Delete
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -76,6 +111,16 @@ const TableThree = ({ data, t1, t2, t3, t4 }) => {
           </tbody>
         </table>
       </div>
+      {/* Modal */}
+      {modalOpen && (
+        <ModalConfirmation
+          onConfirm={confirmDelete}
+          onCancel={() => setModalOpen(false)}
+          tittle={"Eliminar Usuario"}
+          subTitle={"Estas seguro que deseas eliminar al usuario"}
+          buttonName={"Eliminar"}
+        />
+      )}
     </div>
   );
 };

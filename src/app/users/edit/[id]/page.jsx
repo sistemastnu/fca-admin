@@ -51,6 +51,8 @@ export default function Edit({ params }) {
     if (response) {
       toast.success("User updated");
       router.push("/users");
+    } else {
+      toast.error("Error updating user");
     }
   };
 

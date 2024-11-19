@@ -22,13 +22,16 @@ export async function POST(request, { params }) {
     const data = await request.formData();
     const icon = data.get("icon");
     let upIcon;
+    console.log(typeof icon);
     if (typeof icon === "string") {
+      console.log("entro en string");
       upIcon = data.get("icon");
     } else {
-      const uploadIcon = UploadFile(icon, "socials");
+      console.log("entro en no string");
+      const uploadIcon = await UploadFile(icon, "socials");
       upIcon = uploadIcon.filePath;
     }
-
+    console.log(upIcon);
     await SocialMedia.update(
       {
         name: data.get("name"),

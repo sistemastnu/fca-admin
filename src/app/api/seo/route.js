@@ -22,6 +22,7 @@ export async function POST(params) {
   await sequelize.sync();
   try {
     const data = await params.json();
+    console.log(data);
     const facebook = await manageFacebookTag(data.facebookTag);
     const google = await manageGoogleTag(data.googleTag);
 
@@ -34,7 +35,6 @@ export async function POST(params) {
 async function manageGoogleTag(data) {
   try {
     const googleTagInfo = await GoogleTag.findOne();
-    console.log(data);
     if (googleTagInfo) {
       await GoogleTag.update(
         {
@@ -71,7 +71,8 @@ async function manageFacebookTag(data) {
       await FacebookTag.update(
         {
           htmlVerification: data.htmlVerification,
-          pixel: data.pixel,
+          pixelHead: data.pixelHead,
+          pixelBody: data.pixelBody,
           siteTitle: data.siteTitle,
           siteUrl: data.siteUrl,
           description: data.description,
@@ -86,7 +87,8 @@ async function manageFacebookTag(data) {
     } else {
       await FacebookTag.create({
         htmlVerification: data.htmlVerification,
-        pixel: data.pixel,
+        pixelHead: data.pixelHead,
+        pixelBody: data.pixelBody,
         siteTitle: data.siteTitle,
         siteUr: data.siteUrll,
         description: data.description,

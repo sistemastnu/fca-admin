@@ -27,8 +27,8 @@ export default function EditSocial({ params }) {
     if (!checkErrors(formData, file)) {
       const formDataSend = new FormData();
       formDataSend.append("name", formData.name);
-      formDataSend.append("icon", file);
       formDataSend.append("link", formData.link);
+      formDataSend.append("icon", file);
       const response = await fetch(`/api/socials/${id}`, {
         method: "POST",
         body: formDataSend,

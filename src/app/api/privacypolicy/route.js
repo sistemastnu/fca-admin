@@ -19,12 +19,12 @@ export async function POST(request) {
     const findOne = await Privacity.findOne();
     if (findOne) {
       await findOne.update(
-        { content: data.content },
+        { content: data.content, slug: "aviso_privacidad" },
         { where: { id: findOne.id } }
       );
       return NextResponse.json({ message: "Update Success" }, { status: 200 });
     }
-    await Privacity.create({ content: data.content });
+    await Privacity.create({ content: data.content, slug: "aviso_privacidad" });
     return NextResponse.json({ message: "Created Success" }, { status: 200 });
   } catch (e) {
     return NextResponse.json({ message: e.message }, { status: 500 });

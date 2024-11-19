@@ -10,6 +10,10 @@ const TermOfUSe = sequelize.define("TermsOfUse", {
       notEmpty: true,
     },
   },
+  slug: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 });
 
 export default TermOfUSe;

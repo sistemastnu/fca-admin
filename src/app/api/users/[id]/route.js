@@ -31,3 +31,14 @@ export async function PUT(request, { params }) {
     return NextResponse.json({ message: e.message }, { status: 500 });
   }
 }
+
+export async function DELETE(request, { params }) {
+  try {
+    await sequelize.sync();
+    const { id } = params;
+    await User.destroy({ where: { id } });
+    return NextResponse.json({ status: 200 });
+  } catch (e) {
+    return NextResponse.json({ message: e.message }, { status: 500 });
+  }
+}

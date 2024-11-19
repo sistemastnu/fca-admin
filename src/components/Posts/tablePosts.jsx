@@ -102,7 +102,7 @@ const TablePosts = ({ data, refreshData }) => {
                   colSpan="4"
                   className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11"
                 >
-                  Loading ....
+                  No Data
                 </td>
               </tr>
             )}

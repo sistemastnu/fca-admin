@@ -9,7 +9,7 @@ export async function POST(request) {
     const findOne = await TermOfUSe.findOne();
     if (findOne) {
       await TermOfUSe.update(
-        { content: data.content },
+        { content: data.content, slugs: "terminos" },
         { where: { id: findOne.id } }
       );
       return NextResponse.json(
@@ -17,7 +17,10 @@ export async function POST(request) {
         { status: 200 }
       );
     }
-    const termOfUSe = await TermOfUSe.create({ content: data.content });
+    const termOfUSe = await TermOfUSe.create({
+      content: data.content,
+      slugs: "terminos",
+    });
     return NextResponse.json({ message: "Terms of use created", termOfUSe });
   } catch (e) {
     return NextResponse.json({ message: e.message }, { status: 500 });
