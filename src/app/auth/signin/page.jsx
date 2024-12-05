@@ -40,7 +40,7 @@ export default function SignIn() {
         setError(res.error);
       } else {
         console.log(res.url);
-        router.push("http://localhost:3000/");
+        router.push("/");
       }
     } catch (err) {
       console.error("Error en la solicitud:", err);

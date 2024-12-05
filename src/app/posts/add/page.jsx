@@ -81,12 +81,14 @@ export default function Add() {
         method: "POST",
         body: formDataSend,
       });
+      const responseApi = await response.json();
       if (response.status === 200) {
         toast.success("Post was successfully created");
         router.push("/posts");
         setLoading(false);
       } else {
-        toast.error("Something went wrong");
+        console.log(responseApi);
+        toast.error(responseApi.message);
         setLoading(false);
       }
     }

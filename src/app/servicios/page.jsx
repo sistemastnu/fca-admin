@@ -48,7 +48,6 @@ export default function Servicios() {
           />
         </div>
       </div>
-      <ButtonForm onClick={handleClick} text="Add a service" />
     </DefaultLayout>
   );
 }

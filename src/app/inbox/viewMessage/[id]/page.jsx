@@ -5,8 +5,14 @@ import DefaultLayout from "@/components/layouts/DefaultLayout";
 import Breadcrumb from "@/components/Breadcrumps/Breadcrumb";
 import Loader from "@/components/common";
 import { useState } from "react";
+import dynamic from "next/dynamic";
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
+
+const RichText = dynamic(() => import("@/components/FormUI/RichText"), {
+  loading: () => <Loader />,
+  ssr: false,
+});
 
 const ViewMessage = ({ params }) => {
   const id = params.id;
@@ -16,28 +22,28 @@ const ViewMessage = ({ params }) => {
   const mostrarBodyConSaltosDeLinea = (texto) => {
     return texto.split("\n").map((linea, index) => <p key={index}>{linea}</p>);
   };
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setResponse(value);
-  // };
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   console.log(response);
-  //   // const responseData = {
-  //   //   message_id: id,
-  //   //   body: response.response,
-  //   // };
-  //   // await fetch(`/api/inbox/reply`, {
-  //   //   method: "POST",
-  //   //   headers: {
-  //   //     "Content-Type": "application/json",
-  //   //   },
-  //   //   body: JSON.stringify(responseData),
-  //   // });
-  //   // setResponse("");
-  //   // alert("Message sent successfully");
-  //   // window.location.href = "/inbox";
-  // };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setResponse(value);
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(response);
+    // const responseData = {
+    //   message_id: id,
+    //   body: response.response,
+    // };
+    // await fetch(`/api/inbox/reply`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(responseData),
+    // });
+    // setResponse("");
+    // alert("Message sent successfully");
+    // window.location.href = "/inbox";
+  };
   return (
     <DefaultLayout>
       <Breadcrumb pageName={"View Message"} />
@@ -57,24 +63,18 @@ const ViewMessage = ({ params }) => {
             {mostrarBodyConSaltosDeLinea(data.body)}
           </div>
         </div>
-        {/* <div className="bg-white p-6 rounded-lg shadow-sm">
+        <div className="bg-white p-6 rounded-lg shadow-sm">
           <h3 className="text-lg font-semibold mb-4">Reply</h3>
-          <textarea
-            className="w-full p-2 border border-gray-300 rounded-md mb-4"
-            rows="4"
-            placeholder="Type your response here..."
-            name="response"
-            id="response"
-            value={response}
-            onChange={handleChange}
-          ></textarea>
-          <button
-            onClick={handleSubmit}
-            className="bg-orange-400 text-white px-4 py-2 rounded-md hover:bg-orange-500 transition-colors"
-          >
-            Send
-          </button>
-        </div> */}
+          <RichText />
+          <div>
+            <button
+              onClick={handleSubmit}
+              className="bg-orange-400 text-white px-4 py-2 rounded-md hover:bg-orange-500 transition-colors"
+            >
+              Send
+            </button>
+          </div>
+        </div>
       </div>
     </DefaultLayout>
   );

@@ -1,6 +1,6 @@
 import { UploadFile } from "@/helpers/files";
 import sequelize from "@/lib/sequelize";
-import { Posts } from "@/models/associations/associations";
+import { Posts, User } from "@/models/associations/associations";
 import { Tags } from "@/models/associations/associations";
 
 import { NextResponse } from "next/server";
@@ -45,6 +45,17 @@ export async function POST(request) {
     const file = data.get("file");
     const tags = data.getAll("tags[]");
     const now = new Date().toISOString().slice(0, 19).replace("T", " ");
+    const idEditor = data.get("idEditor");
+    const user = await User.findOne({ where: { id: idEditor } });
+    console.log(user.fullName);
+
+    if (!user.fullName || !user.occupation) {
+      return NextResponse.json(
+        { message: "Por favor llena la informacion de perfil" },
+        { status: 500 }
+      );
+    }
+
     if (!file) {
       return NextResponse.json(
         { message: "Not File Received" },
