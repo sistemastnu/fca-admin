@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import useSWR from "swr";
 
 const RichTextXL = dynamic(() => import("@/components/FormUI/RichTextXL"), {
+  loading: () => <Loader />,
   ssr: false,
 });
 

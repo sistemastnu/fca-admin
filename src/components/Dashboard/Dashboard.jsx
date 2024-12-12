@@ -11,6 +11,7 @@ export async function getServerSideProps() {
 
 const { default: CardDataStats } = require("@/components/cards/CardDashBoard");
 
+import ChartThree from "../Charts/ChartThree";
 import TableOne from "../Tables/TableOne";
 
 async function Dashboard() {
@@ -102,6 +103,7 @@ async function Dashboard() {
         <div className="col-span-12 xl:col-span-8">
           <TableOne data={getInfo?.paths} />
         </div>
+        <ChartThree />
       </div>
     </>
   );
