@@ -24,7 +24,7 @@
 }
 
 .editor-container_classic-editor .editor-container__editor {
-  min-width: 795px;
+  min-width: 300px;
   min-height: 600px;
 }
 
