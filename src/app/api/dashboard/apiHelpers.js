@@ -99,6 +99,24 @@ async function fetchMostVisitedBlogs() {
   });
 }
 
+async function fetchMostVistedService() {
+  const body = {
+    query: {
+      kind: "HogQLQuery",
+      query:
+        "SELECT properties.$current_url as url,COUNT(*) as visit,FROM events WHERE event='$pageview' AND properties.$current_url LIKE '%/servicios/%' AND properties.$current_url NOT LIKE '%/localhost:3001/%' GROUP by properties.$current_url ORDER BY visit",
+    },
+  };
+  const response = await fetch(urlQuery, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_POSTHOG_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+}
+
 async function fetchContries() {
   const body = {
     query: {
