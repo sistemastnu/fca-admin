@@ -8,17 +8,65 @@ export async function getServerSideProps() {
     return data;
   } catch (e) {}
 }
-
 const { default: CardDataStats } = require("@/components/cards/CardDashBoard");
-
 import ChartThree from "../Charts/ChartThree";
-import TableOne from "../Tables/TableOne";
+import { urlSeparetor } from "./utils";
 
 async function Dashboard() {
   const response = await fetch(`${process.env.NEXT_URL}/api/dashboard/`, {
     cache: "no-store",
   });
   const getInfo = await response.json();
+  const urls = getInfo.servicios.map((servicio, index) => {
+    return urlSeparetor(servicio[0]);
+  });
+  const visits = getInfo.servicios.map((servicio, index) => {
+    return servicio[1];
+  });
+  const optionsServiciosChart = {
+    chart: {
+      fontFamily: "Satoshi, sans-serif",
+      type: "donut",
+    },
+    colors: ["#3C50E0", "#6577F3", "#8FD0EF", "#0FADCF"],
+    labels: urls,
+    legend: {
+      show: false,
+      position: "bottom",
+    },
+
+    plotOptions: {
+      pie: {
+        donut: {
+          size: "65%",
+          background: "transparent",
+        },
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    responsive: [
+      {
+        breakpoint: 2600,
+        options: {
+          chart: {
+            width: 380,
+          },
+        },
+      },
+      {
+        breakpoint: 640,
+        options: {
+          chart: {
+            width: 200,
+          },
+        },
+      },
+    ],
+  };
+  const series = visits;
+
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
@@ -100,10 +148,15 @@ async function Dashboard() {
         </CardDataStats>
       </div>
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-        <div className="col-span-12 xl:col-span-8">
+        {/* <div className="col-span-12 xl:col-span-8">
           <TableOne data={getInfo?.paths} />
-        </div>
-        <ChartThree />
+        </div> */}
+        <ChartThree
+          options={optionsServiciosChart}
+          series={series}
+          info={getInfo.servicios}
+          urls={urls}
+        />
       </div>
     </>
   );

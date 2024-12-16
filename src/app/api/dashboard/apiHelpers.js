@@ -104,7 +104,7 @@ async function fetchMostVistedService() {
     query: {
       kind: "HogQLQuery",
       query:
-        "SELECT properties.$current_url as url,COUNT(*) as visit,FROM events WHERE event='$pageview' AND properties.$current_url LIKE '%/servicios/%' AND properties.$current_url NOT LIKE '%/localhost:3001/%' GROUP by properties.$current_url ORDER BY visit",
+        "SELECT properties.$current_url as url,COUNT(*) as visit,FROM events WHERE event='$pageview' AND properties.$current_url LIKE '%/servicios/%' AND properties.$current_url NOT LIKE '%/localhost:3001/%' GROUP by properties.$current_url ORDER BY visit DESC",
     },
   };
   const response = await fetch(urlQuery, {
@@ -115,6 +115,7 @@ async function fetchMostVistedService() {
     },
     body: JSON.stringify(body),
   });
+  return response.json();
 }
 
 async function fetchContries() {
@@ -162,4 +163,5 @@ export {
   fetchPaths,
   fetchPersons,
   fetchSessions,
+  fetchMostVistedService,
 };

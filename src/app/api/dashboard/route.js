@@ -6,11 +6,12 @@ import {
   fetchPaths,
   fetchPersons,
   fetchSessions,
+  fetchMostVistedService,
 } from "./apiHelpers";
 
 export async function GET() {
   try {
-    const [avgTime, contires, pageviews, paths, persons, sessions] =
+    const [avgTime, contires, pageviews, paths, persons, sessions, servicios] =
       await Promise.all([
         fetchAvgTime(),
         fetchContries(),
@@ -18,6 +19,7 @@ export async function GET() {
         fetchPaths(),
         fetchPersons(),
         fetchSessions(),
+        fetchMostVistedService(),
       ]);
 
     const data = {
@@ -27,6 +29,7 @@ export async function GET() {
       paths: paths.results,
       persons: persons.results[0][0],
       sessions: sessions.results[0][0],
+      servicios: servicios.results,
     };
     return NextResponse.json(data);
   } catch (e) {
